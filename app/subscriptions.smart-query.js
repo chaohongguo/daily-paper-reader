@@ -21,6 +21,7 @@ window.SubscriptionsSmartQuery = (function () {
   const selectedProfileKeys = new Set();
   let runSelectionMode = '';
   let selectionChangeHandler = null;
+  let selectionInitialized = false;
   let modalOverlay = null;
   let modalPanel = null;
   let modalState = null;
@@ -2853,6 +2854,7 @@ window.SubscriptionsSmartQuery = (function () {
 
   const render = (profiles) => {
     const normalizedProfiles = Array.isArray(profiles) ? deepClone(profiles) : [];
+    const previousLiveKeys = new Set(currentProfiles.map((profile) => getProfileKey(profile)).filter(Boolean));
     currentProfiles = filterDeletedProfiles(normalizedProfiles);
     const liveKeys = new Set(currentProfiles.map((profile) => getProfileKey(profile)).filter(Boolean));
     Array.from(selectedProfileKeys).forEach((key) => {
@@ -2860,8 +2862,12 @@ window.SubscriptionsSmartQuery = (function () {
     });
     currentProfiles.forEach((profile) => {
       const key = getProfileKey(profile);
-      if (key) selectedProfileKeys.add(key);
+      if (!key) return;
+      if (!selectionInitialized || !previousLiveKeys.has(key)) {
+        selectedProfileKeys.add(key);
+      }
     });
+    selectionInitialized = true;
     renderMain();
   };
   const setRunSelectionMode = (mode, onSelectionChange) => {
