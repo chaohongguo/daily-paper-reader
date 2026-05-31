@@ -25,3 +25,65 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: VTG
+      description: 视频时序定位，视频理解，流视频理解
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: video temporal localization
+          keyword_cn: 视频时间定位
+          query: temporal localization in videos
+        - keyword: temporal grounding
+          keyword_cn: 时间锚定
+          query: video moment grounding
+        - keyword: online video analysis
+          keyword_cn: 在线视频分析
+          query: analyzing videos as they stream online
+        - keyword: video moment retrieval
+          keyword_cn: 视频时刻检索
+          query: retrieving moments from videos based on text
+        - keyword: streaming perception
+          keyword_cn: 流媒体感知
+          query: real-time perception in streaming video
+        - keyword: multimodal video grounding
+          keyword_cn: 多模态视频锚定
+          query: grounding referring expressions in video with multiple modalities
+      intent_queries:
+        - query: methods for temporal action localization in untrimmed videos
+          query_cn: 未修剪视频中时间动作定位的方法
+          enabled: true
+          source: manual
+          note: ''
+        - query: real time streaming video understanding techniques
+          query_cn: 实时流媒体视频理解技术
+          enabled: true
+          source: manual
+          note: ''
+        - query: video moment retrieval based on natural language queries
+          query_cn: 基于自然语言查询的视频时刻检索
+          enabled: true
+          source: manual
+          note: ''
+        - query: online video analysis and event detection approaches
+          query_cn: 在线视频分析和事件检测方法
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-05-31T05:16:59.060Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
