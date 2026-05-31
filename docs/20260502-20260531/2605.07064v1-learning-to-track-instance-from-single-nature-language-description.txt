@@ -1,0 +1,367 @@
+Title: Learning to Track Instance from Single Nature Language Description
+
+URL Source: https://arxiv.org/pdf/2605.07064v1
+
+Published Time: Mon, 11 May 2026 00:27:02 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+# Learning to Track Instance from Single Nature Language Description 
+
+## Yaozong Zheng 1,2 , Bineng Zhong 1,2* , Qihua Liang 1,2 ∗, Shuimu Zeng 3, Haiying Xia 1,2 , Shuxiang Song 1,2 1Key Laboratory of Education Blockchain and Intelligent Technology, Ministry of Education Guangxi Normal University, Guilin 541004, China 
+
+> 2
+
+## University Engineering Research Center of Educational Intelligent Technology Guangxi Normal University, Guilin 541004, China 
+
+> 3
+
+## University of Southampton, Southampton, SO17 1BJ, United Kingdom 
+
+yaozongzheng@stu.gxnu.edu.cn, bnzhong@gxnu.edu.cn,qhliang@gxnu.edu.cn 
+
+## Abstract 
+
+How to achieve vision-language (VL) tracking using natu-ral language descriptions from a video sequence without relying on any bounding-box ground truth ? In this work, we achieve this goal by tackling self-supervised VL track-ing, which aims to evaluate tracking capabilities guided by natural language descriptions. We introduce SVLTrack , a novel self-supervised VL tracker that is capable of track-ing any referred object by a language description. Unlike traditional methods that equally fuse all language and vi-sual tokens, we propose an efficient Dynamic Token Aggre-gation Module, which treats each visual token unequally .The module consists of three main steps: i) Based on an anchor token, it selects multiple important target tokens from the template frame. ii) The selected target tokens are merged according to their attention scores and aggregated into the language tokens, thereby eliminating redundant vi-sual token noise and enhancing semantic alignment. iii) Finally, the fused language tokens serve as guiding signals to extract potential target tokens from the search frame and propagate them to subsequent frames, enhancing temporal prompts and encouraging the tracker to autonomously learn instance tracking from unlabeled videos. This new modeling approach enables the effective self-supervised learning of language-guided tracking representations without the need for large-scale bounding box annotations. Extensive exper-iments on VL tracking benchmarks show that SVLTrack sur-passes SOTA self-supervised methods. 
+
+## 1. Introduction 
+
+Visual object tracking relies on explicit visual prompt, such as initial bounding box, to identify and track target objects in video sequences. Compared to specifying object bound-       
+
+> *Corresponding author. SVLTrack
+> white boat floating
+> on the river
+> white boat floating
+> on the river
+> Visual Patch Sequence
+> white boat floating on the river
+> Linguistic Patch Sequence
+> V1
+> V2
+> L1
+> L2
+> V1V2L1L2
+> V1V2
+> L1L2
+> Language -guided retrieval
+> of precise target tokens.
+
+Figure 1. Natural language descriptions can refer to any visual ob-ject within a video sequence and continuously track it. Inspired by this idea, we propose SVLTrack, which relies solely on a natural language description for object tracking.              
+
+> Tracking Tasks Train Annotations Test Initialization Multi-Boxes Language Init-Box Language Fully-supervised V ✓✓
+> Fully-supervised VL ✓✓✓✓
+> Self-supervised VL ✓✓
+
+Table 1. Comparison with different tracking tasks. V stands for the vision-only tracking task, while VL represents the vision-language tracking task. 
+
+ing boxes, natural language descriptions provide a more in-tuitive and cost-effective way to express human intent in the real world [24]. Therefore, exploring language-guided vi-sual tracking presents an opportunity to enhance the human-computer interaction capabilities of next-generation vision-language (VL) tracking models. To achieve this challenging goal, recent studies [31, 37, 59, 64] have developed robust VL tracking models by in-troducing natural language descriptions. Typically, these methods fine-tune the multi-modal fusion operations under the supervision of bounding box annotations to ensure sta-ble multi-modal tracking performance. For example, the fully supervised JointNLT [64] introduces a multi-source relation modeling module and performs vision-language fu-sion and training on the LaSOT [7], TNL2K [45], and OTB99 [24] datasets, which contain 3.52M, 1.24M, and 
+
+> arXiv:2605.07064v1 [cs.CV] 8 May 2026
+
+59K bounding box annotations, respectively, achieving AUC scores of 56.9%, 54.6%, and 59.2%. Although this fine-tuning training strategy appears effective, it obscures the following drawbacks: (1) These fully supervised VL tracking methods heavily relies on thousands of bounding box annotations, which incur substantial time and labor costs. (2) They equally utilize the full set of visual and linguistic tokens for vision-language fusion, which leads to redundant computations and hinders effective alignment be-tween visual and linguistic representations. 
+
+Compared with frame-by-frame bounding box annota-tion, providing a natural language description for each video sequence is far more efficient and considerably re-duces human efforts , as shown in Tab.1. Thus, in this work, we address the above questions by tackling self-supervised vision-language (VL) tracking, which aims to accurately predict the target localization for each video frame based on a single implicit language description. By exploring a new VL tracking framework under a language-guided self-supervised learning paradigm, we attempt to quantify the semantic guidance contribution of natural language to the tracking model. Meanwhile, this enables our VL tracking algorithm to interact effectively with objects in dynamic en-vironments based on user instructions, eliminating the re-liance on manually bounding boxes. Furthermore, we propose a novel self-supervised visual tracking framework, named SVLTrack , which explores the dynamic aggregation of language and visual tokens to im-prove the self-supervised VL tracking performance, as il-lustrated in Fig.1. In the context of unlabeled video data, directly constructing a VL tracking model using only natu-ral language and video frames is highly challenging. There-fore, we leverage large vision-language model (LVLM) en-riched with extensive world knowledge, to generate pseudo-bounding boxes for unlabeled videos. Then, unlike tra-ditional methods that equally fuse all language and visual tokens, we propose an efficient Dynamic Token Aggrega-tion Module, which treats each visual token unequally .The module consists of three main steps: i) Based on an anchor token, it selects multiple important target tokens from the template frame. ii) The selected target tokens are merged according to their attention scores and aggre-gated into the language tokens, thereby eliminating redun-dant visual token noise and enhancing semantic alignment. iii) Finally, the fused language tokens serve as guiding sig-nals to extract potential target tokens from the search frame and propagate them to subsequent frames, enhancing tem-poral prompts and encouraging the tracker to autonomously learn instance tracking from unlabeled videos. This novel modeling paradigm enables the SVLTrack to effectively ac-quire language-guided visual tracking representations in a self-supervised fashion, thereby enhancing its robustness and discriminative capabilities in scenarios with weak tar-(c) Our self -supervised VL tracking with a language instruction    
+
+> (b) Unsupervised tracking with optical flow pseudo -labels
+> (a) Fully VL supervised tracking with multi -frame annotations
+
+# + 
+
+> white horse walking
+> in the field.
+
+# + … 
+
+> Unlabeled Videos
+
+# + …
+
+> white horse walking
+> in the field.
+> Figure 2. The annotation requirements for different tracking tasks.
+
+get cues. Extensive experiments conducted on VL tracking benchmarks demonstrate that our approach achieves out-standing performance. In summary, our contributions are as follows: • We introduce a novel self-supervised VL tracking algo-rithm, called SVLTrack, which aims to explore the capa-bility of natural language to guide visual tracking in the absence of bounding box annotations. • We design an efficient dynamic token aggregation mod-ule, which aggregates selected key visual tokens with lin-guistic features, enabling the model to learn VL instance tracking capabilities from unlabeled videos. • Our tracker achieves outstanding performance on four VL tracking benchmarks, including LaSOT, TNL2K, LaSOT ext , and OTB99. 
+
+## 2. Related Work 
+
+2.1. Fully-Supervised Vision-Language Tracking 
+
+Building upon visual tracking [2, 48, 58, 62], vision-language (VL) tracking [24] aims to incorporate natural lan-guage descriptions to enhance the semantic awareness of tracking model for target object, such as object categories and attribute information. Wang [45] introduce a large-scale benchmark dataset called TNL2K, providing a foun-dational dataset for research in the VL tracking commu-nity. UVLTrack [31] proposes a modality-unified feature extractor to jointly train visual and vision-language track-ing tasks. DTLLM [21] leverages large language models to generate new natural language descriptions for VL tracking datasets, providing multi-granularity semantic information. chatTracker [42] uses the multimodal large language model to generate high-quality language descriptions and enhance tracking performance. DUTrack [22] leverages a large lan-guage model to generate dynamic language descriptions for the object based on visual features. Despite the significant success of the above methods, they heavily rely on large-scale labeled datasets for train-ing. To fully leverage the abundance of unlabeled video data available on the internet, there is a growing interest in exploring self-supervised and unsupervised tracking. These methods hold the potential to reduce the reliance of tracking algorithms on annotated bounding boxes. 
+
+2.2. Self-supervised and Unsupervised Tracking 
+
+Unlike fully supervised tracking, self-supervised and unsu-pervised tracking tasks aim to develop general object track-ing algorithms with minimal or no target supervision sig-nals, thereby reducing annotation costs. Wang [43] intro-duces the cycle consistency with a consistency loss to the tracking domain and propose the first unsupervised discrim-inative tracker. USOT [57] utilizes an optical flow model [27] to generate pseudo-labels for tracking datasets and em-ploys a multi-stage training process to develop an unsu-pervised Siamese tracker. ULAST [38] introduces a dif-ferentiable region mask to select accurate target features, ensuring training stability. Diff-Tracker [56], based on a pre-trained diffusion model [36], designs an initial prompt learner to learn target prompts, enabling high-performance unsupervised tracking. On the other hand, exploration in self-supervised track-ing remains relatively limited. Self-SDCT [52] and TADS [20] build self-supervised tracking frameworks using cy-cle consistency and contrastive learning techniques, re-spectively. SSTrack [61] decouples forward and backward tracking into global and local tracking, respectively, en-abling separate processing of unlabeled and labeled video frames to enhance performance. Ge [12] fine-tune large language model [53] using initial information (natural lan-guage descriptions and bounding boxes) to generate redun-dant pseudo-labels. They then employ a multi-stage training strategy to develop a semi-supervised VL tracking model. However, its pseudo-label generation stage requires fine-tuning and involves a relatively complex multi-stage train-ing strategy, making it susceptible to noisy pseudo labels and resulting in limited performance gains. In contrast to these efforts, we solely utilize natural language descrip-tions as target reference information and propose a new self-supervised VL tracking framework to autonomously learn instance tracking from unlabeled videos. 
+
+2.3. Large Vision-Language Models 
+
+In recent years, driven by the excellent reasoning capabili-ties of large vision-language models (LVLMs), an increas-ing number of researchers explore extending these capabil-red airplane      
+
+> flying in the air. Vision -Language
+> Encoder
+> Prediction
+> Head
+> red airplane
+> flying in the air.
+> Backward  Tracking  Forward  Tracking
+> Vision -Language
+> Encoder
+> Prediction
+> Head
+> Strong Aug
+> Weak Aug
+> Vision -Language
+> Encoder
+> Prediction
+> Head
+> Vision -Language
+> Encoder
+> Prediction
+> Head
+> Strong Aug
+> Weak Aug
+> switch
+
+Figure 3. Overview of the proposed SVLTrack framework. 
+
+ities to various visual domains. For instance, BLIP-2 [19] employs a Q-Former to project features from a visual en-coder for integration into a large language model (LLM). LISA [18] combines a large vision-language model with a segmentation decoder to enable flexible reasoning segmen-tation. Inspired by LISA, VISA [49] and TrackGPT [65] ex-tend its concepts to the fields of video object segmentation and tracking, respectively. APE [39] leverages the align-ing and prompting paradigm to construct an instance-level vision-language foundation model. In contrast, our work focuses on incorporating the reasoning capabilities of large vision-language models into the VL tracking field, achiev-ing more user-friendly and open vision-language tracking. 
+
+## 3. Methodology 
+
+3.1. Task Definition 
+
+Li et al . [24] first propose fully supervised VL tracking task and introduce three VL tracking configurations: 1) one relying on lingual target specification only, 2) one relying on visual target specification based on language, and 3) one leveraging their joint capacity. In this work, as shown in Fig.2, we extend the second tracking configuration above into a language-guided self-supervised VL tracking by dis-carding all bounding box annotations. This task integrates language reasoning with long-term video understanding to localize the target object in videos accurately. Specifically, given a natural language description, the self-supervised VL tracking first identifies the referred initial target object and then continuously tracks it across subsequent frames. This tracking paradigm is designed to rely on minimal linguis-tic cues, establishing a cost-effective and user-friendly VL tracking model. Specifically, given a natural language in-struction Qtext describing an arbitrary instance, and an in-put video clip V ∈ RT ×H×W ×3, the task aims to train a tracking model φ from unlabeled videos , enabling it to ac-curately locate the target in subsequent frames. Formally, the task can be defined as: 
+
+B = φ (V, Q text ) , (1) MLP 
+
+Attention 
+
+A 1 2 3 4
+
+8T 5 6 7
+
+Dynamic Token 
+
+Aggregation 
+
+Other Layers 
+
+Anchor Token Template Tokens Search Tokens Language Tokens     
+
+> Step 1: Select the top -k
+> template tokens most
+> similar to the anchor token.
+> Step 3 :Purify the top -k search
+> tokens most similar to the
+> language tokens for association.
+> Step 2: Aggregate the
+> selected template tokens
+> into language tokens.
+
+Search Tokens 
+
+Association (Top -K%) 
+
+8T 5 6 7  
+
+> 0.92 0.89 0.01 0.12
+
+T 5 7
+
+Tokens Merging 
+
+> Sum(0.91+…+0.95)/N
+
+2 4 T
+
+2 4 T
+
+Attention Score 
+
+Filtering (Top -K%) 
+
+A 1 2 3 4   
+
+> 0.05 0.91 0.14 0.95
+
+2 4A         
+
+> Why 这么做：
+> 1. 直接使用 anchor token 去关联搜索 tokens ？
+> 2. 由于伪标签不完全准确， template tokens 是存在噪声的，如果直接使用 anchor token 去筛选 search tokens ，会导
+> 致所提取的 instance tokens 不准确。如果引入 language tokens 增加参考信号强度，既可以纠正增加 Figure 4. Our Dynamic Token Aggregation Module . It treats each visual token unequally, following three main steps: i) Based on an anchor token, it selects multiple important target tokens from the template frame. ii) The selected target tokens are merged according to their attention scores and aggregated into the language tokens. iii) The fused language tokens serve as guiding signals to extract potential target tokens from the search frame and propagate them to subsequent frames, enhancing temporal prompts and encouraging the tracker to autonomously learn instance tracking from unlabeled videos.
+
+where the input video clip V = {I}Tt=1 contains T frames. The output target bounding boxes B = {B}Tt=1 has the same frame number. Notably, for the self-supervised track-ing model, the target cues consists solely of a single lan-guage instruction, without referencing the initial frame, and annotations for all video frames remain unseen. This setup necessitates that the tracker demonstrates strong cross-modal understanding and autonomous tracking capabilities. 
+
+3.2. Weak-to-Strong Consistency Self-supervised VL Tracking Pipeline 
+
+Since bounding box annotations are unavailable for self-supervised tracking model, we cannot train model in the same manner as fully-supervised VL tracking algo-rithms. To address this challenge, we leverage large vision-language model (LVLM, i.e., APE [39] or LISA [18]) en-riched with extensive world knowledge, to generate pseudo-bounding boxes for the initial frame I0 in unlabeled videos based on natural language instruction Qtext . The generation process is formulated as follows: 
+
+B0 = LV LM (I0, Q text ) , (2) where B0 denotes the generated initial pseudo bounding box. It should be noted that the language descriptions pro-vided in current VL tracking benchmarks are mostly se-mantically aligned with the initial frame. However, as time passes, these language descriptions gradually fail to match the appearance of the target or changes in motion. There-fore, we generate pseudo label only for the initial frame. Furthermore, following the principle of temporal cycle consistency, we design a new weak-to-strong consistency self-supervised VL tracking pipeline, termed SVLTrack, which incorporates both forward and backward tracking, as shown in Fig.3. Specifically, each unlabeled frame I is aug-mented in two ways: a weak augmentation Aw such as cen-ter jitter, and a strong augmentation As such as color jitter. We aim to ensure that the predictions from the strongly aug-mented frame remain as consistent as possible with those from the weakly augmented frame, making full use of the unlabeled video data. The SVLTrack comprises four main components: a visual encoder Ev , a language encoder El,a dynamic token aggregation module M, and a prediction head H. Specifically, the framework takes as input a natural language description Qtext , a template frame Z with pseudo bounding box, and a search clip S. These inputs are first processed through a tokenizer or an embedding layer to gen-erate linguistic embeddings Fl ∈ RNl×D , template features 
+
+Fz ∈ RNz ×D and search features Fs ∈ RNs×D , which are then fed into multiple transformer layers for feature ex-traction and fusion. In this process, we define an anchor token initialized to zero to learn the appearance representa-tion of the target instance. Subsequently, the anchor token, linguistic embeddings and visual features are passed into the dynamic token aggregation module to analyze the im-portance of visual tokens and enable accurate multi-modal integration. Finally, the fused visual representations are fed into the prediction head to perform target localization and tracking. Through the above operations, we can perform a complete forward tracking process, which can be formu-lated as follows: 
+
+Fvl = M (Ev (V) , El (Qtext )) ,
+
+B = H (Fvl + Ev (V)) . (3) Moreover, the backward tracking process is achieved by interchanging the roles of the template and search frames, followed by re-executing the entire network pipeline. The overall objective function is a combination of supervised loss Ls and unsupervised loss Lu as: 
+
+Ltotal = Ls + Lu, (4) where Ls is computed only on the initial frame, while Lu is calculated on the unlabeled video frames. 
+
+3.3. Dynamic Token Aggregation Module 
+
+The previous multi-modal fusion of visual and linguistic features introduces redundant computation since not all vi-sual tokens are attended to by the multi-head self-attention (MHSA) mechanism. In this section, as shown in Fig.4, we propose an efficient dynamic token aggregation mod-ule (DTA) to alleviate this problem, aiming to dynamically identify the most informative visual target tokens and facili-tate semantic alignment between visual and language repre-sentations. Specifically, our DTA is positioned between the MHSA layer and the multi-layer perceptron (MLP) layer. It operates through three key steps to selectively aggregate the most discriminative visual tokens. 
+
+STEP 1: Select the important target tokens. We first concatenate the anchor, language, template, and search to-kens along the spatial dimension and feed them into a multi-head attention layer to compute their attention score matrix. The anchor token, represented as a one-dimensional vector, serves as a reference to measure the relative importance of all visual and linguistic tokens. Specifically, we calculate the attention scores between the anchor token and all tem-plate tokens to assess the significance of each template to-ken. The tokens with the highest scores are then selected as the most informative target tokens, while those with lower scores, which indicate weaker semantic alignment with the natural language description, are filtered out. The selection process is formally defined as follows: 
+
+Tz = T opK (Fz , Attn az ) , (5) where Attn az denotes the cross-attention matrix between the anchor token and the template frame, while Tz repre-sents the selected target tokens from the template frame. To balance the modal tokens, the number of visual tokens Tz is dynamically adjusted to match that of the language tokens. 
+
+STEP 2: Aggregate target tokens into language to-kens. We aim to achieve an efficient and compact fusion of the most valuable visual tokens with linguistic repre-sentations. Specifically, the target tokens selected in the previous stage are first merged according to their attention scores to preserve the most discriminative visual target in-formation. The merged visual tokens are then further ag-gregated into the language tokens, thereby establishing a tighter semantic connection between the visual and linguis-tic modalities. Through the above token merging strategy, our model reduces redundant multi-modal fusion computa-tions and strengthens the alignment between linguistic de-scriptions and visual targets. The formula is as follows: 
+
+Fvl = M erging (Tz , Fl) , (6) where Fvl denotes the fused vision-language features. 
+
+STEP 3: Purify the search tokens for temporal asso-ciation. The language tokens fused in the previous stage serve as guiding signals to identify potential target tokens within the search frame. By leveraging the semantic infor-mation encoded in these language tokens, the model can effectively filter out irrelevant or noisy visual tokens, se-lecting those most likely to correspond to the target object. The purified target tokens are then propagated to subsequent frames, enhancing temporal target prompts. By integrating this temporal association mechanism, our self-supervised tracking model is able to autonomously learn instance-level tracking directly from unlabeled video data, maintaining strong robustness even in challenging scenarios. The for-mula is described as follows: 
+
+Ts = T opK (Fs, Attn ls ) , (7) where Attn ls denotes the cross-attention matrix between the lanuage token and the search frame. Ts represents the purified target tokens from the search frame. This novel modeling paradigm enables SVLTrack to effectively ac-quire language-guided tracking representations in a self-supervised fashion, thus enhancing its robustness and dis-criminative capabilities in scenarios with weak target cues. 
+
+3.4. Denoising Training Strategy 
+
+Given that the generated pseudo-labels inevitably contain coarse or inaccurate object bounding boxes, we further pro-pose a denoising training strategy to improve the stability of self-supervised learning. Specifically, similar to trans-former trackers [50, 60], our SVLTrack produces a classi-fication score map Pc and a regression score map Pr for each frame during training. We compute the euclidean dis-tance D between the classification score map of the strongly augmented frame and the pseudo gaussian map G generated from the predicted bounding box of the weakly augmented frame, and use this distance to rank the results accordingly. The top K% of samples with the largest distances, identified as noisy samples, are discarded from the loss computation. Formally, the formula is as follows: 
+
+D(Pc, G) = ∥P c − G∥ 22 . (8) For normal training samples, we jointly optimize the classification and regression score maps using Focal loss Table 2. Comparison with state-of-the-art methods on three popular benchmarks. Init.Info refers to using a combination of natural language descriptions and an initial bounding box as supervision signals. Init.Lang and Init.BBox represent using only natural language descriptions or bounding boxes, respectively, as supervision signals. Best in bold , second best underlined. 
+
+Type Method Source Supervised Initialize TNL2K LaSOT OTB99 AUC PNorm P AUC PNorm P AUC PVision-Language SNLT [9] CVPR2021 Yes NL+BBox - - - 54.0 63.6 57.4 66.6 84.8 TNL2K-II [45] CVPR2021 Yes NL+BBox 42.0 50.0 42.0 51.3 - 55.4 68.0 88.0 VLT TT [14] NeurIPS2022 Yes NL+BBox 54.7 71.8 55.3 67.3 80.2 71.5 74.0 89.8 MMTrack [59] TCSVT2023 Yes NL+BBox 58.6 75.2 59.4 70.0 82.3 75.7 70.5 91.8 JointNLT [64] CVPR2023 Yes NL+BBox 56.9 73.6 58.1 60.4 69.4 63.6 65.3 85.6 UVLTrack [31] AAAI2024 Yes NL+BBox 63.1 - 66.7 69.4 - 75.9 69.3 89.9 ATTracker [12] ACM MM2024 Yes NL+BBox 56.9 75.0 64.7 63.7 - 67.3 69.3 90.3 DTLLM [21] CVPRW2024 Yes NL+BBox 56.6 - 56.9 69.0 - 74.7 70.6 91.1 MemVLT [10] NeurIPS2024 Yes NL+BBox 63.3 80.9 67.4 72.9 85.7 80.5 - -JointNLT [64] CVPR2023 Yes NL 54.6 - 55.0 56.9 - 59.3 59.2 77.6 UVLTrack [31] AAAI2024 Yes NL 55.7 - 57.2 57.2 - 61.0 60.1 79.1 ATTracker [12] ACM MM2024 Init.Info NL+BBox 40.6 56.7 40.9 48.9 - 47.5 55.5 77.5 DUTrack [22] CVPR2025 Yes NL+BBox 64.9 82.9 70.6 73.0 83.8 81.1 70.9 93.9 
+
+SVLTrack-L256 Ours Init.Lang NL 42.5 58.1 42.0 52.5 60.0 52.3 65.4 87.7 
+
+SVLTrack-L384 Ours Init.Lang NL 43.9 58.6 44.2 53.9 61.2 53.9 66.7 89.3 
+
+> Vision-only
+
+ECO [4] CVPR2017 No BBox - - - 32.4 - 30.1 - -UDT [43] CVPR2018 No BBox 27.0 37.0 31.4 - - - 59.4 30.1 LUDT [44] IJCV2021 No BBox - - - 26.2 - 23.4 60.2 76.9 USOT [57] ICCV2021 No BBox 30.0 44.1 35.7 33.7 - 32.5 58.9 80.6 ULAST [38] CVPR2022 No BBox - - - 47.1 - 45.1 64.8 87.9 TADS [20] TNNLS2023 Init.BBox BBox - - - 45.5 54.2 44.8 65.3 -Diff-Tracker [56] ECCV2024 No BBox - - - 48.6 - 47.2 66.1 89.8 SSTrack-256 [61] AAAI2025 Init.BBox BBox 52.1 - 53.3 64.8 75.2 69.2 67.9 -
+
+SVLTrack-V256 Ours Init.BBox BBox 52.6 70.7 54.1 65.1 76.1 69.8 67.9 91.2 
+
+SVLTrack-V384 Ours Init.BBox BBox 55.5 73.1 57.8 66.8 77.3 72.2 70.6 93.2 
+
+Lcls [26], GIoU loss LGIoU [35], and L1 loss, guiding the self-supervised learning process of the proposed model. The loss L (i.e., Lu and Ls) can be formulated as: 
+
+L = Lcls + λ1L1 + λ2LGIoU , (9) where λ1 and λ2 are the regularization parameters. By adopting this denoising strategy, our approach enhances training stability and improves tracking robustness. 
+
+## 4. Experiments 
+
+4.1. Implementation Details 
+
+The training data includes LaSOT [7], TNL2K [45], and OTB99 [24]. The AdamW [28] is used to optimize model parameters with initial learning rate of 2.5 × 10 −5 for the backbone, 2.5 × 10 −4 for the rest, and set the weight decay to 10 −4. The training epochs is set to 150 epochs. 10 K im-age pairs are randomly sampled in each epoch. The learn-ing rate drops by a factor of 10 after 120 epochs. The model is conducted on a server with four 80GB A800 GPUs and set the batch size to be 16 . We use a ViT-Base [6] model with DropMAE [46] pre-trained parameters as the visual encoder. The BERT [5] is used as our language encoder. 
+
+Table 3. Comparison with state-of-the-art methods on LaSOT ext .                                                                             
+
+> Type Method Supervised Initialize LaSOT ext
+> AUC PNorm PVL VLT TT [14] Yes NL+BBox 48.4 59.9 54.3 MMTrack [59] Yes NL+BBox 49.4 59.9 55.3 All-in-One [54] Yes NL+BBox 54.5 -66.0 PJVLT [25] Yes NL+BBox 48.5 58.8 55.0 MemVLT [10] Yes NL+BBox 52.1 63.3 59.8
+> SVLTrack-L256 Init.Lang NL 34.0 41.9 36.2
+> SVLTrack-L384 Init.Lang NL 35.2 43.6 37.6
+> Vision
+> TransT [1] Yes BBox 44.8 -52.5 STARK [48] Yes BBox 47.7 -54.9 OSTrack [50] Yes BBox 47.4 57.3 53.3 ARTrack [47] Yes BBox 51.9 62.0 58.5 ODTrack [60] Yes BBox 52.4 63.9 60.1
+> SVLTrack-V256 Init.BBox BBox 46.5 58.4 52.3
+> SVLTrack-V384 Init.BBox BBox 49.7 61.9 56.9
+
+For the input video clip, including three unlabeled frames and one init frame with pseudo-label. We present two vari-ants of SVLTrack with different configurations as follows: 1) SVLTrack-L : Self-supervised VL tracking with only nat-ural language description. 2) SVLTrack-V : Self-supervised visual tracking with only initial bounding box. Addition-ally, our SVLTrack-384 runs at 56 FPS on an A100 GPU. Language: grey rhinoceros running on the grass land                
+
+> #0 #327 #503 #765 #935
+> Language: black bear costume walking on the stage
+> #0 #79 #130 #212 #330
+> #0 #203 #324 #371 #400
+> Language: atv driving in the forest by a person Figure 5. Visualization of the instance tokens sampled from the search frame on LaSOT benchmark.
+
+4.2. Comparison with the SOTA 
+
+Discussion on VL tracking. As shown in Tab.2 and Tab.3, we evaluate the proposed model on four VL tracking benchmarks, including LaSOT [7], LaSOT ext [8], TNL2K [45], and OTB99 [24], and compare with existing SOTA trackers. Specifically, under the self-supervised setting, our SVLTrack-L256 demonstrates superior tracking perfor-mance compared to ATTracker [12] initialized with both the initial bounding box and language descriptions, achieving consistent improvements across the TNL2K, LaSOT, and OTB99 datasets. For instance, it outperforms ATTracker by 1.9%, 3.6%, and 9.9% in terms of AUC metrics, respec-tively. Besides, our SVLTrack-L256 achieves competitive performance on LaSOT ext , with a success score (AUC) of 34.0%, a normalized precision score (P Norm ) of 41.9%, and a precision score (P) of 36.2%. These results show that the proposed dynamic token aggregation module helps our SVLTrack to autonomously learn tracking knowledge about target appearance and motion cues, which significantly im-proves the tracking robustness in complex scenarios. 
+
+Discussion on visual tracking. Meanwhile, we con-ducted comprehensive comparisons with numerous SOTA fully-supervised and unsupervised tracking methods across these four VL tracking datasets. As shown in Tab.2, our model outperforms all unsupervised tracking algorithms. For instance, on the LaSOT dataset, SVLTrack-V256 sur-passes the latest unsupervised tracker, Diff-Tracker, by 16.5% in terms of AUC score. Furthermore, as shown in Tab.3, our tracker achieves performance comparable to fully-supervised tracking methods on the LaSOT ext dataset. Specifically, SVLTrack-V384 achieves an AUC score of 49.7%, a P Norm score of 61.9%, and a P score of 56.9%. These results demonstrate that our self-supervised track-ing framework not only delivers superior performance com-pared to both fully-supervised and unsupervised tracking al-gorithms but also significantly narrows the performance gap with fully-supervised methods. 
+
+4.3. Ablation Study 
+
+To explore the role of the various components in the pro-posed framework, we conduct comprehensive ablation stud-ies on the LaSOT [7] benchmark. 
+
+Study on different modules. As shown in Sec.3.3, three critical factors influencing self-supervised tracking perfor-mance are the weak-to-strong consistency framework, dy-namic token aggregation module (DTA), and denoising training strategy. As shown in Tab.4, removing the DTA (#2) leads to a 1.1% drop in AUC score, indicating that dynamically selecting tokens for multi-modal fusion effec-tively enhances the semantic understanding capability of the model. When the denoising training strategy (#3) is re-moved, the AUC slightly decreases by 0.5%, suggesting that it helps mitigate the interference of noisy samples. Further-more, removing the weak-to-strong framework (#1) results in a 0.9% performance drop, demonstrating that it increases sample diversity and facilitates the self-supervised model in autonomously learning richer representations. 
+
+> Table 4. Comparison of different modules.
+
+# Methods AUC PN orm P1 SVLTrack 52.5 60.0 52.3 
+
+2 - weak-to-strong 51.6 59.1 51.1 3 - DTA 51.4 59.0 50.8 4 - Denoising 52.0 59.7 51.4 
+
+Study on the number of search tokens. As shown in Tab.5, we investigate the impact of the number of ex-tracted search tokens on self-supervised tracking perfor-mance. Specifically, increasing the number of tokens from 4 to 8 yields a 0.6% improvement in AUC. However, fur-ther increasing the number of tokens leads to a performance drop, indicating that selecting an appropriate number of la-tent target tokens is crucial. Excessive tokens may introduce noise from non-target regions, thus undermining stability. 
+
+> Table 5. Comparison of the number of extracted search tokens.
+
+# Number of Tokens AUC PN orm P1 4 51.9 60.0 52.0 2 8 52.5 60.0 52.3 
+
+3 16 52.1 59.6 51.9 
+
+Study on Denoising Training Strategy. We investigate different noise evaluation methods (i.e., cross-entropy dis-tance and Euclidean distance) and denoising ratios to de-velop a robust denoising training strategy. As shown in Tab.6, compared to the cross-entropy, Euclidean distance better captures the overall differences between samples and achieves superior tracking performance. Thus, we adopt Euclidean distance, which is more robust to noise, for filter-ing noisy samples. Furthermore, we conduct comparative experiments by discarding different proportions of noisy samples. As shown in Fig.6, selecting a 20% denoising ratio leads to a more robust self-supervised tracker across diverse scenarios. These results indicate that designing an appropri-ate denoising training strategy is essential for improving the stability of self-supervised learning in noisy environments. 50.4 
+
+> 57.8
+> 50.2
+> 51.2
+> 58.4
+> 51.6
+> 52.5
+> 60
+> 52.3 52.1
+> 59.5
+> 51.5 51.8
+> 59
+> 51
+
+AUC Pnorm P
+
+> 0%
+> 10%
+> 20%
+> 30%
+> 40%
+
+Figure 6. Comparison of different denoising ratios. Table 6. Comparison of noise evaluation methods. 
+
+# Evaluation Method AUC PNorm P1 Cross-entropy 47.9 54.7 46.4 2 Euclidean distance 52.5 60.0 52.3 Impact of Pseudo Label Generation. We compare dif-ferent large vision-language models for generating pseudo-label in VL tracking datasets, such as LISA [18] and APE [39]. As shown in Tab.7, APE, which incorporates instance-level perception, achieves superior tracking performance compared to LISA, which possesses reasoning segmenta-tion capabilities. This suggests that APE can generate pseudo-bounding boxes that better align with natural lan-guage descriptions. These findings highlight the necessity of deploying a robust cross-modal understanding encoder in self-supervised VL tracking framework to enhance the alignment between natural language and visual content. 
+
+Table 7. Comparison of different large vision-language models. 
+
+# Vision-Language Model AUC PNorm P1 LISA 48.4 57.1 47.4 2 APE 52.5 60.0 52.3 
+
+4.4. Visualization Analysis 
+
+Visualization . As shown in Fig.5, we verify whether the sampled latent tokens from the search frame originate from the target instance. In the third complex scenario, the sampled target tokens are effectively localized on the ve-hicle, demonstrating that our Dynamic Token Aggregation (DTA) module possesses good target awareness capability. Furthermore, Fig.7 presents a visualization comparison of bounding boxes between SVLTrack and the fully supervised VL tracking methods UVLTrack [31] and JointNLT [64]. It can be observed that our tracker exhibits superior perfor-mance across various challenging scenarios, even achieving results comparable to those of fully supervised VL trackers. Ground Truth Ours UVLTrack JointNLT      
+
+> #728 #1400 #1702 #99
+> Language description: “white airplane landing on ground ”
+> #2 #1026 #818 #362
+> Language description: “red basketball on a girl's hand ”
+
+Figure 7. Qualitative comparison results of our tracker on LaSOT. 
+
+## 5. Conclusion 
+
+We have proposed a self-supervised VL tracking method, SVLTrack, designed to quantify the contribution of natural language descriptions to VL tracking. Specifically, within a weak-to-strong consistency self-supervised framework, we have proposed a novel dynamic token aggregation module to efficiently fuse visual and linguistic features. Besides, a denoising training strategy has been introduced to enhance the stability of self-supervised VL tracking by discarding noisy samples. Extensive experiments have demonstrated the superiority of our approach. 
+
+Limitation. Despite achieving impressive performance, we observe that the generation of pseudo-labels is con-strained by the LVLM, which to some extent affects the tracking results. Thus, improving the quality of the ac-quired target identity information further enhances the per-formance of self-supervised VL tracking. 
+
+Acknowledgement. This work is supported by the Project of Guangxi Science and Technology (No. 2024GXNSFGA010001 and GuiKeFN2504240017), the National Natural Science Foundation of China (No.U23A20383, 62472109 and 62466051), the Guangxi ”Young Bagui Scholar” Teams for Inno-vation and Research Project, the Research Project of Guangxi Normal University (No. 2025DF001). References 
+
+[1] Xin Chen, Bin Yan, Jiawen Zhu, Dong Wang, Xiaoyun Yang, and Huchuan Lu. Transformer tracking. In CVPR , pages 8126–8135, 2021. 6 [2] Yutao Cui, Cheng Jiang, Limin Wang, and Gangshan Wu. Mixformer: End-to-end tracking with iterative mixed atten-tion. In CVPR , pages 13598–13608, 2022. 2 [3] Ruiting Dai, Chenxi Li, Yandong Yan, Lisi Mo, Ke Qin, and Tao He. Unbiased missing-modality multimodal learning. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 24507–24517, 2025. 12 [4] Martin Danelljan, Goutam Bhat, Fahad Shahbaz Khan, and Michael Felsberg. ECO: efficient convolution operators for tracking. In CVPR , pages 6931–6939, 2017. 6 [5] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: Pre-training of deep bidirectional trans-formers for language understanding. In Proceedings of the 2019 conference of the North American chapter of the asso-ciation for computational linguistics: human language tech-nologies, volume 1 (long and short papers) , pages 4171– 4186, 2019. 6 [6] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Syl-vain Gelly, Jakob Uszkoreit, and Neil Houlsby. An image is worth 16x16 words: Transformers for image recognition at scale. In ICLR , 2021. 6 [7] Heng Fan, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Hexin Bai, Yong Xu, Chunyuan Liao, and Haibin Ling. Lasot: A high-quality benchmark for large-scale single ob-ject tracking. In CVPR , pages 5374–5383, 2019. 1, 6, 7 [8] Heng Fan, Hexin Bai, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Harshit, Mingzhen Huang, Juehuan Liu, Yong Xu, Chunyuan Liao, Lin Yuan, and Haibin Ling. Lasot: A high-quality large-scale single object tracking benchmark. 
+
+Int. J. Comput. Vis. , pages 439–461, 2021. 7 [9] Qi Feng, Vitaly Ablavsky, Qinxun Bai, and Stan Sclaroff. Siamese natural language tracker: Tracking by natural lan-guage descriptions with siamese trackers. In CVPR , pages 5851–5860, 2021. 6 [10] Xiaokun Feng, Xuchen Li, Shiyu Hu, Dailing Zhang, Meiqi Wu, Jing Zhang, Xiaotang Chen, and Kaiqi Huang. Memvlt: Vision-language tracking with adaptive memory-based prompts. In The Thirty-eighth Annual Conference on Neural Information Processing Systems , 2024. 6 [11] Zijian Gao, Kele Xu, Xingxing Zhang, Huiping Zhuang, Tianjiao Wan, Bo Ding, Xinjun Mao, and Wang Huaimin. Rethinking obscured sub-optimality in analytic learning for exemplar-free class-incremental learning. IEEE Transac-tions on Circuits and Systems for Video Technology , 36(10): 1123–1136, 2025. 12 [12] Jiawei Ge, Jiuxin Cao, Xuelin Zhu, Xinyu Zhang, Chang Liu, Kun Wang, and Bo Liu. Consistencies are all you need for semi-supervised vision-language tracking. In Proceed-ings of the 32nd ACM International Conference on Multime-dia , pages 1895–1904, 2024. 3, 6, 7 [13] Ruixu Geng, Jianyang Wang, Yuqin Yuan, Fengquan Zhan, Tianyu Zhang, Rui Zhang, Pengcheng Huang, Dongheng Zhang, Jinbo Chen, Yang Hu, et al. A survey of wireless sensing security from a role-based view. IEEE Communica-tions Surveys & Tutorials , 2025. 12 [14] Mingzhe Guo, Zhipeng Zhang, Heng Fan, and Liping Jing. Divert more attention to vision-language tracking. NIPS ,abs/2207.01076, 2022. 6 [15] Chunming He, Kai Li, Yachao Zhang, Ziyun Yang, Longxi-ang Tang, Yulun Zhang, Linghe Kong, and Sina Farsiu. Seg-ment concealed object with incomplete supervision. TPAMI ,2025. 12 [16] Chunming He, Fengyang Xiao, Rihan Zhang, Chengyu Fang, Deng-Ping Fan, and Sina Farsiu. Reversible unfold-ing network for concealed visual perception with generative refinement. arXiv preprint arXiv:2508.15027 , 2025. [17] Yi Jin, Xiaoxiao Ma, Rui Zhang, Huaian Chen, Yuxuan Gu, Pengyang Ling, and Enhong Chen. Masked video pretrain-ing advances real-world video denoising. IEEE Transactions on Multimedia , 27:622–636, 2025. 12 [18] Xin Lai, Zhuotao Tian, Yukang Chen, Yanwei Li, Yuhui Yuan, Shu Liu, and Jiaya Jia. Lisa: Reasoning segmentation via large language model. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pages 9579–9589, 2024. 3, 4, 8 [19] Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi. Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models. In In-ternational conference on machine learning , pages 19730– 19742. PMLR, 2023. 3 [20] Xin Li, Wenjie Pei, Yaowei Wang, Zhenyu He, Huchuan Lu, and Ming-Hsuan Yang. Self-supervised tracking via target-aware data synthesis. IEEE Transactions on Neural Net-works and Learning Systems , 2023. 3, 6 [21] Xuchen Li, Xiaokun Feng, Shiyu Hu, Meiqi Wu, Dailing Zhang, Jing Zhang, and Kaiqi Huang. Dtllm-vlt: Diverse text generation for visual language tracking based on llm. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 7283–7292, 2024. 2, 6[22] Xiaohai Li, Bineng Zhong, Qihua Liang, Zhiyi Mo, Jian Nong, and Shuxiang Song. Dynamic updates for language adaptation in visual-language tracking. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 19165–19174, 2025. 3, 6 [23] Zichao Li and Zong Ke. Cross-modal augmentation for low-resource language understanding and generation. In Pro-ceedings of the 1st Workshop on Multimodal Augmented Generation via Multimodal Retrieval (MAGMaR 2025) ,pages 90–99, 2025. 12 [24] Zhenyang Li, Ran Tao, Efstratios Gavves, Cees G. M. Snoek, and Arnold W. M. Smeulders. Tracking by natural language specification. In CVPR , pages 7350–7358, 2017. 1, 2, 3, 6, 7[25] Yanjie Liang, Qiangqiang Wu, Lin Cheng, Changqun Xia, and Jia Li. Progressive semantic-visual alignment and re-finement for vision-language tracking. IEEE Transactions on Circuits and Systems for Video Technology , 2024. 6 [26] Tsung-Yi Lin, Priya Goyal, Ross B. Girshick, Kaiming He, and Piotr Doll´ ar. Focal loss for dense object detection. In 
+
+ICCV , pages 2999–3007, 2017. 6 [27] Liang Liu, Jiangning Zhang, Ruifei He, Yong Liu, Yabiao Wang, Ying Tai, Donghao Luo, Chengjie Wang, Jilin Li, and Feiyue Huang. Learning by analogy: Reliable supervi-sion from transformations for unsupervised optical flow es-timation. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 6489–6498, 2020. 3 [28] Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. In ICLR , 2019. 6 [29] Shilin Lu, Yanzhu Liu, and Adams Wai-Kin Kong. Tf-icon: Diffusion-based training-free cross-domain image composi-tion. In Proceedings of the IEEE/CVF International Confer-ence on Computer Vision , pages 2294–2305, 2023. 12 [30] Shilin Lu, Zilan Wang, Leyang Li, Yanzhu Liu, and Adams Wai-Kin Kong. Mace: Mass concept erasure in diffu-sion models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 6430– 6440, 2024. 12 [31] Yinchao Ma, Yuyang Tang, Wenfei Yang, Tianzhu Zhang, Jinpeng Zhang, and Mengxue Kang. Unifying visual and vision-language tracking via contrastive learning. In Pro-ceedings of the AAAI Conference on Artificial Intelligence ,pages 4107–4116, 2024. 1, 2, 6, 8 [32] Long Peng, Wenbo Li, Renjing Pei, Jingjing Ren, Jiaqi Xu, Yang Wang, Yang Cao, and Zheng-Jun Zha. Towards real-istic data generation for real-world super-resolution. In The Thirteenth International Conference on Learning Represen-tations . 12 [33] Long Peng, Yang Cao, Yuejin Sun, and Yang Wang. Lightweight adaptive feature de-drifting for compressed im-age classification. IEEE Transactions on Multimedia , 26: 6424–6436, 2024. [34] Shiqing Qiu, Haoyu Wang, Yuxin Zhang, Zong Ke, and Zichao Li. Convex optimization of markov decision pro-cesses based on z transform: A theoretical framework for two-space decomposition and linear programming recon-struction. Mathematics , 13(11):1765, 2025. 12 [35] Hamid Rezatofighi, Nathan Tsoi, JunYoung Gwak, Amir Sadeghian, Ian D. Reid, and Silvio Savarese. Generalized intersection over union: A metric and a loss for bounding box regression. In CVPR , pages 658–666, 2019. 6 [36] Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj¨ orn Ommer. High-resolution image synthesis with latent diffusion models. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 10684–10695, 2022. 3 [37] Yanyan Shao, Shuting He, Qi Ye, Yuchao Feng, Wenhan Luo, and Jiming Chen. Context-aware integration of lan-guage and visual references for natural language tracking. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vi-sion and Pattern Recognition , pages 19208–19217, 2024. 1 [38] Qiuhong Shen, Lei Qiao, Jinyang Guo, Peixia Li, Xin Li, Bo Li, Weitao Feng, Weihao Gan, Wei Wu, and Wanli Ouyang. Unsupervised learning of accurate siamese tracking. In Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 8101–8110, 2022. 3, 6 [39] Yunhang Shen, Chaoyou Fu, Peixian Chen, Mengdan Zhang, Ke Li, Xing Sun, Yunsheng Wu, Shaohui Lin, and Rongrong Ji. Aligning and prompting everything all at once for univer-sal visual perception. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , pages 13193–13203, 2024. 3, 4, 8 [40] Zikai Song, Junqing Yu, Yi-Ping Phoebe Chen, and Wei Yang. Transformer tracking with cyclic shifting window attention. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 8791–8800, 2022. 12 [41] Zikai Song, Run Luo, Junqing Yu, Yi-Ping Phoebe Chen, and Wei Yang. Compact transformer tracker with correlative masked modeling. In Proceedings of the AAAI conference on artificial intelligence , pages 2321–2329, 2023. 12 [42] Yiming Sun, Fan Yu, Shaoxiang Chen, Yu Zhang, Junwei Huang, Yang Li, Chenhui Li, and Changbo Wang. Chat-tracker: Enhancing visual tracking performance via chatting with multimodal large language model. Advances in Neural Information Processing Systems , 37:39303–39324, 2024. 2 [43] Ning Wang, Yibing Song, Chao Ma, Wengang Zhou, Wei Liu, and Houqiang Li. Unsupervised deep tracking. In Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 1308–1317, 2019. 3, 6 [44] Ning Wang, Wengang Zhou, Yibing Song, Chao Ma, Wei Liu, and Houqiang Li. Unsupervised deep representation learning for real-time tracking. International Journal of Computer Vision , 129(2):400–418, 2021. 6 [45] Xiao Wang, Xiujun Shu, Zhipeng Zhang, Bo Jiang, Yaowei Wang, Yonghong Tian, and Feng Wu. Towards more flexible and accurate object tracking with natural language: Algo-rithms and benchmark. In CVPR , pages 13763–13773, 2021. 1, 2, 6, 7 [46] Qiangqiang Wu, Tianyu Yang, Ziquan Liu, Baoyuan Wu, Ying Shan, and Antoni B. Chan. Dropmae: Masked au-toencoders with spatial-attention dropout for tracking tasks. 
+
+CVPR , abs/2304.00571, 2023. 6 [47] Wei Xing, Bai Yifan, Zheng Yongchao, Shi Dahu, and Gong Yihong. Autoregressive visual tracking. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 9697–9706, 2023. 6 [48] Bin Yan, Houwen Peng, Jianlong Fu, Dong Wang, and Huchuan Lu. Learning spatio-temporal transformer for vi-sual tracking. In ICCV , pages 10428–10437, 2021. 2, 6 [49] Cilin Yan, Haochen Wang, Shilin Yan, Xiaolong Jiang, Yao Hu, Guoliang Kang, Weidi Xie, and Efstratios Gavves. Visa: Reasoning video object segmentation via large language models. In European Conference on Computer Vision , pages 98–115. Springer, 2025. 3 [50] Botao Ye, Hong Chang, Bingpeng Ma, Shiguang Shan, and Xilin Chen. Joint feature learning and relation modeling for tracking: A one-stream framework. In ECCV (22) , pages 341–357, 2022. 5, 6 [51] Wen Yin, Yong Wang, Guiduo Duan, Dongyang Zhang, Xin Hu, Yuan-Fang Li, and Tao He. Knowledge-aligned counterfactual-enhancement diffusion perception for unsu-pervised cross-domain visual emotion recognition. In Pro-ceedings of the Computer Vision and Pattern Recognition Conference , pages 3888–3898, 2025. 12 [52] Di Yuan, Xiaojun Chang, Po-Yao Huang, Qiao Liu, and Zhenyu He. Self-supervised deep correlation tracking. IEEE Transactions on Image Processing , 30:976–985, 2020. 3 [53] Yan Zeng, Xinsong Zhang, Hang Li, Jiawei Wang, Jipeng Zhang, and Wangchunshu Zhou. X2-vlm: All-in-one pre-trained model for vision-language tasks. IEEE Transactions on Pattern Analysis and Machine Intelligence , 2023. 3 [54] Chunhui Zhang, Xin Sun, Yiqian Yang, Li Liu, Qiong Liu, Xi Zhou, and Yanfeng Wang. All in one: Exploring uni-fied vision-language tracking with multi-modal alignment. In Proceedings of the 31st ACM International Conference on Multimedia , pages 5552–5561, 2023. 6 [55] Rui Zhang, Ruixu Geng, Yadong Li, Ruiyuan Song, Han-qin Gong, Dongheng Zhang, Yang Hu, and Yan Chen. Rf-mamba: Frequency-aware state space model for rf-based human-centric perception. In The Thirteenth International Conference on Learning Representations , 2025. 12 [56] Zhengbo Zhang, Li Xu, Duo Peng, Hossein Rahmani, and Jun Liu. Diff-tracker: text-to-image diffusion models are un-supervised trackers. In European Conference on Computer Vision , pages 319–337. Springer, 2025. 3, 6 [57] Jilai Zheng, Chao Ma, Houwen Peng, and Xiaokang Yang. Learning to track objects from unlabeled videos. In Proceed-ings of the IEEE/CVF international conference on computer vision , pages 13546–13555, 2021. 3, 6 [58] Yaozong Zheng, Bineng Zhong, Qihua Liang, Zhenjun Tang, Rongrong Ji, and Xianxian Li. Leveraging local and global cues for visual tracking via parallel interaction network. 
+
+IEEE Transactions on Circuits and Systems for Video Tech-nology , 33(4):1671–1683, 2022. 2 [59] Yaozong Zheng, Bineng Zhong, Qihua Liang, Guorong Li, Rongrong Ji, and Xianxian Li. Toward unified token learning for vision-language tracking. IEEE Transactions on Circuits and Systems for Video Technology , 34(4):2125–2135, 2023. 1, 6 [60] Yaozong Zheng, Bineng Zhong, Qihua Liang, Zhiyi Mo, Shengping Zhang, and Xianxian Li. Odtrack: Online dense temporal token learning for visual tracking. In Proceed-ings of the AAAI Conference on Artificial Intelligence , pages 7588–7596, 2024. 5, 6 [61] Yaozong Zheng, Bineng Zhong, Qihua Liang, Ning Li, and Shuxiang Song. Decoupled spatio-temporal consistency learning for self-supervised tracking. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 10635– 10643, 2025. 3, 6 [62] Yaozong Zheng, Bineng Zhong, Qihua Liang, Shengping Zhang, Guorong Li, Xianxian Li, and Rongrong Ji. Towards universal modal tracking with online dense temporal token learning. IEEE Transactions on Pattern Analysis and Ma-chine Intelligence , 2025. 2 [63] Heng Zhou, Jing Tang, Yanshu Li, Canran Xiao, Liwei Hou, Zong Ke, Jiawei Yao, et al. Comem: Compositional concept-graph memory for vision–language adaptation. In The Four-teenth International Conference on Learning Representa-tions , 2026. 12 [64] Li Zhou, Zikun Zhou, Kaige Mao, and Zhenyu He. Joint visual grounding and tracking with natural language specifi-cation. CVPR , abs/2303.12027, 2023. 1, 6, 8 [65] Jiawen Zhu, Zhi-Qi Cheng, Jun-Yan He, Chenyang Li, Bin Luo, Huchuan Lu, Yifeng Geng, and Xuansong Xie. Tracking with human-intent reasoning. arXiv preprint arXiv:2312.17448 , 2023. 3 6. Appendix 
+
+Additional Backgrounds. With the advancement of deep learning techniques [3, 11, 13, 15–17, 23, 29, 30, 32– 34, 40, 41, 51, 55, 63] and the potential to eliminate the need for large-scale labeled data, self-supervised tracking has attracted increasing attention from researchers. Taking advantage of intrinsic correlations in unlabeled video data, such as temporal consistency, self-supervised tracking has shown promising results in relatively simple tracking sce-narios. However, in long-term complex unlabeled tracking settings, it remains a significant challenge to capture cross-frame motion patterns and to learn robust target representa-tions. 
+
+Evaluation Metrics. The tracking performance is evalu-ated using the toolkit corresponding to the dataset. We fol-low the evaluation protocol of published datasets and em-ploy three metrics to ensure a fair comparison across vari-ous tracking methods, including success score (AUC), nor-malized precision score (P Norm ), and precision score (P).
