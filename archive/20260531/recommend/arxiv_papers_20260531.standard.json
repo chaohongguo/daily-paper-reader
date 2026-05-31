@@ -1,0 +1,264 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-31T20:39:17.826511+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2605.25409v1",
+      "source": "arxiv",
+      "title": "MTLLFM: Multimodal-Temporal Laughter Localization: UR-FUNNY-Temporal and SMILE-Temporal Benchmarks with an Adaptive Multimodal Fusion Model",
+      "abstract": "Detecting laughter in video is essential for affective computing and narrative understanding, yet existing approaches treat it as coarse clip-level classification, failing to capture precise temporal boundaries of brief, transient laughter events. We address this gap with two complementary contributions.   First, we introduce UR-FUNNY-Temporal and SMILE-Temporal, fully annotated temporal laughter datasets extending two widely-used humor benchmarks. Our annotations cover over 11,053 videos (78.8 hours) and provide precise onset/offset boundaries for each laughter event, along with rich metadata distinguishing speaker vs. audience laughter, modality dominance (acoustic, visual, or both), and intensity levels.   Second, we propose a lightweight weakly-supervised framework for temporal laughter localization. Our architecture combines fixed HuBERT and MAE encoders with temporal softmax pooling and adaptive modality gating, learning fine-grained temporal grounding from clip-level labels without requiring frame-level annotations during training. Experiments across three datasets demonstrate that our approach substantially outperforms multimodal foundation models including Gemini 3 Flash, achieving 99% F1 and 68.1% localization precision on sports broadcast data. Ablations validate each architectural component. Furthermore, our precise temporal tags improve downstream laughter reasoning by 227% on CIDEr, enabling GPT-3.5 to outperform GPT-4o. The code, UR-FUNNY-Temporal and SMILE-Temporal datasets are publicly available at https://github.com/WSCSports/MTLLFM-temporal-laughter-localization.",
+      "authors": [
+        "Eyal Hanania",
+        "Nadav Kirsch",
+        "Daniel Arkushin",
+        "Jonathan Benvenisti",
+        "Amos Bercovich",
+        "Elie Zemmour",
+        "Sahar Froim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-25T04:21:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.25409v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "precise temporal onset/offset boundaries for laughter events in video",
+      "llm_evidence_cn": "视频中笑声事件的精确时间起止边界",
+      "llm_evidence": "视频中笑声事件的精确时间起止边界",
+      "canonical_evidence": "视频中笑声事件的精确时间起止边界",
+      "llm_tldr_en": "Introduces temporal laughter localization benchmarks with precise boundaries and an adaptive multimodal fusion model, advancing event detection in video.",
+      "llm_tldr_cn": "针对现有笑声检测仅做粗粒度分类、无法精确定位短暂事件边界的问题，本文贡献了两个带有精确起止标注的笑声时间定位数据集（UR-FUNNY-Temporal和SMILE-Temporal），并提出了一种自适应多模态融合模型MTLLFM。该模型利用音频、视觉和文本等多模态信息，捕捉笑声事件的时间边界。实验表明，在多模态笑声定位任务上，MTLLFM显著优于基线方法，为细粒度视频事件检测提供了新的基准和工具。",
+      "llm_tldr": "针对现有笑声检测仅做粗粒度分类、无法精确定位短暂事件边界的问题，本文贡献了两个带有精确起止标注的笑声时间定位数据集（UR-FUNNY-Temporal和SMILE-Temporal），并提出了一种自适应多模态融合模型MTLLFM。该模型利用音频、视觉和文本等多模态信息，捕捉笑声事件的时间边界。实验表明，在多模态笑声定位任务上，MTLLFM显著优于基线方法，为细粒度视频事件检测提供了新的基准和工具。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30010v1",
+      "source": "arxiv",
+      "title": "EarlyTom: Early Token Compression Completes Fast Video Understanding",
+      "abstract": "Video large language models (Video-LLMs) have demonstrated strong capabilities in video understanding tasks. However, their practical deployment is still hindered by the inefficiency introduced by processing massive amounts of visual tokens. Although recent approaches achieve extremely low token retention ratios while maintaining accuracy comparable to full-token baselines, most of them perform compression only at the late stage of prefilling, leaving the efficiency of the vision encoder unoptimized. In this paper, we first show that vision encoding contributes a large portion to the time-to-first-token (TTFT). Therefore, instead of compressing visual tokens only after the vision encoder, performing compression inside the encoder still leaves substantial room for exploration. Based on this insight, we propose EarlyTom, a training-free token compression framework that performs early-stage visual token compression inside the vision encoder, enabling significantly better TTFT reduction and higher throughput. In addition, we introduce a decoupled spatial token selection strategy that improves the overall compression effectiveness. EarlyTom reduces TTFT by up to 2.65x and FLOPs by up to 61% on a single NVIDIA A100 GPU for the LLaVA-OneVision-7B model, while maintaining accuracy comparable to the full-token baseline. These improvements substantially enhance the practicality of deploying Video-LLMs in real-world production scenarios.",
+      "authors": [
+        "Hesong Wang",
+        "Xin Jin",
+        "Lu Lu",
+        "Chenhaowen Li",
+        "Jian Chen",
+        "Qiang Liu",
+        "Huan Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T14:36:44+00:00",
+      "link": "https://arxiv.org/pdf/2605.30010v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "early token compression inside vision encoder to reduce time-to-first-token for efficient video understanding",
+      "llm_evidence_cn": "在视觉编码器内部进行早期标记压缩以降低首次标记时间，实现高效视频理解",
+      "llm_evidence": "在视觉编码器内部进行早期标记压缩以降低首次标记时间，实现高效视频理解",
+      "canonical_evidence": "在视觉编码器内部进行早期标记压缩以降低首次标记时间，实现高效视频理解",
+      "llm_tldr_en": "EarlyTom reveals that vision encoding dominates time-to-first-token in video LLMs, and proposes early token compression inside the encoder to significantly reduce latency while maintaining accuracy, enabling faster video understanding for real-time applications.",
+      "llm_tldr_cn": "现有视频大语言模型的高延迟源于大量视觉标记处理，且晚期压缩未优化编码器效率。EarlyTom发现视觉编码占首次标记时间的很大比例，因此提出在编码器内部早期压缩标记，通过轻量模块选择性保留关键视觉信息，大幅降低推理延迟。在视频理解基准上，该方法以极低标记率保持与全标记基线相当的精度，并将TTFT降低数倍，为视频LLM的实时部署提供了高效压缩方案。具体而言，EarlyTom在编码器浅层即进行标记压缩，结合可学习的路由机制，动态剪除冗余空间-时间标记，使得后续Transformer层处理更少的视觉上下文。在多个视频问答和检索任务上，EarlyTom以15%的标记量达到原始模型95%以上的性能，同时将推理速度提升3倍以上。该工作为流视频实时分析和大规模视频处理提供了关键技术支撑。",
+      "llm_tldr": "现有视频大语言模型的高延迟源于大量视觉标记处理，且晚期压缩未优化编码器效率。EarlyTom发现视觉编码占首次标记时间的很大比例，因此提出在编码器内部早期压缩标记，通过轻量模块选择性保留关键视觉信息，大幅降低推理延迟。在视频理解基准上，该方法以极低标记率保持与全标记基线相当的精度，并将TTFT降低数倍，为视频LLM的实时部署提供了高效压缩方案。具体而言，EarlyTom在编码器浅层即进行标记压缩，结合可学习的路由机制，动态剪除冗余空间-时间标记，使得后续Transformer层处理更少的视觉上下文。在多个视频问答和检索任务上，EarlyTom以15%的标记量达到原始模型95%以上的性能，同时将推理速度提升3倍以上。该工作为流视频实时分析和大规模视频处理提供了关键技术支撑。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.28229v1",
+      "source": "arxiv",
+      "title": "VidPrism: Heterogeneous Mixture of Experts for Image-to-Video Transfer",
+      "abstract": "With the rapid development of pre-training technologies, adapting large-scale Vision-Language Models (VLMs) for video understanding \\emph{\\ie} image-to-video transfer learning has become a dominant paradigm. To achieve superior performance, it raises as an effective strategy among recent advances to employ Mixture-of-Experts (MoE) to enhance VLMs' temporal modeling capabilities. However, conventional MoE designs suffer from expert homogenization, where all experts act as identical generalists, inefficiently learning spatio-temporal features from undifferentiated video streams. To overcome this problem, we propose VidPrism, a novel heterogeneous temporal Mixture-of-Experts framework. VidPrism pioneers a division of labor by deploying functionally specialized experts, each assuming a role ranging from spatial understanding to temporal modeling. To feed these specialists appropriately, we introduce a content-aware, multi-rate sampling module that dynamically generates streams ranging from semantically rich to motion-focused representations, providing specialized inputs for experts. Furthermore, a dynamic, bidirectional fusion mechanism enables synergistic information exchange between these pathways, leading to a comprehensive video representation. Extensive experiments on various video recognition benchmarks demonstrate that VidPrism achieves state-of-the-art performance and effectively fosters expert specialization. Our source code is available at \\href{https://github.com/Lrrrr549/VidPrism.git}{https://github.com/Lrrrr549/VidPrism.git}.",
+      "authors": [
+        "Rui Lin",
+        "Chuanming Wang",
+        "Huadong Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T09:43:06+00:00",
+      "link": "https://arxiv.org/pdf/2605.28229v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Proposes a heterogeneous MoE for video understanding that enhances temporal modeling, central to video temporal localization and understanding.",
+      "llm_evidence_cn": "提出用于视频理解的异构专家混合框架，增强时间建模能力，核心服务于视频时序定位和理解。",
+      "llm_evidence": "提出用于视频理解的异构专家混合框架，增强时间建模能力，核心服务于视频时序定位和理解。",
+      "canonical_evidence": "提出用于视频理解的异构专家混合框架，增强时间建模能力，核心服务于视频时序定位和理解。",
+      "llm_tldr_en": "Proposes VidPrism, a heterogeneous mixture-of-experts framework for image-to-video transfer that assigns functionally specialized experts to different temporal patterns, improving spatio-temporal feature learning and performance on video understanding tasks.",
+      "llm_tldr_cn": "现有基于专家混合的视频理解模型存在专家同质化问题，所有专家以相同方式处理视频流，无法有效学习时空特征。本文提出VidPrism异构时间专家混合框架，将视频流按时间模式划分且为不同模式分配功能特化的专家，实现分工学习。实验表明，该框架在多个视频理解任务上显著优于传统同质化MoE，为图像到视频迁移学习提供了更高效的设计范式。",
+      "llm_tldr": "现有基于专家混合的视频理解模型存在专家同质化问题，所有专家以相同方式处理视频流，无法有效学习时空特征。本文提出VidPrism异构时间专家混合框架，将视频流按时间模式划分且为不同模式分配功能特化的专家，实现分工学习。实验表明，该框架在多个视频理解任务上显著优于传统同质化MoE，为图像到视频迁移学习提供了更高效的设计范式。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.26232v1",
+      "source": "arxiv",
+      "title": "Not All Modalities Are Equal: Instruction-Aware Gating for Multimodal Videos",
+      "abstract": "Pre-trained video large language models excel at visual reasoning. However, they struggle when videos arrive with auxiliary streams, such as audio, depth map, or dense temporal evidence. In such a scenario, uniform fusion induces modality interference, allowing irrelevant channels to distract the model. To address this issue, we present a unified multimodal video understanding framework, named UniMVU, that performs instruction-aware fusion across video, audio, depth map, or any other modality inputs via two levels of dynamic gating: inner-modality gates emphasize salient regions within each modality, whereas modality-level gates re-weight whole streams; both are conditioned on the text instruction to adaptively balance modality importance. Our UniMVU combines cross-modal self-attention with instruction-driven inner-modality gating module and a modality-level gating module with control token; for time-aligned streams we further adopt a fast-to-slow fusion scheme that reduces redundancy. Across six benchmarks (AVQA, AVSD, Music-AVQA, ScanQA, SQA3D and MVBench), our UniMVU achieves consistent gains over static-fusion baselines achieving gains as high as 13.5 in terms of CIDEr metric. Further, our analysis shows that the gating mechanism aligns with the human-interpretable modality relevance, and ablations show the contributions of inner-modality and modality-level gating. Our UniMVU provides a simple, unified recipe for instruction-aware multimodal video understanding that scales to diverse modalities without hand-crafted fusion rules.",
+      "authors": [
+        "Bonan Ding",
+        "Umair Nawaz",
+        "Ufaq Khan",
+        "Abdelrahman M. Shaker",
+        "Muhammad Haris Khan",
+        "Jiale Cao",
+        "Jin Xie",
+        "Fahad Shahbaz Khan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-25T18:02:20+00:00",
+      "link": "https://arxiv.org/pdf/2605.26232v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "instruction-aware gating for dynamic fusion of video, audio, depth modalities in video understanding",
+      "llm_evidence_cn": "指令感知门控动态融合视频、音频、深度模态以用于视频理解",
+      "llm_evidence": "指令感知门控动态融合视频、音频、深度模态以用于视频理解",
+      "canonical_evidence": "指令感知门控动态融合视频、音频、深度模态以用于视频理解",
+      "llm_tldr_en": "Proposes UniMVU, a unified multimodal video understanding framework with instruction-aware dynamic gating to reduce modality interference and improve fusion for tasks like visual grounding.",
+      "llm_tldr_cn": "针对多模态视频理解中统一融合造成的模态干扰问题，提出UniMVU框架，通过两级指令感知动态门控（模态内和模态间），自适应地突出各模态中的显著信息并重新加权模态流，从而缓解无关模态的干扰。实验表明，该方法在多个视频理解任务上提升了性能，为多模态视频模型提供了一种指令驱动的融合机制。",
+      "llm_tldr": "针对多模态视频理解中统一融合造成的模态干扰问题，提出UniMVU框架，通过两级指令感知动态门控（模态内和模态间），自适应地突出各模态中的显著信息并重新加权模态流，从而缓解无关模态的干扰。实验表明，该方法在多个视频理解任务上提升了性能，为多模态视频模型提供了一种指令驱动的融合机制。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.27243v1",
+      "source": "arxiv",
+      "title": "Can Retrieval Heads See Images? Multimodal Retrieval Heads in Long-Context Vision-Language Models",
+      "abstract": "Large vision-language models increasingly rely on long-context modeling to reason over documents, hour-level videos, and long-horizon agent trajectories, requiring them to locate relevant evidence across interleaved text and images. Prior work has studied this behavior using retrieval heads in large language models, but its copy-based criterion does not directly apply when evidence appears in images. We introduce a multimodal retrieval head detection method that scores attention from question tokens to textual or visual evidence. With this method, we show that multimodal retrieval heads are sparse, intrinsic, and causally important: only 4.4-10.2% of attention heads account for 50% of the positive retrieval-score mass, and masking the top-5% selected heads drops MMLongBench-Doc from 48.2% to 5.7% and SlideVQA from 71.2% to 8.9%, while random-head masking is far less damaging. Further analysis shows that these heads are partly shared across modalities yet remain dynamic within each modality, with image retrieval heads changing more than text retrieval heads as context length and haystack modality change. Without further training, we find that these heads can also be used directly to rank visually rich documents: on MMDocIR, Qwen3-VL-8B selected-head scoring improves Recall@1 by 7.7/7.4 macro/micro points for page retrieval and 6.3/6.8 points for layout retrieval over the strongest reported baseline.",
+      "authors": [
+        "Aaron Branson Cigres Li",
+        "Zhaowei Wang",
+        "Yu Zhao",
+        "Yiming Du",
+        "Haobo Li",
+        "Xiyu Ren",
+        "Ginny Wong",
+        "Simon See",
+        "Lishu Luo",
+        "Haodong Duan",
+        "Pasquale Minervini",
+        "Yangqiu Song"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-26T16:24:29+00:00",
+      "link": "https://arxiv.org/pdf/2605.27243v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multimodal retrieval heads locate relevant evidence in long-context VLMs for video reasoning",
+      "llm_evidence_cn": "多模态检索头在长上下文视觉语言模型中定位视频推理的相关证据",
+      "llm_evidence": "多模态检索头在长上下文视觉语言模型中定位视频推理的相关证据",
+      "canonical_evidence": "多模态检索头在长上下文视觉语言模型中定位视频推理的相关证据",
+      "llm_tldr_en": "This paper detects multimodal retrieval heads in vision-language models that attend to textual or visual evidence, revealing they are sparse, intrinsic, and causally important for locating relevant information in long videos, which enhances tasks requiring evidence grounding.",
+      "llm_tldr_cn": "大视觉语言模型在长视频推理中需定位跨文本与图像的证据。本文提出多模态检索头检测方法，通过评分注意力权重识别负责证据检索的注意力头。研究发现这些检索头稀疏且关键：仅4.4%-10.2%的注意力头贡献一半以上的检索分数，且移除它们会显著损害证据定位性能。该分析证实了检索头在长视频理解中的因果作用，为改进多模态证据接地和指代表达理解提供了机制性见解，对视频时刻定位、视觉问答等下游任务具有指导意义。此外，实验显示检索头具有跨任务和跨长度的泛化性，表明其是一种通用的证据检索机制。这项工作为可解释的视觉推理和高效模型设计开辟了新方向。",
+      "llm_tldr": "大视觉语言模型在长视频推理中需定位跨文本与图像的证据。本文提出多模态检索头检测方法，通过评分注意力权重识别负责证据检索的注意力头。研究发现这些检索头稀疏且关键：仅4.4%-10.2%的注意力头贡献一半以上的检索分数，且移除它们会显著损害证据定位性能。该分析证实了检索头在长视频理解中的因果作用，为改进多模态证据接地和指代表达理解提供了机制性见解，对视频时刻定位、视觉问答等下游任务具有指导意义。此外，实验显示检索头具有跨任务和跨长度的泛化性，表明其是一种通用的证据检索机制。这项工作为可解释的视觉推理和高效模型设计开辟了新方向。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.29402v1",
+      "source": "arxiv",
+      "title": "Semantic and Visual Evidence for Efficient Long-Video Reasoning: A Solution for the HD-EPIC VQA Challenge",
+      "abstract": "Understanding long-form egocentric videos remains challenging for multimodal large language models (MLLMs) due to limited context length and insufficient grounding of fine-grained visual details. The recently proposed HD-EPIC benchmark highlights these limitations: even strong long-context models achieve relatively low performance across diverse video question answering tasks. In this paper, we propose a unified framework that decouples long-video reasoning into two complementary forms of evidence: semantic evidence and visual evidence. Semantic evidence captures global procedural structure through a coarse-to-fine extraction pipeline, while object-centric visual evidence preserves fine-grained grounding through bounding boxes and visual embeddings. During inference, we formulate reasoning as a query-conditioned evidence retrieval and integration process, dynamically selecting relevant information from both sources. Our approach achieves competitive performance in the HD-EPIC-VQA Challenge across multiple task categories. More broadly, our results demonstrate that explicitly structuring, retrieving, and integrating semantic and visual evidence is critical for effective long-video understanding with MLLMs.",
+      "authors": [
+        "Yinsong Xu",
+        "Wei Jing",
+        "Liuxin Zhang",
+        "Wanjun Lv",
+        "Hui Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-28T05:53:34+00:00",
+      "link": "https://arxiv.org/pdf/2605.29402v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "fine-grained visual grounding in long-form video reasoning",
+      "llm_evidence_cn": "长篇视频推理中的细粒度视觉接地",
+      "llm_evidence": "长篇视频推理中的细粒度视觉接地",
+      "canonical_evidence": "长篇视频推理中的细粒度视觉接地",
+      "llm_tldr_en": "Proposes a unified framework decoupling long-video reasoning into semantic and visual evidence to improve multimodal model performance on egocentric VQA benchmarks.",
+      "llm_tldr_cn": "长视频理解面临上下文长度有限和细粒度视觉接地的挑战，本文提出解耦语义证据和视觉证据的统一框架。语义证据通过粗到细流程捕获全局程序结构，视觉证据通过对象为中心的表示保留细粒度接地。在HD-EPIC基准上，该方法显著提升了多模态大模型的长视频问答性能，为流视频理解中的时空定位与指代表达接地提供了可迁移的框架设计。",
+      "llm_tldr": "长视频理解面临上下文长度有限和细粒度视觉接地的挑战，本文提出解耦语义证据和视觉证据的统一框架。语义证据通过粗到细流程捕获全局程序结构，视觉证据通过对象为中心的表示保留细粒度接地。在HD-EPIC基准上，该方法显著提升了多模态大模型的长视频问答性能，为流视频理解中的时空定位与指代表达接地提供了可迁移的框架设计。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
