@@ -1,0 +1,660 @@
+Title: Annotations Are Not All You Need: A Cross-modal Knowledge Transfer Network for Unsupervised Temporal Sentence Grounding
+
+URL Source: https://arxiv.org/pdf/2605.30742v1
+
+Published Time: Mon, 01 Jun 2026 00:27:36 GMT
+
+Number of Pages: 16
+
+Markdown Content:
+# Annotations Are Not All You Need: A Cross-modal Knowledge Transfer Network for Unsupervised Temporal Sentence Grounding 
+
+Xiang Fang 1∗ Daizong Liu 2∗ Wanlong Fang 3∗ Pan Zhou 1† Yu Cheng 4 Keke Tang 5 Kai Zou 61Hubei Key Laboratory of Distributed System Security, Hubei Engineering Research Center on Big Data Security, School of Cyber Science and Engineering, Huazhong University of Science and Technology 
+
+2Peking University 3Henan University 4The Chinese University of Hong Kong 
+
+5Guangzhou University 6Protagolabs Inc. 
+
+xfang9508@gmail.com dzliu@stu.pku.edu.cn wanlongfang@gmail.com panzhou@hust.edu.cn chengyu@cse.cuhk.edu.hk tangbohutbh@gmail.com kz@protagolabs.com 
+
+Abstract 
+
+This paper addresses the task of temporal sen-tence grounding (TSG). Although many re-spectable works have made decent achieve-ments in this important topic, they severely rely on massive expensive video-query paired anno-tations, which require a tremendous amount of human effort to collect in real-world ap-plications. To this end, in this paper, we tar-get a more practical but challenging TSG set-ting: unsupervised temporal sentence ground-ing, where both paired video-query and seg-ment boundary annotations are unavailable dur-ing the network training. Considering that some other cross-modal tasks provide many easily available yet cheap labels, we tend to collect and transfer their simple cross-modal alignment knowledge into our complex scenar-ios: 1) We first explore the entity-aware object-guided appearance knowledge from the paired Image-Noun task, and adapt them into each independent video frame; 2) Then, we extract the event-aware action representation from the paired Video-Verb task, and further refine the action representation into more practical but complicated real-world cases by a newly pro-posed copy-paste approach; 3) By modulating and transferring both appearance and action knowledge into our challenging unsupervised task, our model can directly utilize this gen-eral knowledge to correlate videos and queries, and accurately retrieve the relevant segment without training. Extensive experiments on two challenging datasets (ActivityNet Captions and Charades-STA) show our effectiveness, out-performing existing unsupervised methods and even competitively beating supervised works. 
+
+1 Introduction 
+
+As a popular yet challenging natural language pro-cessing task, temporal sentence grounding (TSG) 
+
+> *
+
+Equal contributions. †Corresponding author. Labeled images                                     
+
+> Appearance words
+> “person ”,
+> “box ”,
+> “cat ”,...
+> Appearance knowledge:
+> {app , noun }
+> Word -region matching
+> “climb ”
+> “throw ”
+> Video 1
+> Video 2
+> “climb ”
+> “throw ”,...
+> Action
+> words
+> Word -action matching
+> Person puts on a shoe .
+> Person closes the box .
+> Person pours water into a glass .
+> Query -based searching Video -based retrieval
+> Query :Person pours water into a glass .
+> Video :
+> Ground Truth (s) :41.85 119.10
+> (a) Example of temporal sentence grounding.
+> Action knowledge:
+> {action , verb }
+> (b)Illustration of our proposed CMKT.
+> Query database
+> Video database
+> (b3)
+> (b2) (b1)
+> search app
+> match( query noun ,noun )
+> search app
+> match( query noun ,noun )
+> search action
+> match( query verb ,verb )
+> search action
+> match( query verb ,verb )match( video action ,action )match( video action ,action )
+> retrieve { video action ,query verb }
+> match( video action ,action )
+> retrieve { video action ,query verb }
+> retrieve { video app ,query noun }
+> match( video app ,app )
+> retrieve { video app ,query noun }
+> match( video app ,app )
+
+Figure 1: (a) Example of the temporal sentence ground-ing (TSG) task. (b) Illustration of our proposed CMKT network, where (b1) is the appearance knowledge learn-ing module, (b2) is the action knowledge learning mod-ule, and (b3) is the knowledge transfer module, where “app” denotes “appearance”. Note that there are no ground-truth annotations in (b3). Best viewed in color. 
+
+(Liu et al., 2023a; Wang et al., 2025d; Fang et al., 2026b; Kuai et al., 2026; Wang et al., 2025b; Fang et al., 2025c; Zhang et al., 2025b; Fang et al., 2023c; Liu et al., 2024b; Yang et al., 2025; Fang et al., 2022, 2026d; Lei et al., 2025; Fang et al., 2023b; Wang et al., 2025a; Fang et al., 2025e; Yan et al., 2026; Fang et al., 2025a; Wang et al., 2026c; Cai et al., 2025; Fang and Fang, 2026b; Wang et al., 2026a; Fang et al., 2026c; Wang et al., 2026d; Fang and Fang, 2026a; Wang et al., 2025f; Fang, 2026; Fang et al., 2026e; Wang et al., 2026b; Liu et al., 2023d, 2026; Fang et al., 2026f; Wang et al., 2025c; Fang et al., 2026g, 2025f, 2024b; Liu et al., 2024c; Fang et al., 2025g,d, 2024a; Liu et al., 2023c; Fang et al., 2024c; Liu et al., 2024a; Fang et al., 2023a; Xiong et al., 2024; Fang et al., 2021b; Wang et al., 2025e; Zhang et al., 2025a; Fang et al., 2026a; Tang et al., 2024; Fang et al., 2025b; Tang et al., 2025; Fang et al., 2021a; Cai et al., 2026; Fang 
+
+> arXiv:2605.30742v1 [cs.CV] 29 May 2026
+
+et al., 2020) has drawn increasing attention in re-cent years. TSG aims to locate a temporal video segment with an activity that semantically corre-sponds to a given sentence query. As shown in Figure 1(a), only a short video segment semanti-cally matches the query, while most of the video contents are query-irrelevant. Clearly, TSG tries to break through the barrier between computer vi-sion and natural language processing techniques for more challenging cross-modal grounding (Li et al., 2023b,a, 2022; Wang and Shi, 2023; Wang et al., 2021a, 2020c,a,b). Most previous TSG works (Liu et al., 2021b, 2020b, 2022a, 2021a, 2022d; Fang and Hu, 2020; Liu et al., 2021c) are under a fully-supervised setting, where each frame is manually annotated as query-relevant or query-irrelevant. Despite the decent progress, these data-hungry methods severely rely on numerous frame-query annota-tions, which are significantly labor-intensive and time-consuming to collect. To alleviate annotation reliance to a certain extent, some recent works (Tan et al., 2021; Chen et al., 2019; Mithun et al., 2019; Ma et al., 2020; Lin et al., 2020; Song et al., 2020; Zhang et al., 2020d) explore a weakly-supervised setting to only leverage the coarse-grained video-query annotations instead of the fine-grained frame-query annotations. Unfortunately, this weakly-supervised setting still requires expensive video-query annotations and its performance validates unsatisfactory. To this end, in this paper, we try to tackle a more practical but challenging setting for the TSG task, i.e. , unsupervised TSG, which excludes both coarse-grained video-query annotations and fine-grained frame-query annotations. Therefore, how to guide the unsupervised model to extract the vision-language correlations becomes a crucial problem. Luckily, unlike the expensively annotated TSG task requiring long sentences and complicated videos, some cross-modal tasks ( e.g. , image re-trieval and video retrieval) always provide a mas-sive number of cheap and fully-annotated datasets, 
+
+i.e. , matched image-noun and paired video-verb. Hence, we pose a brand-new idea: can we transfer the annotation knowledge from other cheap cross-modal annotations to the complicated and challeng-ing unsupervised TSG task? Our main motivation is that we can first learn simple image-noun and video-verb correlations to extract the visual appear-ance and action knowledge, respectively. Then, by generalizing such cross-modal knowledge and transferring it into unsupervised TSG, we can not only well correlate the queries with corresponding videos without large-scale video-query pairs, but also match them with image-aware frames without frame-query pairs. Therefore, the current problem becomes how to separately collect the appearance and action knowledge and adaptively transfer the knowledge into our unsupervised TSG task. To tackle these issues, we propose a novel Cross-Modal Knowledge Transferring (CMKT) network, which fine-tunes and transfers the extracted appear-ance and action knowledge from other cross-modal tasks to search the best-matching video activity re-lated to given queries in the unsupervised TSG set-ting. As shown in Figure 1(b), our CMKT contains three modules: (i) In the appearance knowledge module, we try to learn the object-guided matched region-noun information from the Image-Noun task to model the appearance information. (ii) In the action knowledge module, single-action and multi-action branches are designed to simulate complex video scenes. In the single-action branch, we ex-tract the pure action information based on a set of labeled single-action videos. In the multi-action branch, since real-world videos often contain mul-tiple actions, we introduce a clip-level copy-paste strategy to construct the action-hybrid videos to adapt to more complex scenes. (iii) Finally, we re-fine both the appearance and action knowledge, and aggregate and transfer them into our complicated unsupervised TSG for inference without further training. Our main contributions are summarized as fol-lows: • To the best of our knowledge, we make the first attempt to transfer the cross-modal knowl-edge from other tasks into the TSG task. With-out any TSG annotation, we can directly gen-eralize the collected pre-trained appearance and action information for precise grounding, which eliminates complex training. • We carefully design the appearance and action knowledge collection modules to learn simple knowledge from other cheap tasks. To handle the complicated video with multiple action contexts, we introduce a copy-paste idea to synthesize various multi-action clips, which improves the generalization ability. • Comprehensive experiments on two chal-lenging datasets (ActivityNet Captions and Charades-STA) show the effectiveness of our proposed CMKT. 
+
+2 Related Works 
+
+Most existing TSG methods are under the fully-supervised setting (Tang et al., 2021; Liu et al., 2023b; Zhang et al., 2021; Cao et al., 2020; Lei et al., 2020; Liu et al., 2020a, 2022b; Liu and Hu, 2022; Liu et al., 2022e), where all video-query pairs and precise segment boundaries are manu-ally annotated. Based on the top-down approach, some methods (Anne Hendricks et al., 2017; Chen et al., 2018; Zhang et al., 2020b) first pre-define multiple segment proposals and then align these proposals with the query for cross-modal seman-tic matching based on the similarity. Finally, the best-matched proposal is selected as the predicted segment. Recently, some works utilize the bottom-up strategy (Chen et al., 2020a; Mun et al., 2020; Zhang et al., 2020a), which directly regresses the boundary of the target segment or predicts bound-ary probabilities frame-wisely. To alleviate the re-liance to a certain extent, some state-of-the-art turn to the weakly-supervised setting (Tan et al., 2021; Chen et al., 2019; Mithun et al., 2019; Ma et al., 2020; Lin et al., 2020; Song et al., 2020; Zhang et al., 2020d), where only video-query pairs are annotated without precise segment boundaries. To further mitigate the reliance, an unsupervised work (Liu et al., 2022c) clusters the semantic informa-tion of the whole query set by a complex training process for grounding. Different from the above methods, we address the challenging unsupervised TSG task from a novel perspective: collecting and transferring the general cross-modal knowledge from other simple yet cheap tasks. 
+
+3 Our Method 
+
+3.1 Overview Problem definition. Given a set of untrimmed videos V = {Vh}N V 
+
+> h=1
+
+and sentence queries Q =
+
+{Qg}N Q
+
+> g=1
+
+, we denote Vh and Qg as the h-th video and the g-th query, N V and N Q as the number of videos and queries, respectively. For each query, unsupervised TSG has no annotation information about its corresponding related video and detailed activity location. Obviously, our unsupervised TSG is more challenging than previous supervised TSG, since we drop all annotated information between 
+
+V and Q including their correspondence and anno-tated segment boundaries. 
+
+Overall pipeline. To tackle the challenging unsu-pervised setting, we propose a novel Cross-Modal Knowledge Transfer (CMKT) network shown in Figure 2, which first designs two task-agnostic knowledge collection modules to learn both appear-ance and action knowledge from other labeled but cheap cross-modal tasks, then refine and transfer their knowledge into our complicated TSG task. For the appearance knowledge module, we first collect a set of conceptual nouns and their corre-sponding image regions from public Image-Noun datasets ( e.g. , Visual Genome (VG) (Krishna et al., 2017)), where a noun corresponds to multiple rel-evant regions. We denote these region-level im-ages as V a = {vai }N a 
+
+> i=1
+
+and their corresponding words (object nouns) as W n = {wnj }N n
+
+> j=1
+
+, where 
+
+N a and N n are the number of regions and nouns, respectively. Then, we explore the region-level appearance knowledge by the region-word pair in-formation (wnj , ¯vaj ), where ¯vaj is the consensus of all the regions corresponding to wnj . For noun wnj ,we compute ¯vaj by averaging the representations of all relevant regions. With pairwise nouns and their consensus region representations, we can obtain general cross-modal appearance knowledge. In the action knowledge module, we are given a massive number of conceptual verbs and their cor-responding action-pure clips from popular Video-Verb datasets ( e.g. , Kinetics (Carreira and Zisser-man, 2017)), where a verb corresponds to many labeled clips. These clips and corresponding verbs are denoted as V m = {vmi }N m 
+
+> i=1
+
+and W v =
+
+{wvj }N v 
+
+> j=1
+
+respectively, and N m and N v are the number of clips and verbs. We tend to learn the clip-level action knowledge (wvj , ¯vmj ), where ¯vmj
+
+is the consensus of all the regions corresponding to 
+
+wvj . Besides obtaining the basic action feature via averaging over all relevant single-action clips, we synthesize the multi-action clips by the copy-paste approach (Dvornik et al., 2018; Xu et al., 2021; Rong et al., 2021) for simulating more complicated scenes. By refining both single- and multi-action representations, we obtain the final action knowl-edge. Finally, a knowledge transfer module is de-signed to transfer appearance and action knowledge into our unsupervised TSG. Faster -RCNN 
+
+> Noun & related region
+
+... ...        
+
+> ... ...
+> ... ...
+> Clip -level feature
+> C3D
+> Laction
+> “climb ”
+> “throw ”
+> Labeled images
+> Faster
+> R-CNN
+> Glove
+> Appearance
+> words (nouns)
+> “person ”
+> “box ”,...
+> Glove
+> “person ”
+> “box ”
+> Avgpool  Avgpool
+> Cross -modal
+> interaction
+> Action knowledge
+> Person close the box .
+> Feature encoder
+> Appearance knowledge
+> 19.50s  29.60s
+> Cross -modal matching
+> Video 1
+> Video 2
+> Video n
+> Knowledge transfer
+> Textual
+> feature
+> Visual
+> feature
+> “climb ”
+> “throw ”,...
+> Action
+> words
+> (verbs)
+> Glove
+> “climb ”
+> Video database
+> Any query
+
+... ...    
+
+> ... ...
+> ... ...
+> “throw ”
+> “climb ”
+> “climb ”
+> ...
+> ...
+> Copy -paste
+> Single -action feature
+> Video -level feature Refined knowledge
+> “climb ”“throw ”
+> “person ”
+> “box ”
+> “person ”
+> “box ”
+> Nouns
+> “close ”
+> Verbs
+> Glove
+> Noun feature
+> Verb feature Knowledge searching
+> Appearance knowledge
+> Action knowledge
+> Video appearance
+> C3D
+> Video action
+> RoIAlign
+> “climb ”
+> knowledge
+> “throw ”
+> knowledge
+> “person ”
+> knowledge
+> “box ”
+> knowledge
+> Lapp
+> Consensus
+> feature
+> Consensus
+> feature
+
+... ...  
+
+> ... ...
+> Replace
+
+... ...   
+
+> Replace
+> Single
+> -action
+> Copy -paste
+> “climb ”“climb ”“climb ”“climb ”“throw ”“throw ”“throw ”
+> Appearance
+> Action
+> Consensus feature
+> Match  Match
+> Similarity
+> Similarity
+> Multi -
+> action
+> Cross -modal
+> interaction
+> Appearance
+> Action
+> Video feature
+> Cosine
+> similarity
+> Grounding
+> Multi -action feature
+
+Figure 2: Overview of our CMKT framework for unsupervised TSG. We design two knowledge modules to extract both appearance and action knowledge from other simple yet cheap cross-modal tasks. (i) In appearance branch, we learn the region-word pair information and the appearance information can be viewed as the visual semantic of a given noun. (ii) The action knowledge module contains two branch: single-action branch and multi-action branch. For the single-action branch, we extract the pure action information based a set of labeled action video. Specifically, based on the branch, we can obtain the visual represent of the verbs. As for multi-action branch, since many video often contain multiple action, we introduce the clip-level copy-paste method to construct the action-hybrid videos. The global information in these videos contain the action features. (iii) Finally, we introduce the appearance and action knowledge into our TSG task by knowledge searching. Best viewed in color. 
+
+3.2 Appearance Knowledge Collection 
+
+Since the cheap Image-Word datasets provide suffi-cient known image-noun pairs, we can leverage them to extract the simple cross-modal appear-ance knowledge. However, our desired appear-ance knowledge has two key properties: 1) Region-aware: Rather than extract visual backgrounds, ap-pearance knowledge is required to accurately align the region-level foreground objects and correspond-ing nouns. It is more fine-grained than other meth-ods that roughly link the whole image to words. 2) One-to-one matching: Instead of aligning a noun to multiple related images in a one-to-many manner, we focus on cross-modal one-to-one matching to alleviate the appearance variations of objects by aligning the noun and its corresponding consensus region. Therefore, we collect all the nouns and their related regions on the VG dataset, which con-tains diverse contents that are useful to improve knowledge generalization. 
+
+Noun-aware textual encoder. Given N n nouns as the label set of N a region-level images, we utilize Glove (Pennington et al., 2014) to embed each noun into a dense vector {wnj }N n
+
+j=1 , where wnj ∈ Rd is the j-th noun feature and d is the feature dimension. 
+
+Appearance-aware visual encoder. Given N a
+
+region-level images, we use Faster-RCNN (Ren et al., 2015) to extract their features {vai }N a
+
+i=1 ,where vai ∈ Rd is the i-th appearance feature. 
+
+Appearance knowledge acquisition. For the j-th noun wnj , we can obtain its prototypical region representation vaj by averaging all relevant region features {vaj,k }Knj
+
+k=1 :
+
+vaj = AV P (vaj, 1, · · · , vaj,K nj ), (1) 
+
+where vaj is the consensus appearance feature and 
+
+AV P (·) denotes the average pooling, Knj is the to-tal related region number. To ensure that vaj shares the same semantics with its corresponding noun-aware features, we learn two parametric transforma-tion matrices Ba and Bn via a regularization loss (Lin et al., 2017) Lapp to enforce consensus region feature vaj as close as possible to corresponding noun feature wnj :
+
+Lapp = || BaV a − BnW n|| 2 
+
+> F
+
+, (2) 
+
+where || · || F is Frobenius norm, V a = {vaj }N n
+
+j=1 ∈
+
+Rd×N n
+
+and W n = {wnj }N n
+
+j=1 ∈ Rd×N n
+
+.
+
+3.3 Action Knowledge Collection 
+
+Similarly, we can utilize cheap Video-Verb datasets to extract cross-modal action knowledge by learn-ing the video-verb pairs. To meet the requirement of diverse actions in the TSG task, we collect the verbs and their paired trimmed videos from a highly diverse video dataset Kinetics (Carreira and Zis-serman, 2017). In the TSG task, it is difficult to obtain the specific feature of every single action from multi-action videos. Thus, we simulate var-ious action videos to better generalize the mixed action features. To collect different types of action knowledge, we design two branches: single- and multi-action branches. In the single-action branch, since all the clips share the same-class action infor-mation, we aim to obtain the pure average action feature of a given verb. For the multi-action branch, we refine the consensus action feature by merg-ing multiple action clips into a hybrid one with a copy-paste strategy. 
+
+Verb-aware textual encoder. Given N v verbs, we use the Glove network (Pennington et al., 2014) to embed each verb into a dense vector W v =
+
+{wvj }N v 
+
+> j=1
+
+∈ Rd×N v
+
+.
+
+Action-aware visual encoder. Given N m la-beled trimmed videos, we first extract their clip-wise features by a pre-trained C3D network (Tran et al., 2015), and then employ a multi-head self-attention (Vaswani et al., 2017) module to cap-ture the long-range dependencies among video frames. We denote the extracted video features as V m = {vmi }N m 
+
+> i=1
+
+∈ Rd×N m
+
+.
+
+Action knowledge acquisition. In the single-action branch, we are given a set of verbs {wvj }N v
+
+> j=1
+
+and each verb wvj corresponds to multiple action-pure videos {vmj,p }N mj
+
+> p=1
+
+, where N mj is the num-ber of action videos corresponding to wvj . For verb wvj , we directly utilize the average pooling to obtain its average action feature: (vmj )′ =
+
+AV P (vmj, 1, . . . , vmj,N mj ).Since real-world videos often contains multi-ple actions, in the multi-action branch, we intro-duce a copy-paste strategy to augment the multi-action videos. As shown in Figure 2, given any two trimmed action videos, we randomly copy some clips from a video, and paste them onto the other video by replacing the same number of clips. For action-pure video vmj,p with N mj,p clips (corresponding to verb wvj ) and another action-pure video vmx,z (irrelevant to verb wvj ), we ran-domly replace P mj,p clips of vmj,p with P mj,p clips from vmx,z . The augmented multi-action video is denoted as (vmj,p )∗. For convenience, we design a metric to denote the copy-paste amount: paste rate μ = P mj,p /N vj,p ∈ (0 , 1) , i.e. , the percent of replaced clips in the original video vmj,p . After the copy-paste process, since the augmented video 
+
+(vmj,p )∗ still contains verb-related action informa-tion (related to verb wvj ), we obtain the correspond-ing average action feature by the average pooling: 
+
+(vmj )′′ = AV P (( vmj, 1)∗, . . . , (vmj,N vj )∗). (vmj )′′ de-notes the generated action feature of vmj after the copy-paste operation. By combining single-action 
+
+(vmj )′ and multi-action (vmj )′′ , the final consensus action feature is obtained by:         
+
+> ¯vmj= (1 + μ)( vmj)′+ (1 −μ)( vmj)′′ ,(3)
+
+where μc is used to adaptively control the balance between the action-pure information and hybrid action information. To generalize the above action knowledge, we design an inter-action loss Linter and an intra-action loss Lintra for constraint. For the inter-action loss, in different augmented videos, we take the matched action-verb pairs as positive samples and the unmatched action-verb pairs as negative samples, and use the weighted binary cross-entropy loss to supervise the verb-relevance {rwv j }N v
+
+> j=1
+
+:             
+
+> Linter =XNv
+> j=1 (−yjlog( rwv j)−(1 −yj) log(1 −rwv j)) ,
+
+where yj the label of the j-th sample that equals 1 for the matched action-verb pairs and 0 for the unmatched action-verb pairs; rwv j is obtained by        
+
+> rwv j=vmj(wvj)T
+> || vmj|| 22|| wvj|| 22
+> .(4)
+
+For the intra-action loss, in each multi-action video, we take verb-related video clips as positive samples and define verb-irrelevant video clips as negative samples. We adopt a hinge loss for supervision:         
+
+> Lintra =XNv
+> j=1 max (0 , β −rwv j+ ˆ rwv j),
+
+where β is a parameter and ˆrwv j denotes the verb-relevance of negative clips. Thus, the final action knowledge loss is:      
+
+> Laction =Linter +Lintra .(5)
+
+Eq. (5) tries to align the same-class action features and push the diff-class action features away. 
+
+3.4 Knowledge Transfer to Unsupervised TSG 
+
+In previous sections, we can obtain consensus ap-pearance knowledge and consensus action knowl-edge, which are important for comprehending the target moments in our TSG task. However, we cannot directly utilize the collected knowledge in our TSG task due to (i) the domain gap between Image-Noun/Video-Verb task and the TSG task, and (ii) more complicated scenes in the TSG task. Thus, we aim to fine-tune collected knowledge to fit the TSG domain by knowledge transfer. In the following, we will illustrate how we transfer the collected knowledge into the TSG task. 
+
+TSG query encoder. Given a set of queries 
+
+Q = {Qg}N Q
+
+> g=1
+
+, to keep the query features same as the knowledge-based one, we utilize the Glove network to embed each word into a dense vector. For Qg with N qg words, its word-level features are denoted as Qg = {f qg,j }N qg 
+
+> j=1
+
+∈ Rd×N qg . We uti-lize the NLP tool spaCy (Honnibal and Montani, 2017) to parse nouns from the given query, then remove duplicate nouns. The textual features of the reserved nouns are denoted as {f ng,j }N ng
+
+> j=1
+
+, where 
+
+f ng,j ∈ Rd is the j-th noun feature and N ng is the reserved noun number. Similarly, we parse verbs and obtain the reserved verb feature set {f vg,j }N vg
+
+> j=1
+
+,where f vg,j ∈ Rd is the j-th reserved verb feature and N vg is the reserved verb number. 
+
+TSG video encoder. Given N V videos V =
+
+{Vh}N V
+
+> h=1
+
+, we denote Vh as the h-th video and Th
+
+as its frame number. For the appearance feature, we utilize Faster-RCNN (Ren et al., 2015) built on a ResNet50 (He et al., 2016) backbone to detect K
+
+objects on each video to obtain a set of appearance features V ah = {f ah,i,k }i=Th,k =Ki=1 ,k =1 . For the action feature, we first divide video Vh into Th/8 clips. Then, we utilize a pre-trained C3D network (Tran et al., 2015) and a multi-head self-attention to ex-tract the clip-aware features V mh = {f mh,i }Th/8 
+
+> i=1
+
+.
+
+Fitting the TSG domain via knowledge trans-fer. To transfer the pre-trained knowledge into the TSG task, we fine-tune the collected appear-ance and action knowledge based on the prin-ciple of cross-modal cycle consistency. Given the nouns features {f ng,j }N ng 
+
+> j=1
+
+and verbs features 
+
+{f vg,j }N vg
+
+> j=1
+
+, we search each f ng,j in the appearance knowledge and each f vg,j in the action knowledge with the cosine similarity, then re-represent them with the collected consensus appearance features 
+
+vaj and action features vmj , respectively. For con-venience, we denote Ag = {vaj }N ng 
+
+> j=1
+
+∈ Rd×N ng
+
+and Mg = {vmj }N vg 
+
+> j=1
+
+∈ Rd×N vg . As for the visual appearance and action features, we also enhance them via the collected knowledge, respectively. To fine-tune consensus features ( Ag and Mg), we design a cross-modal cycle-consistent loss to make collected knowledge more applicable to the TSG task. For appearance knowledge, we first com-pute the cosine similarity matrix Sng ∈ RN ng ×N V
+
+between noun-guided consensus appearance fea-tures and video appearance features. Then, we combine all appearance features by treating sim-ilarities as weights to obtain reconstructed nouns features:               
+
+> eQng=WngCaσc(Sng)T,
+> Sng= ( WngAg)TWngCa,(6)
+
+where Ca = {V ah }N V
+
+> h=1
+
+, W ng is a learnable transfor-mation matrix, σc(·) is the softmax operation along the column dimension, and eQng is the reconstructed noun representation. Similarly, we combine all action features to obtain the reconstructed verbs features:               
+
+> eQvg=WvgCmσc(Svg)T,
+> Svg= ( WvgMg)TWvgCm,(7)
+
+where Cm = {V mh }N V
+
+> h=1
+
+, W vg is a learnable trans-formation matrix, eQvg is the reconstructed verb fea-tures, and Svg ∈ RN vg ×N V
+
+is the similarity matrix between transformed verb and action features. Our cycle-consistent loss aims to (i) align the semantics of original nouns and their reconstructed ones, (ii) pull verbs and their reconstructed ones together. Thus, we construct two indicator matrices 
+
+eY ag ∈ RN ng ×N ng and eY mg ∈ RN vg ×N vg to evaluate if each noun/verb and its reconstructed one are the same or not as:                     
+
+> eYag=σ(( eQng)T(WngA)) T,
+> eYmg=σ(( eQvg)T(WvgM)) T.(8)
+
+With eY ag and eY mg , we optimize W ng and W vg by minimizing the cross-entropy loss:              
+
+> Lclc =−
+> NQ
+> X
+> g=1
+> (
+> Nng
+> X
+> z=1
+> (yag,z )Tlog( eYag,z )+
+> Nvg
+> X
+> x=1
+> (ymg,x )Tlog( eYmg,x )) ,
+
+yag,z and ymg,x are one-hot ground-truth vectors, where the z-th and x-th value are one, and rest values are zeros. By Lclc , we use W ng and W vg to transfer all consensus appearance and action knowl-edge into TSG. 
+
+3.5 Knowledge-based Grounding 
+
+By pre-training the appearance knowledge by Lapp 
+
+and the action knowledge by Laction with the knowledge transfer by Lclc , we can directly uti-lize the suitable transferred appearance knowledge 
+
+(wnj , ¯vaj ) and action knowledge (wnj , ¯vaj ) to local-ize the target segment boundary without any further training . Specifically, during the inference, given some videos {Vh}N V 
+
+> h=1
+
+and a query set {Qg}N Q
+
+> g=1
+
+,Table 1: Performance comparison with state-of-the-art methods. ‘Type’ refers to supervision level, FS: fully-supervised setting, WS: weakly-supervised setting, US: unsupervised setting.                                                                                                                                                                            
+
+> Method Type ActivityNet Captions Charades-STA IoU=0.1 IoU=0.3 IoU=0.5 IoU=0.7 mIoU IoU=0.3 IoU=0.5 IoU=0.7 mIoU CTRL (Gao et al., 2017) FS 49.10 28.70 14.00 -20.54 -21.42 7.15 -2D-TAN (Zhang et al., 2020b) FS -58.75 44.05 27.38 --42.80 23.25 -LGI (Mun et al., 2020) FS -58.52 41.51 23.07 41.13 72.96 59.46 35.48 51.38 VSLNet (Zhang et al., 2020a) FS -63.16 43.22 26.16 43.19 70.46 54.19 35.22 50.02 VCA (Wang et al., 2021c) WS 67.96 50.45 31.00 -33.15 58.58 38.13 19.57 38.49 RTBPN (Zhang et al., 2020c) WS 73.73 49.77 29.63 --60.04 32.36 13.24 -CTF (Chen et al., 2020b) WS 74.20 44.30 23.60 -32.20 39.80 27.30 12.90 27.30 MARN (Song et al., 2020) WS -47.01 29.95 --48.55 31.94 14.81 -SCN (Lin et al., 2020) WS 74.48 47.23 29.22 --42.96 23.58 9.97 -BAR (Wu et al., 2020) WS -49.03 30.73 --44.97 27.04 12.23 -CCL (Zhang et al., 2020d) WS -50.12 31.07 ---33.21 15.68 -LCNet (Yang et al., 2021) WS 78.58 48.49 26.33 -34.29 59.60 39.19 18.87 38.94 CNM (Zheng et al., 2022) WS 78.13 55.68 33.33 --60.39 35.43 15.45 -WSTAN (Wang et al., 2021b) WS 79.78 52.45 30.01 --43.39 29.35 12.28 -DSCNet (Liu et al., 2022c) US -47.29 28.16 --44.15 28.73 14.67 -
+> Our CMKT US 73.35 50.69 31.28 16.42 38.79 47.80 30.96 18.87 30.42
+
+we first extract their appearance feature f ah,i,k , ac-tion feature f mh,i , noun feature f ng,j , verb feature 
+
+f vg,j , respectively. Then, based on the collected appearance knowledge and action knowledge mod-ules, we can obtain the corresponding consensus appearance and action features. We compute the cosine similarity matrix between consensus appear-ance features and video appearance features, and also calculate the cosine similarity matrix between consensus action features and video action features. After that, following (Liu et al., 2022c), we select the best-matched clip with the highest scores (sum of appearance similarity and action similarity) in the target video as the target segment center. We add the left/right frames into the segment if the ra-tio of their scores to the frame score of the closest segment boundary is less than a threshold γ. We repeat this step until no frame can be added. In this way, we can generate the final segment boundary. 
+
+4 Experiment 
+
+4.1 Datasets and Evaluation Metrics ActivityNet Captions. From ActivityNet v1.3 (Heilbron et al., 2015; Lan et al., 2022), Activi-tyNet Captions contains 20,000 YouTube videos and 100,000 language queries. On average, a video is 2 minutes and a query has about 13.5 words. Fol-lowing the public split (Gao et al., 2017), we utilize 17,031 video-query pairs for testing. 
+
+Charades-STA. Built upon the Charades dataset (Sigurdsson et al., 2016), Charades-STA contains 16,128 video-sentence pairs. The average video length is 0.5 minutes. The language annotations are generated by sentence decomposition and keyword matching with manual checks. Following (Gao et al., 2017), we remove 12,408 training pairs and utilize the others for testing. 
+
+Evaluation metrics. Following previous works (Mun et al., 2020; Zhang et al., 2020a), we use “IoU=m” for evaluation, which denotes the percent-age of queries having at least one result whose Inter-section over Union (IoU) with ground truth is larger than m. In our experiments, m ∈ { 0.3, 0.5, 0.7}
+
+for Charades-STA and m ∈ { 0.1, 0.3, 0.5, 0.7} for ActivityNet Captions. Also, we utilize mean IoU (mIoU) as the averaged temporal IoU between the predicted boundary and the ground-truth one. 
+
+4.2 Implementation details 
+
+For the appearance knowledge module, we utilize all the words on the Visual Genome dataset, so the noun number of region-level semantics is 27,801. The feature dimension d is set to 512 for all the features. For the action knowledge module, we use the pre-trained C3D (Tran et al., 2015) network to extract the single-action and multi-action infor-mation on the Kinetics dataset. Also, we use all the verbs on the Kinetics dataset. To make a fair comparison with previous works (Gao et al., 2017; Zhang et al., 2020b), we also utilize the pre-trained C3D model to extract video features and employ the Glove model to obtain word embeddings. As some videos are too long, we set the length of video feature sequences to 128 for Charades-STA and 256 for ActivityNet Captions, respectively. We fix the query length to 10 in Charades-STA and 20 in ActivityNet Captions. Threshold γ is set to 0.9 Table 2: Main ablation study, where we remove each key component to investigate its effectiveness. “AK” denotes “appearance knowledge”, “MK” denotes “action knowledge”, “KT” denotes “knowledge transfer”.                                                         
+
+> Model AK MK KT ActivityNet Captions Charades-STA IoU=0.3 IoU=0.5 IoU=0.7 mIoU IoU=0.3 IoU=0.5 IoU=0.7 mIoU CMKT(a) ""%45.81 24.79 11.52 31.36 40.81 24.72 10.88 25.24 CMKT(b) %""47.50 26.82 12.37 32.71 42.43 26.87 11.74 26.90 CMKT(c) "%"48.02 27.91 13.96 34.05 44.35 27.19 12.62 27.86 CMKT(Full) """50.69 31.28 16.42 38.79 47.80 30.96 18.87 30.42
+
+Table 3: Necessity of average pooling on ActivityNet Captions, where “MIP” means min-pooling, “MAP” means max-pooling, and “AVP” means average pooling.                           
+
+> Module Changes IoU=0.3 IoU=0.5 IoU=0.7 mIoU Appearance knowledge MIP 47.80 29.08 13.76 35.70 MAP 48.03 30.72 14.45 36.68
+> AVP 50.69 31.28 16.42 38.79
+> Action knowledge MAP 48.36 28.72 15.45 35.53 MIP 49.27 29.26 16.20 36.61
+> AVP 50.69 31.28 16.42 38.79
+
+on Charades-STA and 0.8 on ActivityNet Captions. All the experiments are implemented by PyTorch. 
+
+4.3 Comparison with State-of-the-Arts 
+
+We conduct performance comparison with three cat-egories of state-of-the-art TSG methods: (i) Fully-supervised (FS) setting (Gao et al., 2017; Zhang et al., 2020b; Mun et al., 2020; Zhang et al., 2020a); (ii) Weakly-supervised (WS) setting (Chen et al., 2020b; Lin et al., 2020; Wang et al., 2021b; Wu et al., 2020; Song et al., 2020; Zhang et al., 2020d; Huang et al., 2021; Wang et al., 2021c; Yang et al., 2021; Zhang et al., 2020c; Zheng et al., 2022); (iii) Unsupervised (US) setting (Liu et al., 2022c). Table 1 reports the performance comparison. Without any supervision, our CMKT still obtains the competitive performance to WS and US meth-ods on the ActivityNet Captions dataset. Com-pared with the US method DSCNet, our CMKT improves the performance by 3.40% and 3.12% in terms of “IoU=0.3” and “IoU=0.5”, demonstrating the effectiveness of our proposed CMKT. On the Charades-STA dataset, compared with supervised methods (FS and WS), our CMKT in the US set-ting reaches competitive performance. Although our CMKT eliminates the training process, it out-performs US method DSCNet by 3.65%, 2.23% and 4.20% in terms of “IoU=0.3”, “IoU=0.5” and “IoU=0.7”, which shows our effectiveness. 
+
+Table 4: Effect of action knowledge on ActivityNet Captions.                    
+
+> Single-action Multi-action IoU=0.3 IoU=0.5 IoU=0.7 mIoU
+> %"48.21 27.70 15.55 36.03
+> "%49.36 29.82 15.73 37.54
+> ""50.69 31.28 16.42 38.79
+
+4.4 Ablation study Main ablation studies. To examine the effective-ness of each module, we conduct the main ablation studies in Table 2. CMKT(a) is the baseline model, which only utilizes pre-trained appearance and action features for inference without fine-tuning knowledge. CMKT(b) removes appearance knowl-edge module, and directly use the action knowl-edge to locate the target segment. In CMKT(c), we only use the appearance information to obtain the segment boundary by removing the action in-formation. CMKT(Full) is our full CMKT model. CMKT(Full) performs better than all the ablation models, demonstrating the effectiveness of appear-ance and action knowledge for understanding the long yet complex sentence in TSG. 
+
+Investigation on the consensus features. To as-sess the effectiveness of average pooling (AVP) dur-ing the generation process of consensus appearance features, we compare different pooling strategies. As shown in Table 3, our AVP significantly outper-forms both min-pooling (MIP) and max-pooling (MAP) on both two knowledge collection modules, showing that AVP is suitable for integrating the in-formation among a single modality for representing the same semantic as the other modality. 
+
+Influence on different types of action knowledge. 
+
+To investigate the contribution of single- and multi-action videos to our final consensus action features, we conduct the corresponding ablations in Table 4 to evaluate the significance of single-action and multi-action knowledge. Obviously, both single-action and multi-action features contribute to our action knowledge module. Table 5: Performance of different knowledge transfer on ActivityNet Captions.                                          
+
+> Appearance Action IoU=0.3 IoU=0.5 IoU=0.7 mIoU
+> %%45.81 24.79 11.52 31.36
+> %"46.07 28.30 13.15 35.08
+> "%47.15 29.98 12.74 34.86
+> ""50.69 31.28 16.42 38.79
+> Table 6: Effect of copy-paste strategy on ActivityNet Captions.
+> Changes IoU=0.3 IoU=0.5 IoU=0.7 mIoU w/o copy-paste 45.98 26.94 11.02 34.75 w/ video connection 49.22 30.76 14.54 37.82 w/ copy-paste 50.69 31.28 16.42 38.79
+
+Investigation on different types of knowledge transfer. To evaluate the importance of appearance and action knowledge, we conduct corresponding experiments. As shown in Table 5, each knowl-edge contributes a lot to transferring the knowledge into our task. By jointing appearance and action knowledge, the performance can further boost. 
+
+Effect of the copy-paste strategy. To analyze the performance of our copy-paste strategy, an abla-tion experiment is conducted in Table 6, where “w/ video connection” means that we direct connect two videos for data synthesis. Thus, the copy-paste strategy is more effective to synthesize the multi-action videos for better grounding performance. 
+
+Analysis on the hyper-parameters. As shown in Figure 3, we investigate the impact of four hyper-parameters: object number ( K); paste rate ( μ); positive parameter ( β); evaluation metrics (IoU). (i) With larger K, our proposed CMKT performs better. To balance the performance and the compu-tation cost of object detection, we choose K = 8 .(ii) All the variants obtain the best performance when the paste rate μ is set to 0.8. (iii) Our CMKT obtains the best performance when β = 0 .9. (iv) CMKT(Full) obtains the best performance on all IoUs, demonstrating the effectiveness of each mod-ule. Thus, we set K = 8 , μ = 0 .8 and β = 0 .9 in all the experiments. 
+
+4.5 Qualitative Results 
+
+As shown in Figure 4, we visualize the localiza-tion results. Our CMKT can predict more precise segment boundaries than fully-supervised model 2D-TAN and weakly-supervised method WSTAN. 
+
+5 Conclusion 
+
+In this paper, we address the challenging yet practi-cal unsupervised TSG task from a brand-new per-spective of knowledge transfer. Without further grounding training, we can directly utilize the gen-eral knowledge from other cross-modal tasks to guide to match the video and query for retrieving the target segment. To our best knowledge, we make the first attempt to transfer the knowledge from other multi-modal topics to our TSG task. Experimental results validate the effectiveness of CMKT, outperforming the existing unsupervised method by a large margin. 
+
+6 Acknowledgements 
+
+This work is supported by National Natural Sci-ence Foundation of China (NSFC) under Grant No. 61972448. 
+
+7 Limitations 
+
+This work analyzes an interesting yet challenging problem of how to transfer the annotation knowl-edge from other cheap cross-modal annotations to the complicated and challenging unsupervised TSG task. Although we can transfer the knowl-edge from other cheap multi-modal datasets, the contexts of these datasets are not always helpful for our grounding task. However, our proposed CMKT still provides a brand-new and interesting idea, cross-modal knowledge transfer, for promot-ing the development of these areas. Therefore, a more contextual and generalizable way to transfer cross-modal knowledge between different topics is a promising future direction. 
+
+References    
+
+> Lisa Anne Hendricks, Oliver Wang, Eli Shechtman, Josef Sivic, Trevor Darrell, and Bryan Russell. 2017. Localizing moments in video with natural language. In Proceedings of the IEEE international conference on computer vision , pages 5803–5812. Fuyao Cai, Daizong Liu, Xiang Fang, Jixiang Yu, Keke Tang, and Pan Zhou. 2025. Imperceptible beam-sensitive adversarial attacks for lidar-based object de-tection in autonomous driving. In 2025 IEEE Interna-tional Conference on Multimedia and Expo (ICME) ,pages 1–6. IEEE. Xiaowen Cai, Daizong Liu, Xiaoye Qu, Xiang Fang, Jianfeng Dong, Keke Tang, Pan Zhou, Lichao Sun, and Wei Hu. 2026. Towards building model/prompt-transferable attackers against large vision-language
+
+2 3 4 5 6 7 8 9 10 
+
+# Object Number (K) 
+
+28 30 32 34 36 38 40 
+
+> mIoU
+
+CMKT(a) CMKT(b) CMKT(c) CMKT(Full) 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 
+
+# Paste Rate ( )
+
+28 30 32 34 36 38 40 
+
+> mIoU
+
+CMKT(a) CMKT(b) CMKT(c) CMKT(Full) 0.5 0.6 0.7 0.8 0.9 1.0 1.1 1.2 1.3 
+
+## Parameter ( )
+
+30 32 34 36 38 40 
+
+> mIoU
+
+CMKT(a) CMKT(b) CMKT(c) CMKT(Full) 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 
+
+## IoU 
+
+010 20 30 40 50 60 70 80 
+
+> Performance
+
+CMKT(a) CMKT(b) CMKT(c) CMKT(Full) Figure 3: Effect of parameters on ActivityNet Captions. Ground Truth                         
+
+> 2D -TAN
+> 5.07s 13.61s
+> 3.42s 11.54s
+> WSTAN 9.72s 17.46s
+> Query :The boy falls off and gets back on the ball before he falls off again.
+> Query :Person pours water into a glass .
+> Ground Truth
+> 2D -TAN
+> 41.85s 119.10s
+> 38.74s 130.25s
+> Our CMKT 4.90s 13.48s
+> WSTAN 50.73s 84.07s
+> Our CMKT 42.89s 119.51s
+> Query :The person unwraps the loaf of bread .
+> Ground Truth
+> 2D -TAN
+> 9.04s 13.30s
+> 3.48s 10.72s
+> WSTAN 10.06s 11.23s
+> Our CMKT 9.04s 12.84s
+
+Figure 4: Qualitative results sampled from ActivityNet Captions (top) and Charades-STA (bottom). models. Advances in Neural Information Processing Systems , 38:174022–174058. Da Cao, Yawen Zeng, Meng Liu, Xiangnan He, Meng Wang, and Zheng Qin. 2020. Strong: Spatio-temporal reinforcement learning for cross-modal video moment localization. In Proceedings of the 28th ACM International Conference on Multimedia ,pages 4162–4170. Joao Carreira and Andrew Zisserman. 2017. Quo vadis, action recognition? a new model and the kinetics dataset. In proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 6299–6308. Jingyuan Chen, Xinpeng Chen, Lin Ma, Zequn Jie, and Tat-Seng Chua. 2018. Temporally grounding natural sentence in video. In Proceedings of the 2018 con-ference on empirical methods in natural language processing , pages 162–171. Long Chen, Chujie Lu, Siliang Tang, Jun Xiao, Dong Zhang, Chilie Tan, and Xiaolin Li. 2020a. Rethink-ing the bottom-up framework for query-based video localization. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 34, pages 10551– 10558. Z Chen, L Ma, W Luo, and KKY Wong. 2019. Weakly-supervised spatio-temporally grounding natural sen-tence in video. In Annual Meeting of the Association for Computational Linguistics . Association for Com-putational Linguistics. Zhenfang Chen, Lin Ma, Wenhan Luo, Peng Tang, and Kwan-Yee K Wong. 2020b. Look closer to ground better: Weakly-supervised temporal grounding of sentence in video. arXiv preprint arXiv:2001.09308 .Nikita Dvornik, Julien Mairal, and Cordelia Schmid. 2018. Modeling visual context is key to augmenting object detection datasets. In Proceedings of the Euro-pean Conference on Computer Vision (ECCV) , pages 364–380. Wanlong Fang, Tianle Zhang, and Alvin Chan. 2026a. To align or not to align: Strategic multimodal rep-resentation alignment for optimal performance. In 
+
+Proceedings of the AAAI Conference on Artificial Intelligence , volume 40, pages 21056–21064. Wanlong Fang, Tianle Zhang, Wen Tao, and Alvin Chan. 2026b. Towards understanding modality interaction in multimodal language models via partial informa-tion decomposition. In International Conference on Machine Learning .Xiang Fang. 2026. Advancing out-of-distribution de-tection across diverse scenarios. In Proceedings of the AAAI Conference on Artificial Intelligence , vol-ume 40, pages 41042–41043. Xiang Fang, Arvind Easwaran, and Blaise Genest. 2025a. Adaptive multi-prompt contrastive network for few-shot out-of-distribution detection. In Interna-tional Conference on Machine Learning .Xiang Fang, Arvind Easwaran, Blaise Genest, and Pon-nuthurai Nagaratnam Suganthan. 2025b. Adaptive hierarchical graph cut for multi-granularity out-of-distribution detection. IEEE Transactions on Artifi-cial Intelligence .Xiang Fang, Arvind Easwaran, Blaise Genest, and Ponnuthurai Nagaratnam Suganthan. 2025c. Your data is not perfect: Towards cross-domain out-of-distribution detection in class-imbalanced data. Ex-pert Systems with Applications .Xiang Fang and Wanlong Fang. 2026a. Disentangling adversarial prompts: A semantic-graph defense for robust llm security. In Proceedings of the AAAI Con-ference on Artificial Intelligence .Xiang Fang and Wanlong Fang. 2026b. Slap: The se-mantic least action principle for variational video-language modeling. In International Conference on Machine Learning .Xiang Fang, Wanlong Fang, and Wei Ji. 2026c. Immuno-vlm: Immunizing large vision-language models via generative semantic antibodies for open-world trustworthiness. In International Conference on Machine Learning .Xiang Fang, Wanlong Fang, Wei Ji, and Tat-Seng Chua. 2025d. Turing patterns for multimedia: Reaction-diffusion multi-modal fusion for language-guided video moment retrieval. In ACM International Con-ference on Multimedia .Xiang Fang, Wanlong Fang, Daizong Liu, Xiaoye Qu, Jianfeng Dong, Pan Zhou, Renfu Li, Zichuan Xu, Lixing Chen, Panpan Zheng, et al. 2024a. Not all inputs are valid: Towards open-set video moment retrieval using language. In Proceedings of the 32nd ACM International Conference on Multimedia , pages 28–37. Xiang Fang, Wanlong Fang, and Changshuo Wang. 2025e. Hierarchical semantic-augmented naviga-tion: Optimal transport and graph-driven reasoning for vision-language navigation. In Advances in Neu-ral Information Processing Systems .Xiang Fang, Wanlong Fang, and Changshuo Wang. 2026d. Cogniverse: Revolutionizing multi-modal retrieval-augmented generation with cognitive reflec-tion and geometric reasoning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pat-tern Recognition .Xiang Fang, Wanlong Fang, and Changshuo Wang. 2026e. Unveiling the fragility of vision-language models: Multi-modal adversarial synergy via texture-constrained perturbations and cross-modal optimiza-tion. In Proceedings of the AAAI Conference on Artificial Intelligence .Xiang Fang, Wanlong Fang, Changshuo Wang, Daizong Liu, Keke Tang, Jianfeng Dong, Pan Zhou, and Beibei Li. 2025f. Multi-pair temporal sentence grounding via multi-thread knowledge transfer net-work. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pages 2915–2923. Xiang Fang, Wanlong Fang, Changshuo Wang, Daizong Liu, Keke Tang, Jianfeng Dong, Pan Zhou, and Beibei Li. 2025g. Multi-pair temporal sentence grounding via multi-thread knowledge transfer net-work. In Proceedings of the AAAI Conference on Artificial Intelligence .Xiang Fang, Wanlong Fang, Changshuo Wang, Xiaoye Qu, and Daizong Liu. 2026f. Rethinking video-language model from the language input perspective. In Proceedings of the AAAI Conference on Artificial Intelligence .Xiang Fang, Wanlong Fang, Changshuo Wang, Keke Tang, Daizong Liu, Siyi Wang, and Wei Ji. 2026g. Towards unified vision-language models with incom-plete multi-modal inputs. In Proceedings of the AAAI Conference on Artificial Intelligence .Xiang Fang and Yuchong Hu. 2020. Double self-weighted multi-view clustering via adaptive view fu-sion. arXiv preprint arXiv:2011.10396 .Xiang Fang, Yuchong Hu, Pan Zhou, and Dapeng Wu. 2021a. Animc: A soft approach for autoweighted noisy and incomplete multiview clustering. IEEE Transactions on Artificial Intelligence , 3(2):192–206. Xiang Fang, Yuchong Hu, Pan Zhou, and Dapeng Oliver Wu. 2020. V3h: View variation and view heredity for incomplete multiview clustering. IEEE Transactions on Artificial Intelligence , 1(3):233–247. Xiang Fang, Yuchong Hu, Pan Zhou, and Dapeng Oliver Wu. 2021b. Unbalanced incomplete multi-view clus-tering via the scheme of view evolution: Weak views are meat; strong views do eat. IEEE Transactions on Emerging Topics in Computational Intelligence ,6(4):913–927. Xiang Fang, Daizong Liu, Wanlong Fang, Pan Zhou, Yu Cheng, Keke Tang, and Kai Zou. 2023a. Annota-tions are not all you need: A cross-modal knowledge transfer network for unsupervised temporal sentence grounding. In Findings of the Association for Com-putational Linguistics: EMNLP 2023 , pages 8721– 8733. Xiang Fang, Daizong Liu, Wanlong Fang, Pan Zhou, Zichuan Xu, Wenzheng Xu, Junyang Chen, and Renfu Li. 2024b. Fewer steps, better performance: Efficient cross-modal clip trimming for video mo-ment retrieval using language. In Proceedings of the AAAI Conference on Artificial Intelligence , vol-ume 38, pages 1735–1743. Xiang Fang, Daizong Liu, Pan Zhou, and Yuchong Hu. 2022. Multi-modal cross-domain alignment network for video moment retrieval. IEEE Transactions on Multimedia , 25:7517–7532. Xiang Fang, Daizong Liu, Pan Zhou, and Guoshun Nan. 2023b. You can ground earlier than see: An effective and efficient pipeline for temporal sentence ground-ing in compressed videos. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pat-tern Recognition , pages 2448–2460. Xiang Fang, Daizong Liu, Pan Zhou, Zichuan Xu, and Ruixuan Li. 2023c. Hierarchical local-global trans-former for temporal sentence grounding. IEEE Trans-actions on Multimedia .Xiang Fang, Zeyu Xiong, Wanlong Fang, Xiaoye Qu, Chen Chen, Jianfeng Dong, Keke Tang, Pan Zhou, Yu Cheng, and Daizong Liu. 2024c. Rethinking weakly-supervised video temporal grounding from a game perspective. In European Conference on Com-puter Vision . Springer. Jiyang Gao, Chen Sun, Zhenheng Yang, and Ram Neva-tia. 2017. Tall: Temporal activity localization via language query. In Proceedings of the IEEE interna-tional conference on computer vision , pages 5267– 5275. Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. 2016. Deep residual learning for image recog-nition. In Proceedings of the IEEE conference on computer vision and pattern recognition , pages 770– 778. Fabian Caba Heilbron, Victor Escorcia, Bernard Ghanem, and Juan Carlos Niebles. 2015. Activitynet: A large-scale video benchmark for human activity understanding. In 2015 IEEE conference on com-puter vision and pattern recognition (CVPR) , pages 961–970. IEEE. M Honnibal and I Montani. 2017. Natural language un-derstanding with bloom embeddings, convolutional neural networks and incremental parsing. Unpub-lished software application. https://spacy. io .Jiabo Huang, Yang Liu, Shaogang Gong, and Hailin Jin. 2021. Cross-sentence temporal and semantic relations in video activity localisation. In Proceed-ings of the IEEE/CVF International Conference on Computer Vision , pages 7199–7208. Ranjay Krishna, Yuke Zhu, Oliver Groth, Justin John-son, Kenji Hata, Joshua Kravitz, Stephanie Chen, Yannis Kalantidis, Li-Jia Li, David A Shamma, et al. 2017. Visual genome: Connecting language and vi-sion using crowdsourced dense image annotations. 
+
+International journal of computer vision , 123(1):32– 73. Mingjin Kuai, You Qin, Xiang Fang, Wei Ji, and Roger Zimmermann. 2026. Dynamic graph-enhanced event refinement for temporal sentence grounding of micro-moments. IEEE Transactions on Multimedia .Xiaohan Lan, Yitian Yuan, Xin Wang, Long Chen, Zhi Wang, Lin Ma, and Wenwu Zhu. 2022. A closer look at debiased temporal sentence grounding in videos: Dataset, metric, and approach. ACM Transactions on Multimedia Computing, Communications, and Applications (TOMM) .Huashuo Lei, Xiaowen Cai, Daizong Liu, Xiang Fang, Xiaoye Qu, Jianfeng Dong, Jixiang Yu, and Keyan Jin. 2025. Exploring disentangled appearance-motion contexts for temporal activity localization. In 2025 International Joint Conference on Neural Networks (IJCNN) , pages 1–8. IEEE. Jie Lei, Licheng Yu, Tamara L Berg, and Mohit Bansal. 2020. Tvr: A large-scale dataset for video-subtitle moment retrieval. In European Conference on Com-puter Vision , pages 447–463. Springer. Qian Li, Shu Guo, Cheng Ji, Xutan Peng, Shiyao Cui, Jianxin Li, and Lihong Wang. 2023a. Dual-gated fusion with prefix-tuning for multi-modal relation extraction. In Findings of the Association for Com-putational Linguistics: ACL 2023, Toronto, Canada, July 9-14, 2023 , pages 8982–8994. Association for Computational Linguistics. Qian Li, Shu Guo, Yangyifei Luo, Cheng Ji, Li-hong Wang, Jiawei Sheng, and Jianxin Li. 2023b. Attribute-consistent knowledge graph representation learning for multi-modal entity alignment. In Pro-ceedings of the ACM Web Conference 2023, WWW 2023, Austin, TX, USA, 30 April 2023 - 4 May 2023 ,pages 2499–2508. ACM. Qian Li, Hao Peng, Jianxin Li, Jia Wu, Yuanxing Ning, Lihong Wang, Philip S. Yu, and Zheng Wang. 2022. Reinforcement learning-based dialogue guided event extraction to exploit argument relations. IEEE ACM Trans. Audio Speech Lang. Process. , 30:520–533. Zhijie Lin, Zhou Zhao, Zhu Zhang, Qi Wang, and Huasheng Liu. 2020. Weakly-supervised video mo-ment retrieval via semantic completion network. In 
+
+Proceedings of the AAAI Conference on Artificial Intelligence , volume 34, pages 11539–11546. Zhouhan Lin, Minwei Feng, Cicero Nogueira dos San-tos, Mo Yu, Bing Xiang, Bowen Zhou, and Yoshua Bengio. 2017. A structured self-attentive sentence embedding. International Conference on Learning Representations(ICLR) .Daizong Liu, Xiaowen Cai, Junhao Dong, Zhongliang Guo, Xiaoye Qu, Runwei Guan, Xiang Fang, and Dengpan Ye. 2026. Attacking gray-box large vision-language models with adaptive svd-structured adver-sarial alignment. In International Conference on Machine Learning .Daizong Liu, Xiang Fang, Wei Hu, and Pan Zhou. 2023a. Exploring optical-flow-guided motion and detection-based appearance for temporal sentence grounding. 
+
+IEEE Transactions on Multimedia , 25:8539–8553. Daizong Liu, Xiang Fang, Wei Hu, and Pan Zhou. 2023b. Exploring optical-flow-guided motion and detection-based appearance for temporal sentence grounding. IEEE Transactions on Multimedia .Daizong Liu, Xiang Fang, Xiaoye Qu, Jianfeng Dong, He Yan, Yang Yang, Pan Zhou, and Yu Cheng. 2024a. Unsupervised domain adaptative temporal sentence localization with mutual information maximization. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 38, pages 3567–3575. Daizong Liu, Xiang Fang, Pan Zhou, Xing Di, Weining Lu, and Yu Cheng. 2023c. Hypotheses tree build-ing for one-shot temporal sentence localization. In 
+
+Proceedings of the AAAI Conference on Artificial Intelligence , volume 37, pages 1640–1648. Daizong Liu and Wei Hu. 2022. Skimming, locating, then perusing: A human-like framework for natural language video localization. In Proceedings of the 30th ACM International Conference on Multimedia ,pages 4536–4545. Daizong Liu, Xiaoye Qu, Xing Di, Yu Cheng, Zichuan Xu, and Pan Zhou. 2022a. Memory-guided semantic learning network for temporal sentence grounding. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 36, pages 1665–1673. Daizong Liu, Xiaoye Qu, Jianfeng Dong, and Pan Zhou. 2020a. Reasoning step-by-step: Temporal sentence localization in videos via deep rectification-modulation network. In Proceedings of the 28th International Conference on Computational Linguis-tics , pages 1841–1851. Daizong Liu, Xiaoye Qu, Jianfeng Dong, and Pan Zhou. 2021a. Adaptive proposal generation network for temporal sentence localization in videos. arXiv preprint arXiv:2109.06398 .Daizong Liu, Xiaoye Qu, Jianfeng Dong, Pan Zhou, Yu Cheng, Wei Wei, Zichuan Xu, and Yulai Xie. 2021b. Context-aware biaffine localizing network for temporal sentence grounding. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 11235–11244. Daizong Liu, Xiaoye Qu, Xiang Fang, Jianfeng Dong, Pan Zhou, Guoshun Nan, Keke Tang, Wanlong Fang, and Yu Cheng. 2024b. Towards robust temporal ac-tivity localization learning with noisy labels. In Pro-ceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024) , pages 16630– 16642. Daizong Liu, Xiaoye Qu, and Wei Hu. 2022b. Reducing the vision and language bias for temporal sentence grounding. In Proceedings of the 30th ACM Interna-tional Conference on Multimedia , pages 4092–4101. Daizong Liu, Xiaoye Qu, Xiao-Yang Liu, Jianfeng Dong, Pan Zhou, and Zichuan Xu. 2020b. Jointly cross-and self-modal graph attention network for query-based moment localization. In Proceedings of the 28th ACM International Conference on Multime-dia , pages 4070–4078. Daizong Liu, Xiaoye Qu, Yinzhen Wang, Xing Di, Kai Zou, Yu Cheng, Zichuan Xu, and Pan Zhou. 2022c. Unsupervised temporal video grounding with deep semantic clustering. In Proceedings of the AAAI Con-ference on Artificial Intelligence , volume 36, pages 1683–1691. Daizong Liu, Xiaoye Qu, and Pan Zhou. 2021c. Pro-gressively guide to attend: An iterative alignment framework for temporal sentence grounding. arXiv preprint arXiv:2109.06400 .Daizong Liu, Xiaoye Qu, Pan Zhou, and Yang Liu. 2022d. Exploring motion and appearance informa-tion for temporal sentence grounding. In Proceedings of the AAAI Conference on Artificial Intelligence , vol-ume 36, pages 1674–1682. Daizong Liu, Mingyu Yang, Xiaoye Qu, Pan Zhou, Xi-ang Fang, Keke Tang, Yao Wan, and Lichao Sun. 2024c. Pandora’s box: Towards building universal attackers against real-world large vision-language models. Advances in Neural Information Processing Systems , 37:52127–52158. Daizong Liu, Pan Zhou, Zichuan Xu, Haozhao Wang, and Ruixuan Li. 2022e. Few-shot temporal sen-tence grounding via memory-guided semantic learn-ing. IEEE Transactions on Circuits and Systems for Video Technology .Daizong Liu, Jiahao Zhu, Xiang Fang, Zeyu Xiong, Huan Wang, Renfu Li, and Pan Zhou. 2023d. Condi-tional video diffusion network for fine-grained tem-poral sentence grounding. IEEE Transactions on Multimedia , 26:5461–5476. Minuk Ma, Sunjae Yoon, Junyeong Kim, Youngjoon Lee, Sunghun Kang, and Chang D Yoo. 2020. Vlanet: Video-language alignment network for weakly-supervised video moment retrieval. In Euro-pean conference on computer vision , pages 156–171. Springer. Niluthpol Chowdhury Mithun, Sujoy Paul, and Amit K Roy-Chowdhury. 2019. Weakly supervised video moment retrieval from text queries. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 11592–11601. Jonghwan Mun, Minsu Cho, and Bohyung Han. 2020. Local-global video-text interactions for temporal grounding. In Proceedings of the IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition ,pages 10810–10819. Jeffrey Pennington, Richard Socher, and Christopher D Manning. 2014. Glove: Global vectors for word rep-resentation. In Proceedings of the 2014 conference on empirical methods in natural language processing (EMNLP) , pages 1532–1543. Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun. 2015. Faster r-cnn: Towards real-time object detection with region proposal networks. Advances in neural information processing systems , 28. Yu Rong, Takaaki Shiratori, and Hanbyul Joo. 2021. Frankmocap: A monocular 3d whole-body pose es-timation system via regression and integration. In 
+
+Proceedings of the IEEE/CVF International Confer-ence on Computer Vision , pages 1749–1759. Gunnar A Sigurdsson, Gül Varol, Xiaolong Wang, Ali Farhadi, Ivan Laptev, and Abhinav Gupta. 2016. Hollywood in homes: Crowdsourcing data collec-tion for activity understanding. In Computer Vision– ECCV 2016: 14th European Conference, Amsterdam, The Netherlands, October 11–14, 2016, Proceedings, Part I 14 , pages 510–526. Springer. Yijun Song, Jingwen Wang, Lin Ma, Zhou Yu, and Jun Yu. 2020. Weakly-supervised multi-level attentional reconstruction network for grounding textual queries in videos. arXiv preprint arXiv:2003.07048 .Reuben Tan, Huijuan Xu, Kate Saenko, and Bryan A Plummer. 2021. Logan: Latent graph co-attention network for weakly-supervised video moment re-trieval. In Proceedings of the IEEE/CVF Winter Con-ference on Applications of Computer Vision , pages 2083–2092. Haoyu Tang, Jihua Zhu, Meng Liu, Zan Gao, and Zhiy-ong Cheng. 2021. Frame-wise cross-modal matching for video moment retrieval. IEEE Transactions on Multimedia , 24:1338–1349. Keke Tang, Chao Hou, Weilong Peng, Xiang Fang, Zhize Wu, Yongwei Nie, Wenping Wang, and Zhi-hong Tian. 2025. Simplification is all you need against out-of-distribution overconfidence. In Pro-ceedings of the Computer Vision and Pattern Recog-nition Conference , pages 5030–5040. Keke Tang, Wenyu Zhao, Weilong Peng, Xiang Fang, Xiaodong Cui, Peican Zhu, and Zhihong Tian. 2024. Reparameterization head for efficient multi-input net-works. In ICASSP 2024-2024 IEEE International Conference on Acoustics, Speech and Signal Process-ing (ICASSP) , pages 6190–6194. IEEE. Du Tran, Lubomir Bourdev, Rob Fergus, Lorenzo Torre-sani, and Manohar Paluri. 2015. Learning spatiotem-poral features with 3d convolutional networks. In 
+
+Proceedings of the IEEE international conference on computer vision , pages 4489–4497. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. Advances in neural information processing systems , 30. Changshuo Wang, Xiang Fang, and Prayag Tiwari. 2025a. Dypolyseg: Taylor series-inspired dynamic polynomial fitting network for few-shot point cloud semantic segmentation. In Forty-second Interna-tional Conference on Machine Learning .Changshuo Wang, Shuting He, Xiang Fang, Jiawei Han, Zhonghang Liu, Xin Ning, Weijun Li, and Prayag Tiwari. 2025b. Point clouds meets physics: Dynamic acoustic field fitting network for point cloud under-standing. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 22182– 22192. Changshuo Wang, Shuting He, Xiang Fang, Zhijian Hu, Jia-Hong Huang, Yixian Shen, and Prayag Ti-wari. 2026a. Reasoning beyond points: A visual introspective approach for few-shot 3d segmentation. 
+
+Advances in Neural Information Processing Systems ,38:117394–117414. Changshuo Wang, Shuting He, Xiang Fang, Weijun Li, Xingyu Gao, Zhonghang Liu, Prayag Tiwari, and Dimitrios Kanoulas. 2026b. From coarse to fine: Deep prototype refinement network for few-shot point cloud semantic segmentation. International Conference on Machine Learning .Changshuo Wang, Shuting He, Xiang Fang, Weijun Li, Yixian Shen, Mingkun Xu, Zhongtian Sun, and Prayag Tiwari. 2026c. Topadapter: Topology-aware prompt tuning for efficient point cloud understanding. 
+
+International Conference on Machine Learning .Changshuo Wang, Shuting He, Xiang Fang, Fangzhe Nan, and Prayag Tiwari. 2025c. Seeing the over-looked: Bio-visual inspired weak saliency feedback transformer for person re-identification. In Proceed-ings of the 33rd ACM International Conference on Multimedia , pages 3192–3201. Changshuo Wang, Shuting He, Xiang Fang, Meiqing Wu, Siew-Kei Lam, and Prayag Tiwari. 2025d. Tay-lor series-inspired local structure fitting network for few-shot point cloud semantic segmentation. In Pro-ceedings of the AAAI Conference on Artificial Intelli-gence , volume 39, pages 7527–7535. Changshuo Wang, Zhijian Hu, Xiang Fang, Zai Yang Yu, Yibin Wu, Mingkun Xu, Yusong Wang, Xingyu Gao, and Prayag Tiwari. 2026d. Biologically-inspired evo-lutionary domain symbiosis for few-shot and zero-shot point cloud semantic segmentation. In Proceed-ings of the AAAI Conference on Artificial Intelligence ,volume 40, pages 9666–9674. Junyi Wang, Jinjiang Li, Guodong Fan, Yakun Ju, Xi-ang Fang, and Alex C Kot. 2025e. Prototype-driven structure synergy network for remote sensing images segmentation. IEEE Transactions on Geoscience and Remote Sensing .Siyi Wang, Suman Dutta, Wei Jie Bryan Lee, Jer-rie Feng, Xiang Fang, and Anupam Chattopadhyay. 2025f. Reducing t-depth and t-count in quantum mul-tiplication using compressor primitives. In Proceed-ings of the Great Lakes Symposium on VLSI 2025 ,pages 35–40. Yimu Wang, Shiyin Lu, and Lijun Zhang. 2020a. Searching privately by imperceptible lying: A novel private hashing method with differential privacy. In 
+
+Proceedings of the 28th ACM International Confer-ence on Multimedia , page 2700–2709. Yimu Wang and Peng Shi. 2023. Video-text retrieval by supervised multi-space multi-grained alignment. Yimu Wang, Ren-Jie Song, Xiu-Shen Wei, and Lijun Zhang. 2020b. An adversarial domain adaptation network for cross-domain fine-grained recognition. In 2020 IEEE Winter Conference on Applications of Computer Vision (WACV) , pages 1217–1225. Yimu Wang, Xiu-Shen Wei, Bo Xue, and Lijun Zhang. 2020c. Piecewise hashing: A deep hashing method for large-scale fine-grained search. In Pattern Recog-nition and Computer Vision - Third Chinese Confer-ence, PRCV 2020, Nanjing, China, October 16-18, 2020, Proceedings, Part II , pages 432–444. Yimu Wang, Bo Xue, Quan Cheng, Yuhui Chen, and Lijun Zhang. 2021a. Deep unified cross-modality hashing by pairwise data alignment. In Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence, IJCAI-21 , pages 1129–1135. Yuechen Wang, Jiajun Deng, Wengang Zhou, and Houqiang Li. 2021b. Weakly supervised temporal ad-jacent network for language grounding. IEEE Trans-actions on Multimedia , 24:3276–3286. Zheng Wang, Jingjing Chen, and Yu-Gang Jiang. 2021c. Visual co-occurrence alignment learning for weakly-supervised video moment retrieval. In Proceedings of the 29th ACM International Conference on Multi-media , pages 1459–1468. Jie Wu, Guanbin Li, Xiaoguang Han, and Liang Lin. 2020. Reinforcement learning for weakly supervised temporal grounding of natural language in untrimmed videos. In Proceedings of the 28th ACM Interna-tional Conference on Multimedia , pages 1283–1291. Zeyu Xiong, Daizong Liu, Xiang Fang, Xiaoye Qu, Jian-feng Dong, Jiahao Zhu, Keke Tang, and Pan Zhou. 2024. Rethinking video sentence grounding from a tracking perspective with memory network and masked attention. IEEE Transactions on Multimedia ,26:11204–11218. Zhenbo Xu, Ajin Meng, Zhenbo Shi, Wei Yang, Zhi Chen, and Liusheng Huang. 2021. Continuous copy-paste for one-stage multi-object tracking and seg-mentation. In Proceedings of the IEEE/CVF Interna-tional Conference on Computer Vision , pages 15323– 15332. Hai Yan, Haijian Ma, Xiaowen Cai, Daizong Liu, Zenghui Yuan, Xiaoye Qu, Jianfeng Dong, Runwei Guan, Xiang Fang, Hongyang He, et al. 2026. Fit the distribution: Cross-image/prompt adversarial attacks on multimodal large language models. Advances in Neural Information Processing Systems , 38:75204– 75247. Guide Yang, Chao Hou, Weilong Peng, Xiang Fang, Yongwei Nie, Peican Zhu, and Keke Tang. 2025. Eood: Entropy-based out-of-distribution detection. In 2025 International Joint Conference on Neural Networks (IJCNN) , pages 1–8. IEEE. Wenfei Yang, Tianzhu Zhang, Yongdong Zhang, and Feng Wu. 2021. Local correspondence network for weakly supervised temporal sentence grounding. 
+
+IEEE Transactions on Image Processing , 30:3252– 3262. Hao Zhang, Aixin Sun, Wei Jing, and Joey Tianyi Zhou. 2020a. Span-based localizing network for natural lan-guage video localization. In Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics , pages 6543–6554. Mingxing Zhang, Yang Yang, Xinghan Chen, Yanli Ji, Xing Xu, Jingjing Li, and Heng Tao Shen. 2021. Multi-stage aggregated transformer network for tem-poral language localization in videos. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 12669–12678. Songyang Zhang, Houwen Peng, Jianlong Fu, and Jiebo Luo. 2020b. Learning 2d temporal adjacent networks for moment localization with natural language. In 
+
+Proceedings of the AAAI Conference on Artificial Intelligence , volume 34, pages 12870–12877. Xiayue Zhang, Huashuo Lei, Daizong Liu, Xiaoye Qu, Xiang Fang, Runwei Guan, and Keyan Jin. 2025a. Manipulating the bounding box: Multimodal con-trolled backdoor attacks on 3d visual grounding mod-els. In 2025 International Joint Conference on Neu-ral Networks (IJCNN) , pages 1–8. IEEE. Xiayue Zhang, Huashuo Lei, Daizong Liu, Xiaoye Qu, Xiang Fang, Runwei Guan, and Keyan Jin. 2025b. Monoattack: A strong attack framework with depth-migration and attribute-tampering for monocular 3d object detection. In 2025 International Joint Confer-ence on Neural Networks (IJCNN) , pages 1–8. IEEE. Zhu Zhang, Zhijie Lin, Zhou Zhao, Jieming Zhu, and Xi-uqiang He. 2020c. Regularized two-branch proposal networks for weakly-supervised moment retrieval in videos. In Proceedings of the 28th ACM Interna-tional Conference on Multimedia , pages 4098–4106. Zhu Zhang, Zhou Zhao, Zhijie Lin, Xiuqiang He, et al. 2020d. Counterfactual contrastive learning for weakly-supervised vision-language grounding. Ad-vances in Neural Information Processing Systems ,33:18123–18134. Minghang Zheng, Yanjie Huang, Qingchao Chen, and Yang Liu. 2022. Weakly supervised video moment localization with contrastive negative sample mining. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 36, pages 3517–3525.

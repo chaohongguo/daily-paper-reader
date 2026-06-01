@@ -1,0 +1,630 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-01T22:21:08.648615+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 10,
+    "deep_cap": 6,
+    "deep_selected": 7,
+    "quick_candidates": 8,
+    "quick_skim_target": 11,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2605.30742v1",
+      "source": "arxiv",
+      "title": "Annotations Are Not All You Need: A Cross-modal Knowledge Transfer Network for Unsupervised Temporal Sentence Grounding",
+      "abstract": "This paper addresses the task of temporal sentence grounding (TSG). Although many respectable works have made decent achievements in this important topic, they severely rely on massive expensive video-query paired annotations, which require a tremendous amount of human effort to collect in real-world applications. To this end, in this paper, we target a more practical but challenging TSG setting: unsupervised temporal sentence grounding, where both paired video-query and segment boundary annotations are unavailable during the network training. Considering that some other cross-modal tasks provide many easily available yet cheap labels, we tend to collect and transfer their simple cross-modal alignment knowledge into our complex scenarios: 1) We first explore the entity-aware object-guided appearance knowledge from the paired Image-Noun task, and adapt them into each independent video frame; 2) Then, we extract the event-aware action representation from the paired Video-Verb task, and further refine the action representation into more practical but complicated real-world cases by a newly proposed copy-paste approach; 3) By modulating and transferring both appearance and action knowledge into our challenging unsupervised task, our model can directly utilize this general knowledge to correlate videos and queries, and accurately retrieve the relevant segment without training. Extensive experiments on two challenging datasets (ActivityNet Captions and Charades-STA) show our effectiveness, outperforming existing unsupervised methods and even competitively beating supervised works.",
+      "authors": [
+        "Xiang Fang",
+        "Daizong Liu",
+        "Wanlong Fang",
+        "Pan Zhou",
+        "Yu Cheng",
+        "Keke Tang",
+        "Kai Zou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T02:16:11+00:00",
+      "link": "https://arxiv.org/pdf/2605.30742v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Unsupervised temporal sentence grounding without paired video-query annotations, transferring cross-modal alignment knowledge.",
+      "llm_evidence_cn": "无监督时序句子定位，无需配对视频-查询标注，通过迁移跨模态对齐知识实现。",
+      "llm_evidence": "无监督时序句子定位，无需配对视频-查询标注，通过迁移跨模态对齐知识实现。",
+      "canonical_evidence": "无监督时序句子定位，无需配对视频-查询标注，通过迁移跨模态对齐知识实现。",
+      "llm_tldr_en": "The paper tackles unsupervised temporal sentence grounding by leveraging easily available cross-modal alignment labels from other tasks, enabling precise video moment retrieval without expensive paired annotations.",
+      "llm_tldr_cn": "针对时序句子定位（TSG）严重依赖昂贵标注的问题，本文提出无监督TSG方法，通过收集其他跨模态任务的简单对齐标签并迁移知识，无需视频-查询配对和片段边界标注即可训练网络，在不降低性能的前提下实现了更实用的视频时刻检索。",
+      "llm_tldr": "针对时序句子定位（TSG）严重依赖昂贵标注的问题，本文提出无监督TSG方法，通过收集其他跨模态任务的简单对齐标签并迁移知识，无需视频-查询配对和片段边界标注即可训练网络，在不降低性能的前提下实现了更实用的视频时刻检索。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "retrieving moments from videos based on text",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.26014v1",
+      "source": "arxiv",
+      "title": "STORM: Internalized Modeling for Spatial-Temporal Reasoning in Video-Language Models",
+      "abstract": "Many video reasoning tasks require tracking motion, temporal order, and evolving visual states across frames. Existing methods built on large vision-language models (LVLMs) often address this challenge by externalizing reasoning through textual chain-of-thought (CoT), keyframe selection, repeated frame reinsertion, or external tool use. While effective, such pipelines increase inference-time latency and engineering complexity, and they force temporal-visual evidence to be serialized into text or repeatedly re-encoded from frames. Inspired by the intuition that visual reasoning can occur implicitly before verbalization, we propose STORMS (Spatial-Temporal reasOning via inteRnalized Modeling), a two-stage framework that teaches LVLMs to reason through bounded continuous latent trajectories instead of explicit textual CoT. In Stage I, STORMS aligns latent tokens with thought-video representations derived from generated videos, grounding the latent states in dynamic visual evidence. In Stage II, the model is further trained with answer-only supervision, encouraging the reasoning process to be internalized without step-by-step annotations. Generated thought videos are used only during training; at inference, STORMS performs a bounded latent rollout without regenerating videos, reinserting frames, or invoking external visual tools. Experiments on VideoMME, MVBench, TempCompass, and MMVU show that STORMS improves video reasoning accuracy while substantially reducing inference overhead compared with tool or video-generation-based reasoning pipelines.",
+      "authors": [
+        "Yiming Liang",
+        "Yixiao Chen",
+        "Yiyang Zhou",
+        "Yixuan Wang",
+        "Shoubin Yu",
+        "Andong Deng",
+        "Fuxiao Liu",
+        "Qin Zhang",
+        "Chen Chen",
+        "Mohit Bansal",
+        "Huaxiu Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-05-25T16:33:00+00:00",
+      "link": "https://arxiv.org/pdf/2605.26014v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Internal spatiotemporal reasoning for video-language models",
+      "llm_evidence_cn": "视频语言模型的内化时空推理",
+      "llm_evidence": "视频语言模型的内化时空推理",
+      "canonical_evidence": "视频语言模型的内化时空推理",
+      "llm_tldr_en": "STORM teaches LVLMs to reason about spatial-temporal dynamics internally before verbalizing, avoiding external CoT or tool use, improving efficiency and accuracy on video reasoning tasks.",
+      "llm_tldr_cn": "STORM针对现有视频语言模型依赖外部文本链式思维或工具进行时空推理带来的延迟与复杂性，提出一个两阶段框架，引导模型在语言表达之前内化视觉推理。通过内部化建模空间运动、时序依赖和状态演变，STORM在不牺牲推理能力的前提下显著降低推理耗时，在多项视频理解任务上取得与外部化方法相当甚至更优的性能。",
+      "llm_tldr": "STORM针对现有视频语言模型依赖外部文本链式思维或工具进行时空推理带来的延迟与复杂性，提出一个两阶段框架，引导模型在语言表达之前内化视觉推理。通过内部化建模空间运动、时序依赖和状态演变，STORM在不牺牲推理能力的前提下显著降低推理耗时，在多项视频理解任务上取得与外部化方法相当甚至更优的性能。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27101v1",
+      "source": "arxiv",
+      "title": "Pop-Up Distractions Reveal Bag-of-Events Behavior in Video Large Language Models",
+      "abstract": "A key capability for video understanding is reliably linking subjects to events across time, yet whether Video Large Language Models (VideoLLMs) actually achieve this remains unclear. In this work, we introduce DistractionBench to evaluate whether VideoLLMs can robustly link subjects and events in the presence of unrelated video segments. Through controlled interventions, such as inserting short advertisement clips into longer videos, we show that VideoLLMs frequently hallucinate interactions between entities from different segments, incorrectly attributing actions from injected advertisements to subjects in the main video. We characterize this systematic hallucination as bag-of-events (BoE) behavior, where models process videos as collections of events rather than temporally structured sequences. Evaluating 11 popular VideoLLMs, we find that all models exhibit substantial BoE behavior. Our findings suggest that VideoLLMs lack reliable mechanisms for temporal grounding and motivate the development of models with more robust subject-event association.",
+      "authors": [
+        "Oscar Chew",
+        "Serhii Honcharenko",
+        "Qian-Hui Chen",
+        "Patricia Lu",
+        "Dishant Zaveri",
+        "Khoa D. Doan",
+        "Kuan-Hao Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-05-26T14:41:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.27101v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Evaluates video models' ability to temporally link subjects and events",
+      "llm_evidence_cn": "评估视频模型时间关联主体与事件的能力",
+      "llm_evidence": "评估视频模型时间关联主体与事件的能力",
+      "canonical_evidence": "评估视频模型时间关联主体与事件的能力",
+      "llm_tldr_en": "The paper introduces DistractionBench to test VideoLLMs on linking subjects and events across time, and finds systematic 'bag-of-events' hallucinations where models confuse interactions between unrelated segments.",
+      "llm_tldr_cn": "本文提出DistractionBench，通过插入无关视频片段（如广告）来评估视频大语言模型能否稳健关联跨时间的主体与事件。研究发现，现有模型表现出“事件袋”行为，即错误地将无关片段中的动作归因于主视频主体，揭示了时间推理的缺陷。这一基准为视频理解模型的时序定位能力提供了诊断工具。",
+      "llm_tldr": "本文提出DistractionBench，通过插入无关视频片段（如广告）来评估视频大语言模型能否稳健关联跨时间的主体与事件。研究发现，现有模型表现出“事件袋”行为，即错误地将无关片段中的动作归因于主视频主体，揭示了时间推理的缺陷。这一基准为视频理解模型的时序定位能力提供了诊断工具。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28312v1",
+      "source": "arxiv",
+      "title": "EventShiftFlow: Towards Hardware-efficient FPGA-based Flow Estimation",
+      "abstract": "Event-based vision sensors offer asynchronous, high-temporal-resolution measurements that are attractive for low-latency robotic perception, but many event-based motion estimation methods are computationally intensive and difficult to map to FPGA hardware. We present a streaming velocity estimator that discretizes asynchronous events into fixed-duration time bins, constructs a 1-bit spatial occupancy grid, and evaluates multiple velocity hypotheses in parallel using only fixed-width integer logic - shift registers, counters, comparators, and small LUT-mapped multiplies - with no dividers and no DSP blocks. It requires no frame reconstruction, no floating-point arithmetic, and no iterative optimization. The method deliberately trades dense sub-pixel optical flow for a sparse, quantized velocity estimate at each active pixel, suited to low-latency tasks such as reactive obstacle avoidance on size-, weight-, and power-constrained platforms. On noisy synthetic data with known ground-truth velocities, the method recovers both magnitude and direction, with magnitude estimates being most challenged when objects of different velocities intersect. On a real event-camera sequence, directional accuracy reaches 99.5% across all four evaluated motion segments, with performance remaining robust across occupancy densities in the 10-40% range. We characterize the algorithm's density-dependent behavior, present a parameter sensitivity analysis, show that the proposed datapath requires less than 2 kB of storage, and implement a single-axis prototype on a low-cost Xilinx Artix-7.",
+      "authors": [
+        "Arianna Alonso Bizzi",
+        "Fernando Cladera",
+        "C. J. Taylor"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-05-27T11:13:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.28312v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "streaming velocity estimator for low-latency robotic perception enabling real-time perception in streaming video",
+      "llm_evidence_cn": "面向低延迟机器人感知的流式速度估计器使能流式视频中的实时感知",
+      "llm_evidence": "面向低延迟机器人感知的流式速度估计器使能流式视频中的实时感知",
+      "canonical_evidence": "面向低延迟机器人感知的流式速度估计器使能流式视频中的实时感知",
+      "llm_tldr_en": "Presents a hardware-efficient FPGA-based streaming velocity estimator for event cameras, enabling real-time perception with low latency and minimal resource usage, suitable for robotic applications.",
+      "llm_tldr_cn": "针对事件相机在FPGA上实时运动估计的计算挑战，本文提出一种流式速度估计器，通过离散化事件、1比特空间占据和并行整数逻辑，避免浮点运算和迭代优化，实现了硬件高效的流估计。该方法在牺牲部分亚像素精度的同时，显著降低了资源消耗和延迟，为低延迟机器人感知提供了可行途径，推动了流视频实时理解技术的发展。",
+      "llm_tldr": "针对事件相机在FPGA上实时运动估计的计算挑战，本文提出一种流式速度估计器，通过离散化事件、1比特空间占据和并行整数逻辑，避免浮点运算和迭代优化，实现了硬件高效的流估计。该方法在牺牲部分亚像素精度的同时，显著降低了资源消耗和延迟，为低延迟机器人感知提供了可行途径，推动了流视频实时理解技术的发展。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real-time perception in streaming video",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30689v1",
+      "source": "arxiv",
+      "title": "ConTrans: Learning Text-enhanced Local-global Temporal Representations for Zero-shot Temporal Action Localization",
+      "abstract": "Zero-shot Temporal Action Localization (ZS-TAL) aims to detect and locate previously unseen actions in untrimmed videos. However, existing approaches primarily focus on modeling long-range contextual information, often neglecting the critical relative-offset-based local correlations between video frames. Furthermore, their performance is hindered by limited feature representation capabilities due to the shallow nature of their network architectures. In this paper, we address these limitations by introducing a novel local-global multi-scale feature representation module. We propose a novel multi-scale encoder architecture, termed ConTrans, that integrates convolutional (Conv) inductive biases with transformer Self-attention to jointly capture fine-grained local dependencies and long-range global context, leading to more comprehensive feature representations than existing methods. Experimental evaluations on the ActivityNet-1.3 and THUMOS14 datasets demonstrate that ConTrans significantly outperforms existing methods, establishing a new benchmark for ZS-TAL.",
+      "authors": [
+        "Kanchan Keisham",
+        "Thenukan Pathmanathan",
+        "Thangarajah Akilan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-29T00:34:17+00:00",
+      "link": "https://arxiv.org/pdf/2605.30689v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Zero-shot temporal action localization in untrimmed videos with text-enhanced local-global representation",
+      "llm_evidence_cn": "零样本时间动作定位，文本增强的局部-全局表示",
+      "llm_evidence": "零样本时间动作定位，文本增强的局部-全局表示",
+      "canonical_evidence": "零样本时间动作定位，文本增强的局部-全局表示",
+      "llm_tldr_en": "The paper proposes ConTrans, a multi-scale encoder fusing convolutional biases and transformers for zero-shot temporal action localization, addressing neglected local frame correlations and shallow networks. It achieves state-of-the-art results on standard benchmarks.",
+      "llm_tldr_cn": "现有零样本时间动作定位方法忽视帧间局部相关性且网络浅层。本文提出ConTrans，融合卷积与Transformer，构建多尺度局部-全局文本增强表示，有效捕捉相对偏移局部特征。在两个基准数据集上取得领先性能，显著提升未见过动作的检测与定位能力。",
+      "llm_tldr": "现有零样本时间动作定位方法忽视帧间局部相关性且网络浅层。本文提出ConTrans，融合卷积与Transformer，构建多尺度局部-全局文本增强表示，有效捕捉相对偏移局部特征。在两个基准数据集上取得领先性能，显著提升未见过动作的检测与定位能力。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.31589v1",
+      "source": "arxiv",
+      "title": "Recognizing Co-Speech Gestures in-the-Wild",
+      "abstract": "While humans naturally gesture during speech, only a sparse subset of these movements are visually depictive and semantically linked to specific spoken words. Current multimodal models struggle to capture these semantic co-speech gestures, heavily bottlenecked by a lack of precisely annotated training data. To address this, we introduce the Gesture Recognition in the Wild (GRW) dataset, the first large-scale benchmark designed to map unconstrained human gestures to specific words with frame-accurate temporal boundaries. Comprising 156,688 manually annotated video clips, GRW spans a highly diverse 150-word taxonomy of physical actions, spatial descriptors, and abstract concepts. We leverage GRW to train video models to (a) classify gestures as semantic or not, (b) recognize the word corresponding to a co-speech gesture, and (c) temporally localize the gesture. We also use GRW to establish benchmarks for these three tasks.",
+      "authors": [
+        "Sindhu B Hegde",
+        "K R Prajwal",
+        "Andrew Zisserman"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T17:55:17+00:00",
+      "link": "https://arxiv.org/pdf/2605.31589v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "frame-accurate temporal boundaries for gesture recognition directly relevant to temporal action localization",
+      "llm_evidence_cn": "具有帧精确时间边界的姿态识别直接相关于时序动作定位",
+      "llm_evidence": "具有帧精确时间边界的姿态识别直接相关于时序动作定位",
+      "canonical_evidence": "具有帧精确时间边界的姿态识别直接相关于时序动作定位",
+      "llm_tldr_en": "Introduces GRW, a large-scale dataset with 156,688 clips for mapping co-speech gestures to words with frame-accurate temporal boundaries, advancing temporal action localization for gestures.",
+      "llm_tldr_cn": "针对多模态模型难以捕捉与词语语义关联的伴语手势问题，本文提出GRW数据集，包含156,688个手动标注的视频片段，覆盖150个单词类别，支持帧精确的时序边界标注。利用该数据集训练视频模型进行手势语义分类与识别，显著提升了字幕级手势定位的性能，为野外环境下的时序动作定位提供了重要基准。",
+      "llm_tldr": "针对多模态模型难以捕捉与词语语义关联的伴语手势问题，本文提出GRW数据集，包含156,688个手动标注的视频片段，覆盖150个单词类别，支持帧精确的时序边界标注。利用该数据集训练视频模型进行手势语义分类与识别，显著提升了字幕级手势定位的性能，为野外环境下的时序动作定位提供了重要基准。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.31598v1",
+      "source": "arxiv",
+      "title": "Linear Scaling Video VLMs for Long Video Understanding",
+      "abstract": "Video vision-language models (VLMs) are increasingly used in long-horizon and streaming settings, yet most video encoders still rely on spatiotemporal self-attention, causing compute and latency to grow quadratically with the number of frames. Existing efficiency methods improve scalability but often lose accuracy relative to full self-attention, for example through aggressive frame/token dropping or coarse attention approximations. We introduce StateKV, an inference-time method that adapts pretrained long-video VLMs to linear-time video prefill by carrying cross-frame context in a fixed-capacity, importance-based recurrent state, paired with a second full per-frame cache used for decoding. Across three long-video benchmarks and seven models spanning three families and multiple scales, StateKV remains close to full self-attention and consistently outperforms dominant sliding-window / recency-based streaming approximations, without fine-tuning or architectural changes. StateKV also reduces video-prefill cost measured FLOPs, enabling stronger accuracy at a fixed compute budget by running larger models. These results suggest a practical step toward scalable long-video understanding.",
+      "authors": [
+        "Cristobal Eyzaguirre",
+        "Jiajun Wu",
+        "Juan Carlos Niebles"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T17:59:02+00:00",
+      "link": "https://arxiv.org/pdf/2605.31598v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Inference-time method to enable linear-time video prefill for streaming video understanding VLMs",
+      "llm_evidence_cn": "推理时方法实现线性时间视频预填充，用于流视频理解视觉语言模型",
+      "llm_evidence": "推理时方法实现线性时间视频预填充，用于流视频理解视觉语言模型",
+      "canonical_evidence": "推理时方法实现线性时间视频预填充，用于流视频理解视觉语言模型",
+      "llm_tldr_en": "StateKV adapts pretrained long-video VLMs to linear-time prefill via a fixed-capacity recurrent state, achieving near full-attention accuracy on long-video benchmarks while drastically reducing latency and memory for streaming settings.",
+      "llm_tldr_cn": "针对长视频视觉语言模型因时空自注意力导致的计算与响应延迟随帧数二次增长问题，提出推理时方法StateKV，用固定容量的重要性循环状态跨帧传递上下文，将视频预填充复杂度降为线性。在三个长视频基准及七种模型上验证，逼近完整自注意力精度，大幅降低流式场景延迟与内存占用。",
+      "llm_tldr": "针对长视频视觉语言模型因时空自注意力导致的计算与响应延迟随帧数二次增长问题，提出推理时方法StateKV，用固定容量的重要性循环状态跨帧传递上下文，将视频预填充复杂度降为线性。在三个长视频基准及七种模型上验证，逼近完整自注意力精度，大幅降低流式场景延迟与内存占用。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.25979v1",
+      "source": "arxiv",
+      "title": "LLaVA-OneVision-2: Towards Next-Generation Perceptual Intelligence",
+      "abstract": "We introduce LLaVA-OneVision-2 (LLaVA-OV-2), the most capable vision-language model in the LLaVA-OneVision series to date, achieving superior performance across a broad range of multimodal benchmarks. The model builds on a native OneVision-Encoder and incorporates Windowed Attention for efficient local computation while maintaining native resolution. Its key advance is codec-stream tokenization: it treats compressed video as a continuous bit-cost stream, where bit-cost dynamics determine adaptive temporal groups, and motion-residual cues select salient spatial evidence into compact visual canvases. This allocation concentrates a limited token budget on event-bearing content, enabling more stable long-video token compression than fixed groups of pictures. A shared 3D RoPE further places codec canvases, sampled frames, and images in a unified spatiotemporal coordinate system. Furthermore, we build the LLaVA-OV-2 data and training stack around large-scale open supervision: approximately 8M re-captioned video samples for pretraining, a 4M-sample spatial corpus for fine-tuning. We also introduce JumpScore, a temporal-localization benchmark targeting fine-grained grounding in high-frequency, densely repeated motion, a regime underrepresented by existing video evaluations. A standout capability of LLaVA-OV-2 is its unified perception across video understanding, temporal grounding, spatial grounding, and manipulation-trace reasoning. On JumpScore, LLaVA-OneVision-2-8B reaches 74.9 JumpScore mAP, surpassing Qwen3-VL-8B (30.1) by +44.8 points; under matched visual-token budgets on the same benchmark, codec-stream inputs improve temporal grounding over frame sampling by +9.7 points. Across standard benchmarks, LLaVA-OneVision-2-8B further outperforms Qwen3-VL-8B by +4.3 average points on video tasks, +5.3 on spatial tasks, and +15.6 average J&F on tracking tasks.",
+      "authors": [
+        "Xiang An",
+        "Yin Xie",
+        "Feilong Tang",
+        "Yunyao Yan",
+        "Huajie Tan",
+        "Didi Zhu",
+        "Changrui Chen",
+        "Xiuwei Zhao",
+        "Bin Qin",
+        "Kaicheng Yang",
+        "Yifei Shen",
+        "Yuanhan Zhang",
+        "Kaichen Zhang",
+        "Wenkang Zhang",
+        "Zheng Cheng",
+        "Nansen Zhang",
+        "Chunsheng Wu",
+        "Chunjiang Ge",
+        "Zimin Ran",
+        "Dehua Song",
+        "Chunyuan Li",
+        "Shikun Feng",
+        "Ming Hu",
+        "Zhangquan Chen",
+        "Junbo Niu",
+        "Bo Li",
+        "Ziyong Feng",
+        "Ziwei Liu",
+        "Zongyuan Ge",
+        "Jiankang Deng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-25T15:54:04+00:00",
+      "link": "https://arxiv.org/pdf/2605.25979v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Multimodal model for video understanding with codec-stream tokenization",
+      "llm_evidence_cn": "面向视频理解的多模态模型，采用码流令牌化",
+      "llm_evidence": "面向视频理解的多模态模型，采用码流令牌化",
+      "canonical_evidence": "面向视频理解的多模态模型，采用码流令牌化",
+      "llm_tldr_en": "LLaVA-OV-2 advances vision-language modeling with codec-stream tokenization, adaptively grouping temporal segments and allocating tokens to event-bearing content, achieving strong multimodal benchmarks performance.",
+      "llm_tldr_cn": "LLaVA-OneVision-2引入码流令牌化技术，将压缩视频视为连续比特流，利用比特成本动态确定自适应时序组，并通过运动残差线索选取显著空间证据压缩为视觉画布，将有限令牌预算集中于事件内容。该模型在多个多模态基准上取得领先性能，展示了高效长视频理解的潜力。",
+      "llm_tldr": "LLaVA-OneVision-2引入码流令牌化技术，将压缩视频视为连续比特流，利用比特成本动态确定自适应时序组，并通过运动残差线索选取显著空间证据压缩为视觉画布，将有限令牌预算集中于事件内容。该模型在多个多模态基准上取得领先性能，展示了高效长视频理解的潜力。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.25308v1",
+      "source": "arxiv",
+      "title": "Stabilizing Streaming Video Geometry via Dynamic Feature Normalization",
+      "abstract": "Consistent 3D geometry estimation from streaming RGB input is crucial for real-world applications such as autonomous driving, embodied AI, and large-scale reconstruction. While modern monocular geometry foundation models achieve strong single-image accuracy, they exhibit severe temporal inconsistency on continuous input, notably dominated by scale--shift drifting. Through targeted empirical analysis, we trace this instability to its root cause: fluctuations in latent feature statistics, whose mean and variance directly determine the predicted depth's scale and shift. Building on this insight, we introduce Dynamic Feature Normalization (DyFN), a lightweight, causal recurrent module that dynamically and robustly modulates feature statistics to maintain stable geometry over time. We adapt powerful pretrained monocular geometry models for streaming by finetuning only DyFN, a mere 2\\% additional parameters, while keeping the backbone frozen, thereby achieving temporal consistency without compromising single-image accuracy. Extensive experiments across four benchmarks show that DyFN effectively eliminates temporal artifacts such as disjointed layering and positional jitter, and achieves state-of-the-art temporal stability, improving over prior streaming methods by up to 14\\% and even outperforming heavier non-causal video baselines. Project Page: https://shawlyu.github.io/DyFN",
+      "authors": [
+        "Xiaoyang Lyu",
+        "Muxin Liu",
+        "Xiaoshan Wu",
+        "Ruicheng Wang",
+        "Yi-Hua Huang",
+        "Yang-Tian Sun",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-25T00:13:15+00:00",
+      "link": "https://arxiv.org/pdf/2605.25308v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "stabilizes depth estimation for streaming video to maintain temporal consistency",
+      "llm_evidence_cn": "稳定流视频深度估计以维持时序一致性",
+      "llm_evidence": "稳定流视频深度估计以维持时序一致性",
+      "canonical_evidence": "稳定流视频深度估计以维持时序一致性",
+      "llm_tldr_en": "The paper addresses temporal inconsistency in monocular depth estimation for streaming video by proposing Dynamic Feature Normalization, a lightweight recurrent module that stabilizes geometry estimation for real-time applications.",
+      "llm_tldr_cn": "该论文针对流视频中单目深度估计的时序不一致性问题，提出动态特征归一化（DyFN）模块，通过因果循环机制动态调节特征统计量，实现对深度尺度与偏移的稳定。实验表明，该方法能有效减少尺度漂移，为自动驾驶等实时感知任务提供一致的3D几何信息。",
+      "llm_tldr": "该论文针对流视频中单目深度估计的时序不一致性问题，提出动态特征归一化（DyFN）模块，通过因果循环机制动态调节特征统计量，实现对深度尺度与偏移的稳定。实验表明，该方法能有效减少尺度漂移，为自动驾驶等实时感知任务提供一致的3D几何信息。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real-time perception in streaming video",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.26584v1",
+      "source": "arxiv",
+      "title": "O-MARC: Omni Memory-Augmented Compression Distillation for Efficient Video Understanding",
+      "abstract": "Omnimodal large language models enable unified audio video understanding, but long joint token sequences make inference costly, and existing benchmarks do not fully isolate audio visual association in noisy user generated videos. We introduce UGC-AVQA, a public UGC benchmark with 1,000 videos and 4,816 QA pairs, where an audio removal test ensures that benchmark questions require both acoustic and visual evidence. To reduce inference cost, we propose OMAC, a training free plug in compression method that preserves salient visual memory and temporally grounded audio anchors. To further make compact models robust to compressed inputs, we introduce O-MARC, a compression distillation framework for learning with memory compressed multimodal contexts. On Qwen2.5-Omni-3B, O-MARC improves the average score across four benchmarks to 45.8, outperforming full token inference at 44.1 and OmniZip at 41.0. OMAC also keeps inference efficient, reducing latency by 34.6\\% (1.53$\\times$ speedup) and memory by 34.7\\% compared with full token inference.",
+      "authors": [
+        "Peiran Wu",
+        "Yunze Liu",
+        "Chi-Hao Wu",
+        "Chen Chen",
+        "Junxiao Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-26T06:07:11+00:00",
+      "link": "https://arxiv.org/pdf/2605.26584v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Efficient video understanding via compression distillation for omnimodal LLMs, enabling streaming video processing.",
+      "llm_evidence_cn": "通过压缩蒸馏实现全模态大语言模型的高效视频理解，助力流视频处理",
+      "llm_evidence": "通过压缩蒸馏实现全模态大语言模型的高效视频理解，助力流视频处理",
+      "canonical_evidence": "通过压缩蒸馏实现全模态大语言模型的高效视频理解，助力流视频处理",
+      "llm_tldr_en": "Addresses costly inference in omnimodal video understanding by proposing training-free compression and compression distillation, making models efficient for real-time video analysis.",
+      "llm_tldr_cn": "针对全模态视频理解中长序列导致推理成本高的问题，提出无训练压缩方法 OMAC 和压缩蒸馏框架 O-MARC，在保持显著视觉记忆和时间锚点的同时降低推理开销，使模型能高效适用于实时视频分析场景。",
+      "llm_tldr": "针对全模态视频理解中长序列导致推理成本高的问题，提出无训练压缩方法 OMAC 和压缩蒸馏框架 O-MARC，在保持显著视觉记忆和时间锚点的同时降低推理开销，使模型能高效适用于实时视频分析场景。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.28229v1",
+      "source": "arxiv",
+      "title": "VidPrism: Heterogeneous Mixture of Experts for Image-to-Video Transfer",
+      "abstract": "With the rapid development of pre-training technologies, adapting large-scale Vision-Language Models (VLMs) for video understanding \\emph{\\ie} image-to-video transfer learning has become a dominant paradigm. To achieve superior performance, it raises as an effective strategy among recent advances to employ Mixture-of-Experts (MoE) to enhance VLMs' temporal modeling capabilities. However, conventional MoE designs suffer from expert homogenization, where all experts act as identical generalists, inefficiently learning spatio-temporal features from undifferentiated video streams. To overcome this problem, we propose VidPrism, a novel heterogeneous temporal Mixture-of-Experts framework. VidPrism pioneers a division of labor by deploying functionally specialized experts, each assuming a role ranging from spatial understanding to temporal modeling. To feed these specialists appropriately, we introduce a content-aware, multi-rate sampling module that dynamically generates streams ranging from semantically rich to motion-focused representations, providing specialized inputs for experts. Furthermore, a dynamic, bidirectional fusion mechanism enables synergistic information exchange between these pathways, leading to a comprehensive video representation. Extensive experiments on various video recognition benchmarks demonstrate that VidPrism achieves state-of-the-art performance and effectively fosters expert specialization. Our source code is available at \\href{https://github.com/Lrrrr549/VidPrism.git}{https://github.com/Lrrrr549/VidPrism.git}.",
+      "authors": [
+        "Rui Lin",
+        "Chuanming Wang",
+        "Huadong Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T09:43:06+00:00",
+      "link": "https://arxiv.org/pdf/2605.28229v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Improves video understanding via heterogeneous Mixture-of-Experts for temporal modeling in image-to-video transfer.",
+      "llm_evidence_cn": "通过异构专家混合提升图像到视频迁移中的时序建模，增强视频理解。",
+      "llm_evidence": "通过异构专家混合提升图像到视频迁移中的时序建模，增强视频理解。",
+      "canonical_evidence": "通过异构专家混合提升图像到视频迁移中的时序建模，增强视频理解。",
+      "llm_tldr_en": "VidPrism addresses expert homogenization in MoE for video understanding by introducing functionally specialized experts that divide labor across spatial, temporal, and spatiotemporal dimensions, achieving better temporal modeling efficiency.",
+      "llm_tldr_cn": "针对视频理解中混合专家（MoE）存在的专家同质化问题，VidPrism提出异构时序MoE框架，通过将专家分为空间、时间和时空等不同功能专家实现分工协作，有效提升了大规模视觉-语言模型在视频任务中的时序建模能力，在多个视频理解基准上取得了优异性能。",
+      "llm_tldr": "针对视频理解中混合专家（MoE）存在的专家同质化问题，VidPrism提出异构时序MoE框架，通过将专家分为空间、时间和时空等不同功能专家实现分工协作，有效提升了大规模视觉-语言模型在视频任务中的时序建模能力，在多个视频理解基准上取得了优异性能。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.30750v1",
+      "source": "arxiv",
+      "title": "SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling",
+      "abstract": "In the era of Large Video-Language Models (LVLMs), the computational necessity of sparse frame sampling creates a fundamental ``temporal gap'', rendering models blind to critical causal transitions. Existing solutions relying on generative hallucination (e.g., latent diffusion) or autoregressive extrapolation often fail to maintain semantic consistency over long horizons, suffering from object vanishing and energetic instability. We propose a paradigm shift from probabilistic generation to variational mechanics with the \\textbf{Semantic Least Action Principle (SLAP)}. Drawing a rigorous isomorphism between classical mechanics and semantic dynamics, we model the latent video trajectory as a path on a Riemannian manifold governed by a Semantic Lagrangian. By formulating the interpolation task as a Boundary Value Problem (BVP) solved via the discrete Euler-Lagrange equations, SLAP naturally enforces object persistence without pixel-level rendering. Extensive experiments show the effectiveness of our proposed SLAP.",
+      "authors": [
+        "Xiang Fang",
+        "Wanlong Fang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T02:28:33+00:00",
+      "link": "https://arxiv.org/pdf/2605.30750v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Proposes a variational mechanics approach to handle temporal gaps in video-language models, improving semantic consistency.",
+      "llm_evidence_cn": "提出变分力学方法处理视频-语言模型中的时序间隙，提升语义一致性。",
+      "llm_evidence": "提出变分力学方法处理视频-语言模型中的时序间隙，提升语义一致性。",
+      "canonical_evidence": "提出变分力学方法处理视频-语言模型中的时序间隙，提升语义一致性。",
+      "llm_tldr_en": "SLAP introduces the Semantic Least Action Principle to model latent video trajectories on a Riemannian manifold, overcoming the temporal gap in sparse frame sampling and ensuring long-term semantic consistency for video-language models.",
+      "llm_tldr_cn": "针对大视频-语言模型中因稀疏帧采样导致的时序间隙问题，SLAP提出语义最小作用量原理，将潜在视频轨迹建模为黎曼流形上的路径，通过变分方法强制语义一致性，解决了对象消失和能量不稳定等问题，显著提升了视频-语言建模的长期语义连贯性。",
+      "llm_tldr": "针对大视频-语言模型中因稀疏帧采样导致的时序间隙问题，SLAP提出语义最小作用量原理，将潜在视频轨迹建模为黎曼流形上的路径，通过变分方法强制语义一致性，解决了对象消失和能量不稳定等问题，显著提升了视频-语言建模的长期语义连贯性。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.26641v1",
+      "source": "arxiv",
+      "title": "OmniRetriever: Any-to-Any Audio-Video-Text Retrieval via Fusion-as-Teacher Distillation",
+      "abstract": "Unified multimodal embedding spaces have become the standard interface for cross-modal retrieval and multimodal RAG, and recent audio-video-text (AVT) encoders extend this setting to three modalities. Such encoders can produce a joint (T,V,A) embedding whenever all three modalities are available, but standard pairwise InfoNCE objectives leave this signal unused during training. We close this gap with fusion-as-teacher distillation, which treats a stop-gradient copy of the fused embedding as a teacher signal for the single-modal embeddings, paired with a Tuple-InfoNCE term that supervises the fused embedding directly. We instantiate this objective as OmniRetriever-7B. Across six zero-shot retrieval benchmarks, OmniRetriever-7B surpasses the closed-source Gemini Embedding 2 by 13.3-18.0 R@1 on Clotho and SoundDescs, and reaches the contemporary zero-shot specialist band of open video-text encoders on MSR-VTT and MSVD. To stress-test joint representations, we further release OmniRetriever-Bench, a 12-direction AVT retrieval benchmark totaling 3782 triples; on it OmniRetriever-7B attains AVG-all 34.84, improving over Gemini Embedding 2 by 1.72 and over the best prior open-source AVT method by 8.03.",
+      "authors": [
+        "Yunze Liu",
+        "Chi-Hao Wu",
+        "Enmin Zhou",
+        "Junxiao Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-26T07:26:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.26641v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Unified audio-video-text embedding for cross-modal retrieval, applicable to text-to-video retrieval tasks",
+      "llm_evidence_cn": "统一的音视频文本嵌入用于跨模态检索，可用于文本到视频检索",
+      "llm_evidence": "统一的音视频文本嵌入用于跨模态检索，可用于文本到视频检索",
+      "canonical_evidence": "统一的音视频文本嵌入用于跨模态检索，可用于文本到视频检索",
+      "llm_tldr_en": "OmniRetriever-7B uses fusion-as-teacher distillation to train a unified audio-video-text embedding space, leveraging fused embeddings as teacher signals. It achieves state-of-the-art on six zero-shot retrieval benchmarks.",
+      "llm_tldr_cn": "针对现有音视频文本联合嵌入模型未充分利用多模态融合信号的局限，本文提出融合教师蒸馏方法，以冻结的融合嵌入作为单模态嵌入的监督，同时直接优化融合嵌入。OmniRetriever-7B在六个零样本检索基准上超越先前方法，证明了融合信号对跨模态检索的有效性。",
+      "llm_tldr": "针对现有音视频文本联合嵌入模型未充分利用多模态融合信号的局限，本文提出融合教师蒸馏方法，以冻结的融合嵌入作为单模态嵌入的监督，同时直接优化融合嵌入。OmniRetriever-7B在六个零样本检索基准上超越先前方法，证明了融合信号对跨模态检索的有效性。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "retrieving moments from videos based on text",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.31557v1",
+      "source": "arxiv",
+      "title": "EGOSTREAM: A Diagnostic Benchmark for Streaming Episodic Memory in Egocentric Vision",
+      "abstract": "Continuous episodic memory is a core capability for autonomous agents operating in dynamic, real-world environments, yet current streaming video benchmarks provide limited tools for diagnosing what models remember and for how long. We introduce \\egostream, a diagnostic benchmark for streaming episodic memory evaluation in egocentric vision. \\egostream organizes 2,250 curated questions along seven cognitive dimensions: detail, spatial, temporal, event, social, causal, and prospective memory. We introduce the Answer Validity Window (AVW), which specifies the temporal span an answer remains valid as the observed scene evolves. This allows us to expand the questions into 8,528 recall-conditioned evaluations, enabling controlled testing from instant to ultra-long-term recall while separating genuine model forgetting from natural world-state changes. We rigorously establish baseline performance through a unified streaming MLLM framework that compares several state-of-the-art memory-management mechanisms, covering sliding windows, attention sinks, KV-cache pruning, merging, and offloading. Experiments within a unified Qwen3-VL backbone reveal that comparable aggregate accuracies mask starkly different memory profiles. For instance, token pruning preserves fine-grained details and temporal structure significantly better than token merging, while quantized offloading rescues ultra-long-term recall. Ultimately, all mechanisms operate well below real-time (>1s per frame), and top performing methods ceil at about 45\\% accuracy, exposing critical gaps in current architectures. \\egostream provides the diagnostic testbed needed to close these gaps.",
+      "authors": [
+        "Rosario Forte",
+        "Giuseppe Lando",
+        "Antonino Furnari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T17:20:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.31557v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Diagnostic benchmark for streaming episodic memory in egocentric videos, evaluating what models remember over time.",
+      "llm_evidence_cn": "用于评估流视频中情景记忆的诊断基准，测试模型对过去事件的记忆能力。",
+      "llm_evidence": "用于评估流视频中情景记忆的诊断基准，测试模型对过去事件的记忆能力。",
+      "canonical_evidence": "用于评估流视频中情景记忆的诊断基准，测试模型对过去事件的记忆能力。",
+      "llm_tldr_en": "EGOSTREAM introduces a benchmark with 2,250 questions across seven cognitive dimensions to diagnose streaming episodic memory in egocentric vision, enabling controlled testing of what models remember as scenes evolve.",
+      "llm_tldr_cn": "针对现有流视频基准难以诊断模型记忆能力的问题，本文提出EGOSTREAM基准，包含2250个问题覆盖七个认知维度，并引入答案有效时间窗概念，将问题扩展为8528个受控评估实例，支持在场景动态变化中测试模型的持续情景记忆，为流视频理解研究提供了精细化的诊断工具，对开发具身智能体和视频理解系统具有重要意义。",
+      "llm_tldr": "针对现有流视频基准难以诊断模型记忆能力的问题，本文提出EGOSTREAM基准，包含2250个问题覆盖七个认知维度，并引入答案有效时间窗概念，将问题扩展为8528个受控评估实例，支持在场景动态变化中测试模型的持续情景记忆，为流视频理解研究提供了精细化的诊断工具，对开发具身智能体和视频理解系统具有重要意义。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.30060v2",
+      "source": "arxiv",
+      "title": "Towards Consistent Video Geometry Estimation",
+      "abstract": "This work presents ViGeo, a feed-forward foundation model for recovering spatially dense and temporally consistent geometry from video sequences. Built upon a plain transformer architecture without task-specific architectural modifications, ViGeo supports streaming, full-sequence, and long-video inference within a unified model. The key design is dynamic chunking attention, which exposes the model to both bidirectional and causal temporal contexts during training and allows it to adapt its attention pattern at test time without retraining. To improve supervision quality, we further introduce a completion-based data refinement framework. This framework trains a video depth completion teacher that conditions on sparse and noisy annotations and exploits video/multi-view context to produce dense, temporally coherent, and geometrically reliable training targets. Beyond depth and point maps, ViGeo also predicts surface normals within the same framework. Trained solely on public datasets, ViGeo achieves state-of-the-art performance across online, offline, and long-video depth estimation, surface normal estimation, and video point map estimation.",
+      "authors": [
+        "Zhu Yu",
+        "Jingnan Gao",
+        "Runmin Zhang",
+        "Lingteng Qiu",
+        "Zhengyi Zhao",
+        "Rui Peng",
+        "Yichao Yan",
+        "Kejie Qiu",
+        "Siyu Zhu",
+        "Zilong Dong",
+        "Si-Yuan Cao",
+        "Hui-Liang Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-28T15:11:17+00:00",
+      "link": "https://arxiv.org/pdf/2605.30060v2",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "consistent video geometry estimation supporting streaming inference",
+      "llm_evidence_cn": "支持流式推断的一致视频几何估计",
+      "llm_evidence": "支持流式推断的一致视频几何估计",
+      "canonical_evidence": "支持流式推断的一致视频几何估计",
+      "llm_tldr_en": "ViGeo is a transformer-based model for temporally consistent depth estimation from video, supporting streaming and long-video inference via dynamic chunking attention.",
+      "llm_tldr_cn": "该论文提出ViGeo，一个基于Transformer的视频几何估计基座模型，通过动态分块注意力机制支持流式、全序列和长视频推断。同时引入补全式数据优化框架提升监督质量。模型在多个基准上实现了时空一致的深度估计，为流视频感知提供了基础能力。",
+      "llm_tldr": "该论文提出ViGeo，一个基于Transformer的视频几何估计基座模型，通过动态分块注意力机制支持流式、全序列和长视频推断。同时引入补全式数据优化框架提升监督质量。模型在多个基准上实现了时空一致的深度估计，为流视频感知提供了基础能力。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real-time perception in streaming video",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
