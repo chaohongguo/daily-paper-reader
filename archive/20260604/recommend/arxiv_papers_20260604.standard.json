@@ -1,0 +1,208 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-04T21:55:24.894750+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.03539v1",
+      "source": "arxiv",
+      "title": "Knowledge-Preserved Model Tuning in Null-Space for Robust Spatio-Temporal Video Grounding",
+      "abstract": "Spatio-Temporal Video Grounding aims to localize object tubes based on textual queries. While recent methods have achieved remarkable success, they mainly focus on high-quality(HQ) inputs, neglecting the widespread presence of low-quality(LQ) videos in real-world scenarios. Although tuning methods like LoRA can adapt to degraded inputs, they inevitably disrupt pre-trained knowledge. To address this, we propose Null-Space Tuning (NST). This framework exploits the geometric property that adding vectors within the null-space of frozen weights to the layer input does not affect the output. Leveraging this, NST injects learnable residuals into input features that can be selectively invisible to the pre-trained backbone. Specifically, NST combines the Quality-Adaptive Unit and Dual-Space Reparameterization to synthesize these residuals by confining components for HQ inputs to the null-space, while directing restoration components for LQ inputs to the non-null space. As the frozen weights eliminate null-space components, we effectively rectify degraded inputs while preserving pre-trained knowledge for HQ inputs. Extensive experiments show that NST outperforms state-of-the-art methods on our Mixed-Quality benchmark.",
+      "authors": [
+        "Haoxuan Chen",
+        "Xianqin Liu",
+        "Jian-Fang Hu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T11:59:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.03539v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "spatio-temporal video grounding localizes object tubes from text queries using null-space tuning",
+      "llm_evidence_cn": "时空视频接地使用零空间调优从文本查询定位物体管道",
+      "llm_evidence": "时空视频接地使用零空间调优从文本查询定位物体管道",
+      "canonical_evidence": "时空视频接地使用零空间调优从文本查询定位物体管道",
+      "llm_tldr_en": "Proposes Null-Space Tuning for robust spatio-temporal video grounding under low-quality inputs, preserving pre-trained knowledge while adapting to degradation.",
+      "llm_tldr_cn": "针对时空视频接地方法在低质量视频上性能下降且微调会破坏预训练知识的问题，提出零空间调优NST，利用预训练权重零空间中添加残差不影响输出的几何性质，注入可学习残差到输入特征中，使适配低质量输入的同时不干扰原有知识；实验表明NST在多个STVG基准上提升了鲁棒性，为视频接地在实际退化场景中的应用提供了有效途径。",
+      "llm_tldr": "针对时空视频接地方法在低质量视频上性能下降且微调会破坏预训练知识的问题，提出零空间调优NST，利用预训练权重零空间中添加残差不影响输出的几何性质，注入可学习残差到输入特征中，使适配低质量输入的同时不干扰原有知识；实验表明NST在多个STVG基准上提升了鲁棒性，为视频接地在实际退化场景中的应用提供了有效途径。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.00260v2",
+      "source": "arxiv",
+      "title": "LastAct: Trajectory-Guided Latest-Activity Localization for Real-Time Smart-Home Activity Recognition",
+      "abstract": "Human Activity Recognition (HAR) from ambient sensors enables smart-home applications such as health monitoring and assisted living. In realistic deployments, however, sensor events arrive as a continuous stream and activity boundaries are unknown. Sliding-window inference therefore produces many windows that straddle transitions and contain mixed activities, creating boundary contamination that violates the pre-segmented instance assumption used by most benchmarks and models. Moreover, many pipelines under-use spatial context by treating sensor IDs as independent tokens. We present LastAct, a trajectory-centric framework for streaming smart-home HAR that targets the most recent activity under mixed windows while explicitly modeling spatial structure. LastAct projects sensor events onto the home floorplan to form a layout-aligned trajectory image sequence that preserves spatial continuity. A lightweight gate identifies contaminated windows, and a boundary localizer estimates the last transition to enable boundary-guided masking that emphasizes post-boundary evidence and suppresses stale context. For efficiency, we reuse a precomputed layout-aligned template cache to avoid repeated rendering. Empirically, across four public smart-home datasets under near-realistic mixed-activity protocols, LastAct achieves competitive or superior performance on pure windows and yields substantial Macro-F1 gains on cross/mixed windows, demonstrating improved robustness under near-realistic sliding-window regimes.",
+      "authors": [
+        "Zishuai Liu",
+        "Ruili Fang",
+        "Jin Lu",
+        "Fei Dou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-05-29T18:45:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.00260v2",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Real-time activity localization in streaming sensor data aligns with online video event detection.",
+      "llm_evidence_cn": "流式传感器数据中的实时活动定位与在线视频事件检测一致。",
+      "llm_evidence": "流式传感器数据中的实时活动定位与在线视频事件检测一致。",
+      "canonical_evidence": "流式传感器数据中的实时活动定位与在线视频事件检测一致。",
+      "llm_tldr_en": "LastAct addresses streaming activity recognition in smart homes by localizing the latest activity in mixed windows using a trajectory-centric framework, suppressing boundary contamination.",
+      "llm_tldr_cn": "现实智能家居中传感器事件以连续流形式到达，滑动窗口推理常导致窗口内混合活动，造成边界污染。LastAct提出一种以轨迹为中心的框架，在流式数据中定位最近活动，通过显式建模物体轨迹，有效抑制边界污染，提升实时活动识别的准确性。该方法为流视频在线事件检测提供了可借鉴的思路。",
+      "llm_tldr": "现实智能家居中传感器事件以连续流形式到达，滑动窗口推理常导致窗口内混合活动，造成边界污染。LastAct提出一种以轨迹为中心的框架，在流式数据中定位最近活动，通过显式建模物体轨迹，有效抑制边界污染，提升实时活动识别的准确性。该方法为流视频在线事件检测提供了可借鉴的思路。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "online video analysis and event detection approaches",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.30750v1",
+      "source": "arxiv",
+      "title": "SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling",
+      "abstract": "In the era of Large Video-Language Models (LVLMs), the computational necessity of sparse frame sampling creates a fundamental ``temporal gap'', rendering models blind to critical causal transitions. Existing solutions relying on generative hallucination (e.g., latent diffusion) or autoregressive extrapolation often fail to maintain semantic consistency over long horizons, suffering from object vanishing and energetic instability. We propose a paradigm shift from probabilistic generation to variational mechanics with the \\textbf{Semantic Least Action Principle (SLAP)}. Drawing a rigorous isomorphism between classical mechanics and semantic dynamics, we model the latent video trajectory as a path on a Riemannian manifold governed by a Semantic Lagrangian. By formulating the interpolation task as a Boundary Value Problem (BVP) solved via the discrete Euler-Lagrange equations, SLAP naturally enforces object persistence without pixel-level rendering. Extensive experiments show the effectiveness of our proposed SLAP.",
+      "authors": [
+        "Xiang Fang",
+        "Wanlong Fang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T02:28:33+00:00",
+      "link": "https://arxiv.org/pdf/2605.30750v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves temporal consistency in video-language models via variational mechanics",
+      "llm_evidence_cn": "通过变分力学改善视频语言模型的时间一致性",
+      "llm_evidence": "通过变分力学改善视频语言模型的时间一致性",
+      "canonical_evidence": "通过变分力学改善视频语言模型的时间一致性",
+      "llm_tldr_en": "Proposes Semantic Least Action Principle to model video trajectories in VLMs, reducing temporal gap and improving semantic consistency.",
+      "llm_tldr_cn": "针对大视频语言模型因稀疏帧采样导致的时序鸿沟和语义不一致问题，提出语义最小作用量原理（SLAP），借鉴经典力学形式建模视频轨迹，在黎曼流形上由语义拉格朗日量驱动路径演化。该方法替代概率生成或自回归外推，抑制物体消失和能量不稳定。实验表明SLAP在长时程视频语言任务中提升了语义连贯性和稳定性，为变分视频语言建模提供了新范式。",
+      "llm_tldr": "针对大视频语言模型因稀疏帧采样导致的时序鸿沟和语义不一致问题，提出语义最小作用量原理（SLAP），借鉴经典力学形式建模视频轨迹，在黎曼流形上由语义拉格朗日量驱动路径演化。该方法替代概率生成或自回归外推，抑制物体消失和能量不稳定。实验表明SLAP在长时程视频语言任务中提升了语义连贯性和稳定性，为变分视频语言建模提供了新范式。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.31029v1",
+      "source": "arxiv",
+      "title": "PEEK: Picking Essential frames via Efficient Knowledge distillation",
+      "abstract": "Video-language models can process only a limited number of frames, making frame selection a key bottleneck for efficient video captioning. Most captioning pipelines still rely on uniform sampling, which is computationally cheap but agnostic to visual content. Adaptive frame sampling has recently emerged as a promising approach for selecting the most informative frames from a video; however, existing methods remain computationally expensive. We introduce PEEK, an efficient dynamic frame sampling method that distills caption-conditioned frame relevance rankings from a stronger teacher model into a lightweight temporal model that operates only on visual content. We find that, overall, on ActivityNet Captions and MSR-VTT, our method outperforms state-of-the-art methods across all evaluated downstream vision language models, especially when only one or two frames are selected for captioning, obtaining the best CIDEr for most frame budgets. On ActivityNet Captions, PEEK is particularly strong, winning 14 out of 16 configurations. Zero-shot evaluation on MSR-VTT shows that our model transfers best at low frame budgets, while results at four and eight frames are more mixed as temporal coverage and visual diversity become increasingly competitive. Compared with recent adaptive baselines, PEEK is both more accurate in the low-budget regime and more efficient: it adds only $5.2\\%$ to the captioning time, compared with $65.4\\%$ for CSTA and $211.9\\%$ for MaxInfo. We release our code and pre-trained checkpoint at https://github.com/momentslab/peek.",
+      "authors": [
+        "Killian Steunou",
+        "Anas Filali Razzouki",
+        "Khalil Guetari",
+        "Mounîm A. El-Yacoubi",
+        "Yannis Tevissen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T09:01:56+00:00",
+      "link": "https://arxiv.org/pdf/2605.31029v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient frame selection for video captioning improves speed and could enable real-time video understanding",
+      "llm_evidence_cn": "视频标题生成的高效帧选择提升速度，可用于实时视频理解",
+      "llm_evidence": "视频标题生成的高效帧选择提升速度，可用于实时视频理解",
+      "canonical_evidence": "视频标题生成的高效帧选择提升速度，可用于实时视频理解",
+      "llm_tldr_en": "Proposes PEEK, a distillation-based dynamic frame sampling method for efficient video captioning, outperforming state-of-the-art adaptive methods.",
+      "llm_tldr_cn": "为解决视频标题生成中帧选择的计算瓶颈，提出PEEK方法，通过知识蒸馏将教师模型的帧相关性排序蒸馏为轻量级时序模型，只利用视觉内容动态选取关键帧；在ActivityNet Captions和MSR-VTT上超越现有自适应采样方法，兼顾效率与精度，为实时视频理解提供了可扩展的帧选择方案，展示了蒸馏驱动的动态采样的实用潜力。",
+      "llm_tldr": "为解决视频标题生成中帧选择的计算瓶颈，提出PEEK方法，通过知识蒸馏将教师模型的帧相关性排序蒸馏为轻量级时序模型，只利用视觉内容动态选取关键帧；在ActivityNet Captions和MSR-VTT上超越现有自适应采样方法，兼顾效率与精度，为实时视频理解提供了可扩展的帧选择方案，展示了蒸馏驱动的动态采样的实用潜力。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.00987v1",
+      "source": "arxiv",
+      "title": "An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation",
+      "abstract": "Large Vision-Language Models (LVLMs) have shown strong visual understanding and language-guided grounding abilities, yet their capacity for multi-temporal visual reasoning remains underexplored. To bridge this gap, we introduce \\textbf{Multi-temporal Referring Segmentation (MTRS)}, a new task that aims to segment language-described temporal changes from multi-temporal images. MTRS extends conventional referring segmentation and change detection by jointly requiring temporal correspondence reasoning, language grounding, and pixel-level mask prediction. We propose \\textbf{CRAFT-Agent}, an automated data construction pipeline with human auditing, and build \\textbf{MTRefSeg-21K}, the first MTRS benchmark, containing 21K high-quality multi-temporal image-text-mask triplets across diverse scenes, viewpoints, and domains. Benchmarking a broad set of VLM- and LVLM-based models reveals that direct inference performs poorly, while task-specific fine-tuning remains limited. To address this, we propose \\textbf{MTRefSeg-R1}, a change-aware LVLM framework trained with a two-stage strategy. It first learns general temporal-change perception from 20K vision-only bi-temporal samples, and is then fine-tuned on MTRefSeg-21K for fine-grained language-guided temporal localization. MTRefSeg-R1 explicitly models cross-temporal visual differences, aligns language instructions with temporal variations, and predicts referred change masks. Extensive experiments show that MTRefSeg-R1 achieves strong and often superior performance compared with existing LVLM baselines, demonstrating the challenge and potential of MTRS.",
+      "authors": [
+        "Bingyu Li",
+        "Da Zhang",
+        "Tao Huo",
+        "Zhiyuan Zhao",
+        "Junyu Gao",
+        "Xuelong Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-31T04:01:10+00:00",
+      "link": "https://arxiv.org/pdf/2606.00987v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Proposes multi-temporal referring segmentation, grounding language-described temporal changes, relevant to multimodal referring expression grounding in video",
+      "llm_evidence_cn": "提出多时相指代分割，将语言描述的时序变化进行定位，与视频中多模态指代表达定位相关",
+      "llm_evidence": "提出多时相指代分割，将语言描述的时序变化进行定位，与视频中多模态指代表达定位相关",
+      "canonical_evidence": "提出多时相指代分割，将语言描述的时序变化进行定位，与视频中多模态指代表达定位相关",
+      "llm_tldr_en": "Introduces a new task of segmenting language-described temporal changes from multi-temporal images, with a benchmark and baseline, bridging referring expression grounding and temporal reasoning.",
+      "llm_tldr_cn": "针对大模型多时相视觉推理不足，提出多时相指代分割任务，要求联合时序对应推理、语言定位和像素级掩码预测。构建了MTRefSeg-21K基准，并开发自动化数据构建管线CRAFT-Agent，为视频时序指代定位提供了新任务和数据集。",
+      "llm_tldr": "针对大模型多时相视觉推理不足，提出多时相指代分割任务，要求联合时序对应推理、语言定位和像素级掩码预测。构建了MTRefSeg-21K基准，并开发自动化数据构建管线CRAFT-Agent，为视频时序指代定位提供了新任务和数据集。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

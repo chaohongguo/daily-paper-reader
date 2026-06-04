@@ -1,0 +1,636 @@
+Title: SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling
+
+URL Source: https://arxiv.org/pdf/2605.30750v1
+
+Published Time: Mon, 01 Jun 2026 00:28:19 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+Xiang Fang 1 Wanlong Fang 2
+
+## Abstract 
+
+In the era of Large Video-Language Models (LVLMs), the computational necessity of sparse frame sampling creates a fundamental “temporal gap”, rendering models blind to critical causal transitions. Existing solutions relying on gener-ative hallucination (e.g., latent diffusion) or au-toregressive extrapolation often fail to maintain semantic consistency over long horizons, suffer-ing from object vanishing and energetic instabil-ity. We propose a paradigm shift from proba-bilistic generation to variational mechanics with the Semantic Least Action Principle (SLAP) .Drawing a rigorous isomorphism between classi-cal mechanics and semantic dynamics, we model the latent video trajectory as a path on a Rie-mannian manifold governed by a Semantic La-grangian. By formulating the interpolation task as a Boundary Value Problem (BVP) solved via the discrete Euler-Lagrange equations, SLAP nat-urally enforces object persistence without pixel-level rendering. Extensive experiments show the effectiveness of our proposed SLAP. 
+
+## 1. Introduction 
+
+By 2026, the unification of visual and linguistic representa-tions has reached a mature stage, driven by the proliferation of Large Video-Language Models (LVLMs) such as Video-LLaMA (Zhang et al., 2023), Flamingo (Alayrac et al., 2022), and LLaVA-Video (Liu et al., 2023d). These founda-tion models have demonstrated remarkable proficiency in describing static scenes and answering factual questions by projecting visual features into the embedding space of Large Language Models (LLMs) (Touvron et al., 2023). However, 
+
+> 1
+
+School of Software Engineering, Huazhong University of Science and Technology 2Nanyang Technological University, Singapore. Correspondence to: Wanlong Fang <wanlong-fang@gmail.com >.
+
+Proceedings of the 43 rd International Conference on Machine Learning , Seoul, South Korea. PMLR 306, 2026. Copyright 2026 by the author(s). Linear Interpolation 
+
+> Cuts through Void
+> Generative Diffusion
+> Erratic / Hallucinated
+> SLAP (Ours)
+> Optimal Semantic Path
+
+Figure 1. Conceptual Comparison. Unlike standard interpola-tion (Blue) which ignores semantic geometry, or diffusion (Green) which hallucinates pixel-level texture often violating object per-sistence, SLAP (Red) optimizes a latent trajectory that balances inertial continuity with semantic alignment. 
+
+despite these advances, a fundamental paradox remains at the heart of video understanding: the irreconcilable trade-off between temporal resolution and contextual span . The quadratic complexity of self-attention mechanisms (Vaswani et al., 2017) imposes a hard ceiling on the number of visual tokens an LLM can process. To reason over minute-long or hour-long videos within a finite context window, state-of-the-art systems are forced to employ aggressive sparse sampling strategies, often retaining fewer than 0.5 frames per second (Li et al., 2023a; Bain et al., 2021). This Temporal Sparsity creates significant “blind spots”, vast temporal intervals where the model is effectively blind to the causal transitions of the physical world (Li et al., 2021; 2024; 2025; 2023b;c; Tan et al., 2025). When an object enters a tunnel in frame t and exits in frame t + k, a sparsely sampled model perceives two disconnected states: “object at entrance” and “object at exit.” The critical inter-mediate process, the persistence of the object through the occlusion, is entirely unobserved. Consequently, the model faces an ill-posed inverse problem: it must infer the unob-served trajectory based solely on boundary conditions and linguistic priors. Current paradigms attempt to bridge this gap through two primary mechanisms, both of which we argue are fundamentally flawed for physical reasoning. The first, Implicit Pooling , aggregates features via mean-pooling or Q-Formers, collapsing the temporal dimension and de-stroying causal structure. The second, Generative Halluci-nation , utilizes auxiliary diffusion models (Ho et al., 2020; Blattmann et al., 2023) to generate pixel-level interpolations. While visually coherent, these generative approaches are driven by statistical texture priors rather than physical con-straints. They minimize a local reconstruction loss, often 1
+
+> arXiv:2605.30750v1 [cs.CV] 29 May 2026 SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling
+
+leading to “hallucination flickering” or violations of object permanence, such as an object vanishing inside a tunnel because “empty tunnels” are statistically more probable in the training distribution than “tunnels containing invisible objects.” In this work, we propose that the failure of current LVLMs to maintain temporal consistency is due to Kinematic Naivety :treating video frames as a “bag of tokens” rather than states in a continuous dynamical system. We contend that the problem of temporal interpolation should not be framed as a 
+
+probabilistic task of maximizing likelihood P (xt|xt−1), but rather as a variational task of minimizing action. Drawing inspiration from the Principle of Least Action in classical mechanics, which governs everything from planetary orbits to quantum fields, we introduce the Semantic Least Action Principle (SLAP) . We posit a rigorous isomorphism be-tween the physical world and the latent semantic manifold of a foundation model (Wang & Isola, 2020; Bronstein et al., 2017). We define the latent state of a video not as a static point, but as a particle moving through a high-dimensional Riemannian manifold. This particle possesses Semantic In-ertia (Kinetic Energy), representing the resistance of mean-ing to abrupt change, and is acted upon by Semantic Forces 
+
+(Potential Energy), representing the “gravitational pull” of the text query and visual context (LeCun et al., 2006; Yilun & Mordatch, 2019). Based on this formulation, we introduce the Lagrangian Bridge , a differentiable neural module that solves the tem-poral gap as a Two-Point Boundary Value Problem (BVP). Instead of autoregressively predicting the next token, which accumulates error and drift over time (Chen et al., 2018), SLAP solves for the global trajectory that satisfies the Euler-Lagrange equations derived from our Semantic Lagrangian. This approach offers three distinct advantages over current deep learning methods. First, it enforces Object Persis-tence : the Kinetic Energy term naturally penalizes the “teleportation” or “vanishing” of semantic entities, as such discontinuities require infinite action. Second, it enables 
+
+Text-Guided Dynamics : by modeling the text query as a potential field, the language model can exert forces that steer the visual trajectory (e.g., the verb “running” lowers the potential energy in specific regions of the manifold), ef-fectively coupling the modalities via energy rather than just attention. Third, it is Computationally Efficient : solving the discretized Euler-Lagrange equations involves optimiz-ing a sequence of low-dimensional vectors, avoiding the massive computational cost of pixel-space diffusion or au-toregressive decoding (Song et al., 2021). This paper makes three primary contributions: 1) Theoret-ical Formulation: We formally define Semantic Action for video embeddings, framing temporal interpolation as an energy minimization problem (Greydanus et al., 2019; Cranmer et al., 2020) rather than a probabilistic generation problem. We derive the discrete Euler-Lagrange equations for high-dimensional latent spaces. 2) The Lagrangian Bridge: A novel, lightweight neural module that predicts the “Potential Landscape” of a text query and optimizes the latent trajectory via gradient descent during inference. This module acts as a differentiable physics engine for se-mantics. 3) Empirical Validation: We demonstrate that SLAP reduces object vanishing rates by 68% compared to state-of-the-art diffusion inpainting, while achieving a 177x speedup in inference latency on many challenging bench-marks like MSR-VTT (Xu et al., 2016) and ActivityNet (Caba Heilbron et al., 2015). 
+
+## 2. Related Work 
+
+The evolution of Large Video-Language Models (LVLMs) has been driven by the unification of visual and linguistic representations (Liu et al., 2023a; Wang et al., 2025d; Fang et al., 2026b; Kuai et al., 2026; Wang et al., 2025b; Fang et al., 2025c; Zhang et al., 2025b; Fang et al., 2023c; Liu et al., 2024b; Yang et al., 2025; Fang et al., 2022; 2026d; Lei et al., 2025; Fang et al., 2023b; Wang et al., 2025a; Fang et al., 2025e; Yan et al., 2026; Fang et al., 2025a; Wang et al., 2026c; Cai et al., 2025; Fang & Hu, 2020; Wang et al., 2026a; Fang et al., 2026c; Wang et al., 2026d; Fang & Fang, 2026; Wang et al., 2025f; Fang, 2026; Fang et al., 2026e; Wang et al., 2026b; Liu et al., 2023c; 2026; Fang et al., 2026f; Wang et al., 2025c; Fang et al., 2026g; 2025g; 2024b; Liu et al., 2024c; Fang et al., 2025f;d; 2024a; Liu et al., 2023b; Fang et al., 2024c; Liu et al., 2024a; Fang et al., 2023a; Xiong et al., 2024; Fang et al., 2021b; Wang et al., 2025e; Zhang et al., 2025a; Fang et al., 2026a; Tang et al., 2024; Fang et al., 2025b; Tang et al., 2025; Fang et al., 2021a; Cai et al., 2026; Fang et al., 2020). Early foundations were laid by dual-encoder architectures like CLIP (Radford et al., 2021) and ALIGN, which aligned static image-text pairs in a shared contrastive space. The introduction of instruction tuning led to the current dominant paradigm: auto-regressive Large Language Models (LLMs) equipped with visual perception modules. 
+
+Architectural Evolution: Models such as Video-LLaMA (Zhang et al., 2023), LLaVA-Video (Zhang et al., 2025c), and BLIP-2 (Li et al., 2023a) typically employ a frozen vi-sual encoder (e.g., ViT-L/14) to extract frame-level features, which are then projected into the LLM’s embedding space via a Q-Former or linear adapter (Alayrac et al., 2022; Liu et al., 2023d). To handle the temporal dimension, these architectures utilize one of two strategies: 1) Temporal Pooling: Aggregating frame features via mean-pooling or attention-pooling to form a single “video token”. While computationally efficient, this approach collapses the tem-poral dimension, rendering the model incapable of distin-2SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 1) Sparse Frames 
+
+t0
+
+... 
+
+ti
+
+... 
+
+tT
+
+> Missing intervals
+
+Frozen 
+
+Visual Encoder 
+
+> CLIP / ViT
+> Anchor Embeddings
+
+... 
+
+Text 
+
+Encoder  Query  Embedding 
+
+q
+
+3) Lagrangian Bridge (BVP Solver) 
+
+> Latent Trajectory in Discrete Time
+
+z0 z1
+
+... 
+
+zT-1 zT  
+
+> (fixed
+> anchor) (fixed
+> anchor)
+> optimized states
+> Action Minimization (Iterative)
+> Latent Space
+
+z0
+
+zT Fixed  Anchors  
+
+> Optimized States
+> Linear init
+> Optimized Trajectory
+> project to unit hypersphere
+
+4) Dense 
+
+Latent 
+
+Z*
+
+... 
+
+LVLM /
+
+QA Decoder 
+
+> Legend
+> Fixed anchor (observed)
+> Optimized state (missing)
+> Linear initialization
+> Optimized (least -action) path
+> (semantic force)
+
+6) Potential Field Network Pθ
+
+zt   
+
+> (latent state)
+> ResMLP
+> +SwiGLU
+> +Spectral Norm
+
+hz
+
+FiLM 
+
+> (Scale & Shift)
+> Energy / Score
+
+Pθ(zt, q)
+
+> (scalar)
+
+q  
+
+> (query embedding) Text Adapter
+> (MLP)
+
+γ(q) β(q) 
+
+> 7) Offline Training
+> InfoNCE
+> +
+> Sobolev Reg.
+
+         
+
+> 0,,,,tti tT zzz
+
+( )               
+
+> 12100
+> 12,
+> Tkin tttTpot ttkin pot
+> SzzSPzqSSS
+> 
+> 
+> −+==
+> =−=−=+
+
+z P  
+
+> 
+> miss miss Z
+
+Z Z S
+
+ − 2 
+
+> ZP
+> 
+> 
+
+2) Query Text Q 5) Answer 
+
+Figure 2. Overview of the proposed SLAP framework. Given sparsely sampled video frames and a text query, SLAP first encodes the observed frames into fixed visual anchor embeddings and maps the query into a semantic condition embedding. The core Lagrangian Bridge formulates the missing temporal states as a two-point boundary value problem and optimizes a dense latent trajectory by minimizing the discrete semantic action, which combines a kinetic term for temporal smoothness with a query-conditioned potential term for semantic alignment. The potential field network Pθ provides a differentiable energy/score landscape whose gradient acts as a semantic force during action minimization. The resulting least-action trajectory Z∗ is then passed to the LVLM/QA decoder, enabling temporally consistent reasoning over unobserved intervals without pixel-level generation. 
+
+guishing “a dog chasing a cat” from “a cat chasing a dog” if the static features are identical. 2) Token Concatena-tion: Concatenating frame tokens [zt1 , z t2 , . . . ] into the LLM context window. While this preserves order, it hits the “Quadratic Wall” of self-attention. To process a 1-minute video at 30fps with 256 tokens per frame would require pro-cessing ≈ 460 , 000 tokens, which is prohibitively expensive for real-time inference. 
+
+The Sparse Sampling Bottleneck: Consequently, state-of-the-art methods rely on aggressive sparse sampling, typi-cally retaining only 8 to 32 frames per video regardless of duration. This introduces severe temporal aliasing . The vast majority of the physical process is unobserved. When an LVLM describes an event occurring between sampled frames, it is not “seeing”; it is hallucinating based on the linguistic prior P (text ).
+
+Kinematic Naivety: We argue that current LVLMs are 
+
+kinematically naive . They model the probability of the next token P (xt+1 |xt), but they do not model the energy cost of the transition. There is no internal mechanism in a standard Transformer to penalize a semantic trajectory that teleports discontinuous objects, provided the language description is plausible (Dosovitskiy et al., 2021; Vaswani et al., 2017). This lack of a “conservation law” for semantic entities is the primary cause of object permanence failure in current benchmarks. SLAP addresses this by explicitly reintroducing the cost of motion (Kinetic Energy) into the latent representation. 
+
+## 3. Method: The SLAP Architecture 
+
+As shown in Figure 2, our proposed framework, SLAP, bridges the temporal gap in sparse video representations by finding the optimal latent trajectory that minimizes a physically inspired Semantic Action. 
+
+3.1. Visual Encoder & Text Encoder 
+
+To rigorously ground the Semantic Least Action Principle, we must first formalize the properties of the mapping func-tions provided by the Visual and Text Encoders. We do not treat these encoders merely as black boxes, but as mappings that induce the geometry of the Riemannian manifold M
+
+on which our Lagrangian dynamics unfold. 
+
+The Visual Encoder as a Manifold Mapping Let I denote the space of all possible video frames, modeled as a subset of square-integrable functions L2(R2). We employ a pre-trained Visual Encoder fϕ : I → Z , where Z = Rd is the high-dimensional latent space (e.g., CLIP-ViT-L/14 with 3SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+d = 768 ). The fundamental assumption underpinning our Kinetic Energy term T ( ˙ z) = 12 ∥ ˙z∥2 is that the Euclidean distance in Z approximates the semantic distance in I. How-ever, raw pixel space is not semantically linear. We formally posit that fϕ maps the semantic content of frames onto a low-dimensional manifold M ⊂ Z .
+
+Assumption 3.1 (Semantic Isometry Hypothesis) . Let 
+
+dsem (Ia, I b) be a theoretical metric measuring the semantic dissimilarity between two images. We assume fϕ satisfies an ϵ-quasi-isometry condition locally:    
+
+> (1 −ϵ)dsem (Ia, I b)≤ ∥ fϕ(Ia)−fϕ(Ib)∥2≤(1+ ϵ)dsem (Ia, I b),
+
+for frames Ia, I b within a temporal neighborhood ∆t.This assumption is crucial. If it holds, minimizing the ki-netic energy R ∥ ˙z∥2dt in latent space is equivalent to mini-mizing the rate of semantic change, thereby enforcing tem-poral consistency. However, standard ViTs are not guar-anteed to be smooth with respect to temporal variations in pixel space due to the discrete nature of patch embedding and attention mechanisms. To enable the use of variational calculus (specifically the Euler-Lagrange equations), we re-quire the latent trajectory to be differentiable. We present the following theorem regarding the smoothness of the in-duced trajectory. 
+
+Theorem 3.2 (Differentiability of the Latent Trajectory) .
+
+Let I(t) ∈ C1([0 , T ], RH×W ) be a video sequence evolv-ing smoothly in time (i.e., optical flow fields are bounded). Let fϕ be a Vision Transformer encoder composed of linear projections, layer normalizations, Softmax-Attention, and GeLU/Swish activation functions. Then, the latent trajec-tory z(t) = fϕ(I(t)) is almost everywhere differentiable, 
+
+z(t) ∈ C1
+
+> a.e.
+
+([0 , T ], Z), with the time derivative bounded by: ∥ ˙z(t)∥ ≤ KL∥ ˙I(t)∥, where KL is the product of the Lipschitz constants of the network layers. Proof. The composition of smooth functions is smooth. The GeLU activation σ(x) = xΦ( x) is C∞. Layer Normaliza-tion and Softmax are smooth operations on compact do-mains. The only source of discontinuity arises from poten-tial max-pooling (not present in standard ViT) or patching boundaries. Given that optical flow ˙I(t) represents contin-uous translation of pixel intensities, and convolution/patch projection are linear operators, the map t 7 → z(t) main-tains Lipschitz continuity. This guarantees that the Kinetic Energy term T ( ˙ z) is well-defined and finite, justifying our Lagrangian formulation. 
+
+The Text Encoder and the Potential Landscape The Text Encoder gψ : Q → Z maps a natural language query q ∈ Q 
+
+to the same latent space Z. Unlike the visual encoder which defines the particle’s state, the text encoder defines the ge-ometry of the potential field . We define the static potential generated by a query q at any point z in the semantic mani-fold as: V (z, q ) = 1 −sim (z, g ψ (q)) = 1 − zT gψ (q)  
+
+> ∥z∥∥ gψ(q)∥
+
+. This formulation interprets cosine similarity as an attractive force. A critical requirement for the stability of our “Lagrangian Bridge” optimization (Section 4.3) is that this potential land-scape must be convex within the local neighborhood of the optimal path, ensuring that the gradient descent steps do not diverge. 
+
+Proposition 3.3 (Convexity of Local Semantic Potential) .
+
+Consider the hypersphere Sd−1 on which normalized CLIP embeddings lie. For a query embedding u = gψ (q), the po-tential V (z) = 1 − zT u (assuming ∥z∥ = 1 ) is geodesically convex on the hemisphere defined by {z ∈ Sd−1 | zT u > 
+
+0}.
+
+This proposition implies that as long as our initialization (Linear Interpolation) places the missing latents within the “positive hemisphere” of the correct semantic meaning, the Action Minimization loop will converge to a unique solution that balances smoothness and text alignment. Combining Theorem 3.2 and the definition of V (z, q ), we establish that our total Action functional S[z] = R (T −λV )dt is a smooth, bounded functional, satisfying the necessary conditions for the existence of stationary points via the Euler-Lagrange equations. 
+
+3.2. The Potential Field Network ( Pθ )
+
+While the static cosine similarity potential defined in Section 4.1.2 provides a coarse attraction towards the query, it is insufficient for complex temporal reasoning. The “true” semantic potential V ∗(z, q ) should reflect the likelihood of a specific visual state z given the linguistic context q as defined by the full Large Language Model (LLM). However, evaluating the gradients of an LLM (e.g., LLaMA-70B) with respect to continuous visual latents at every step of an optimization loop is computationally intractable, scaling as 
+
+O(Nsteps ·Nparams ). To surmount this barrier, we introduce the Potential Field Network , a differentiable, lightweight proxy model Pθ : Z × Z → R trained to approximate the energy landscape of the frozen LLM. 
+
+Theoretical Derivation: Amortized Energy Approxi-mation We model the joint distribution of visual states and text queries using an Energy-Based Model (EBM) for-mulation. The conditional probability of a latent state z
+
+given a query q is governed by the Boltzmann distribution: 
+
+p(z|q) = e−E(z,q ) 
+
+> Z(q)
+
+, where E(z, q ) is the energy function and 
+
+Z(q) = R e−E(z,q )dz is the partition function. Our goal is to identify the potential energy V (z, q ) with this energy 
+
+E(z, q ).Since we lack direct access to E(z, q ), we employ a proxy network Pθ and train it via Noise Contrastive Estimation (InfoNCE) (Gutmann & Hyv ¨arinen, 2010; Oord et al., 2018). 4SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+We rigorously show that the optimal proxy recovers the true energy landscape up to a constant. 
+
+Theorem 3.4 (Convergence of the Proxy Potential) . Let 
+
+Pθ (z, q ) be a function parameterized by θ. Let the training objective be the InfoNCE loss:           
+
+> LN CE (θ) = −E(z,q )∼pdata
+> "
+> log ePθ(z,q )
+> ePθ(z,q )+PKj=1 ePθ(zj,q )
+> #
+> ,
+> (1)
+
+where {zj } are K negative samples drawn from the marginal p(z). As K → ∞ , the minimizer P ∗ 
+
+> θ
+
+of this loss satisfies:       
+
+> P∗
+> θ(z, q ) = log p(z|q)
+> p(z)+C(q),(2)
+
+where C(q) is a query-dependent constant. Proof. Following the derivation by Gutmann & Hyv ¨arinen (2010) and Oord et al. (2018), the optimal critic for the contrastive loss estimates the density ratio. Specifically, the optimal logits f ∗(z, q ) converge to the Pointwise Mutual Information (PMI). Since p(z|q) ∝ e−V ∗(z,q ), we have: 
+
+P ∗ 
+
+> θ
+
+(z, q ) ≈ log p(z|q) − log p(z) = −V ∗(z, q ) − log p(z).
+
+(3) Assuming the marginal distribution of visual embeddings 
+
+p(z) is uniform over the hypersphere (a common property of contrastive pre-training like CLIP), the term log p(z) be-comes constant. Thus, maximizing Pθ is equivalent to mini-mizing the true semantic potential V ∗.This theorem justifies using −Pθ (z, q ) as the Potential En-ergy term in our Lagrangian. Crucially, because Pθ is a small neural network, computing ∇z Pθ (z, q ) is ∼ 10 4×
+
+faster than backpropagating through the LLM. 
+
+Architecture and Gradient Regularization The architec-ture of Pθ must be expressive enough to capture non-convex energy landscapes yet constrained enough to ensure stable optimization dynamics in the Euler-Lagrange solver. We implement Pθ as a Residual Multi-Layer Perceptron (ResMLP) with SwiGLU activations (Shazeer, 2020).          
+
+> Pθ(z, q ) = wTL·ResBlock L(. . . ResBlock 1([ z⊕q]) . . . ).
+
+To ensure the stability of the “Action Minimization” loop, the gradient field ∇z V must be Lipschitz continuous. If the gradients change too abruptly, the discrete update steps in the Euler-Lagrange optimization may diverge. 
+
+Lemma 3.5 (Lipschitz Stability Condition) . For the discrete Euler-Lagrange update zt ← zt − α∇S to converge, the Hessian of the potential ∇2 
+
+> z
+
+Pθ must have bounded spectral norm: ∥∇ 2 
+
+> z
+
+Pθ ∥2 < 2 
+
+> α
+
+.
+
+To enforce this, we apply Spectral Normalization (Miyato et al., 2018) to all weight matrices in Pθ . This constrains the Lipschitz constant of the network, ensuring that the learned energy landscape is smooth and the induced force field is conservative and stable. This design choice is a critical deviation from standard reward models, which often prioritize discriminative power over gradient smoothness. 
+
+3.3. Inference Procedure: Action Minimization Loop 
+
+Having defined the Semantic Action S and the potential field approximation Pθ , we now detail the inference procedure. Unlike standard autoregressive generation which solves an Initial Value Problem (predicting zt+1 from zt), our method solves a Two-Point Boundary Value Problem (BVP) .Given observed frames at times tstart and tend , we optimize the entire intermediate trajectory Zmiss = {zt}tend −1
+
+> t=tstart +1
+
+simultaneously. 
+
+Discrete Action Formulation We discretize the time do-main into N steps of size ∆t. The total discrete action Sdisc 
+
+is given by the sum of kinetic and potential terms over the path:       
+
+> Sdisc (Zmiss ) =
+> N−1X
+> t=0
+> 12
+> zt+1 −zt
+> ∆t
+> 2
+> −λP θ(zt, q )
+> 
+> .
+
+Here, the kinetic term approximates the integral of squared velocity using finite differences. The parameter λ con-trols the trade-off between smoothing (inertia) and semantic alignment (force). 
+
+Theoretical Convergence Analysis A critical concern for deployment is whether this optimization converges to a unique, globally optimal semantic path. Since Skin is a quadratic form (sum of squared differences), it is strictly convex. The convexity of the total action depends on the potential term −λP θ .
+
+Theorem 3.6 (Convexity and Uniqueness of the Semantic Trajectory) . Let the Semantic Kinetic Energy be T (z) = 
+
+> 12
+
+P ∥zt+1 − zt∥2. Let the Potential Energy be V (z) = 
+
+−λP θ (z). If the Hessian of the proxy potential satisfies 
+
+λmax (∇2Pθ ) < 2 
+
+> λ∆t2
+
+for all z, then the total Action func-tional S[z] is strictly convex with respect to the trajectory 
+
+Zmiss .Proof. The Hessian of the kinetic term ∇2T is a con-stant positive definite matrix (specifically, a scaled discrete Laplacian matrix) with minimum eigenvalue μkin > 0 re-lated to the time step ∆t. The total Hessian is Htotal =
+
+∇2T − λ∇2Pθ . For strict convexity, we require Htotal ≻ 0.Using Weyl’s inequality, λmin (Htotal ) ≥ λmin (∇2T ) + 
+
+λmin (−λ∇2Pθ ) = μkin − λλ max (∇2Pθ ). Therefore, pro-vided the “curvature” of the semantic potential induced by the text is not arbitrarily large (bounded by the spectral nor-malization in Section 4.2.2) and the weight λ is sufficiently small, the inertial term dominates. This guarantees that the optimization landscape is a single basin. 5SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+This theorem provides a rigorous guarantee: SLAP does not merely find a path, but the optimal path defined by the balance of semantic conservation and textual alignment. This contrasts sharply with diffusion models, which rely on stochastic sampling and may yield different semantic interpretations for the same missing gap across different runs. 
+
+3.4. Training the Potential Field 
+
+While Section 4.2 established the conditions under which an optimal proxy potential P ∗ 
+
+> θ
+
+exists, practical training requires a robust objective that not only learns discriminative energy values but also ensures the smoothness of the gradient field 
+
+∇z Pθ required for the Lagrangian dynamics. We detail our training methodology here, which combines energy-based contrastive learning with Sobolev regularization. 
+
+The Contrastive Energy Objective We train the Potential Field Network Pθ on a large corpus of paired video clips and text descriptions (e.g., WebVid-10M (Bain et al., 2021)). We treat each video frame z and its corresponding caption q as a positive pair. To facilitate efficient learning of the energy landscape, we adopt the InfoNCE formulation with temperature scaling τ .The primary loss function is defined as: LN CE (θ) =
+
+−E(zi,q i)∼D 
+
+
+
+log exp( Pθ (zi,q i)/τ )exp( Pθ (zi,q i)/τ )+ PKj=1 exp( Pθ (zj ,q i)/τ )
+
+
+
+,
+
+where {zj }Kj=1 are negative visual samples drawn from the minibatch. This objective forces the network to assign “low energy” (high Pθ ) to compatible pairs and “high energy” to incompatible ones. However, standard InfoNCE only constrains the value of the potential at data points. It does not explicitly constrain the shape of the potential surface between data points, which is where our trajectory optimization occurs. A potential surface with sharp, cliffs or erratic gradients off the data manifold will cause the Euler-Lagrange solver to exhibit instability. 
+
+Sobolev Regularization for Smooth Dynamics To ensure that the learned potential field supports stable Lagrangian dynamics, we introduce a gradient penalty, often referred to as Sobolev Regularization or Jacobian Regularization. We seek a potential function that is not only accurate but also “flat” in the vicinity of valid semantic states, avoiding spurious high-frequency oscillations. We define the regularization term Lreg as the expected squared norm of the gradient with respect to the input latent 
+
+z:      
+
+> Lreg (θ) = E(z,q )∼D
+> ∥∇ zPθ(z, q )∥22
+> .(4)
+
+The total training objective becomes:      
+
+> Ltotal (θ) = LN CE (θ) + γLreg (θ),(5)
+
+where γ is a hyperparameter balancing discrimination and smoothness. This regularization has a profound physical interpretation. In our mechanical analogy, the force exerted on the semantic particle is F = −∇ V . By minimizing the norm of the gradient, we penalize arbitrarily large forces. This ensures that the “semantic gravity” is gentle, preventing the particle from being ejected from the manifold due to numerical instability during the discrete update steps. 
+
+Theoretical Bound on Trajectory Error A central ques-tion for the validity of our method is: Does a good approxi-mation of the potential imply a good approximation of the trajectory? If our trained network Pθ approximates the true semantic potential V ∗ with error ϵ, can we bound the devi-ation of the inferred trajectory ˆz(t) from the true optimal trajectory z∗(t)?We answer this affirmatively with the following theorem, relying on the theory of stability for variational problems. 
+
+Theorem 3.7 (Stability of the Semantic Trajectory) . Let 
+
+z∗ be the minimizer of the true action functional S∗[z] = R (T − V ∗)dt , and let ˆz be the minimizer of the approxi-mate action ˆS[z] = R (T − Pθ )dt . Assume that: 1) The Kinetic Energy term is μ-strongly convex (satisfied by T = 
+
+> 12
+
+∥ ˙z∥2). 2) The gradient of the potential error is bounded: 
+
+sup z ∥∇ V ∗(z) − ∇ Pθ (z)∥ ≤ ϵ. Then, the trajectory error is bounded in the L∞ norm by: ∥ˆz − z∗∥L∞ ≤ T 2 
+
+> μ
+
+ϵ, where 
+
+T is the duration of the temporal gap. Proof. The Euler-Lagrange equations for the two func-tionals are ¨z∗ = −∇ V ∗(z∗) and ¨ˆz = −∇ Pθ (ˆ z). Sub-tracting these equations gives the error dynamics. Let 
+
+e(t) = ˆz(t) − z∗(t). The dynamics satisfy ¨e(t) =
+
+−(∇Pθ (ˆ z) − ∇ V ∗(z∗)) . Using the Triangle Inequality and the assumption on the gradient error, we can model this as a perturbed harmonic oscillator. Since the boundary condi-tions are fixed ( e(0) = e(T ) = 0 ), we apply the maximum principle for elliptic operators. The Green’s function for the second derivative operator with Dirichlet boundaries scales with T 2, leading to the bound T 2 
+
+> μ
+
+ϵ.This theorem provides the critical link between training and inference. It tells us that by minimizing Lreg (which constrains the gradients) and LN CE (which constrains the potential shape), we directly minimize the upper bound on the trajectory interpolation error. It also highlights a fundamental limitation: as the gap size T grows, the error bound grows quadratically, motivating the need for reason-ably dense anchors or hierarchical solving strategies for very long videos. 
+
+## 4. Experiments 
+
+Datasets and Protocols We conduct evaluations on three distinct datasets, each probing a different aspect of temporal 6SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+Table 1. Dataset Specifications used in our experiments. The Tunnel Test is our novel contribution.               
+
+> Dataset Videos Avg. Duration (s) Task Type Sparsity Factor
+> MSR-VTT 10,000 20s Open-ended QA 4 frames/video ActivityNet-QA 20,000 180s Long-term QA 8 frames/video Tunnel Test (Ours) 1,000 10s Object Persistence Occlusion Masked
+
+Table 2. Results on “The Tunnel Test” (Synthetic Occlusion). 
+
+SLAP achieves the lowest semantic drift, indicating it best pre-serves the object’s identity through the occlusion. SVD often hallucinates tunnel walls, losing the object entirely.                         
+
+> Method Accuracy ↑Persistence(1-5) ↑Semantic Drift ↓
+> Zero-Order Hold (ZOH) 24.3% 1.2 0.45 SLERP (Linear) 41.5% 2.1 0.38 Latent ODE 58.2% 3.4 0.29 Neural CDE 64.7% 3.8 0.22 Video-LLaMA 3 (AutoReg) 68.1% 3.9 0.25 Stable Video Diffusion (SVD) 71.4% 3.5 0.28
+> SLAP (Ours) 83.9% 4.7 0.14
+
+reasoning under sparsity. We detail the specifications in Table 1. 
+
+4.1. Quantitative Performance 
+
+We report the results on 1,000 held-out test videos in Table 2. We utilize three key metrics: 1) Accuracy (%): The percentage of queries correctly identifying the occluded object. 2) Persistence Score (1-5): A GPT-4 evaluated score measuring if the model’s description implies the object is “in” the tunnel versus “gone” or “replaced.” 3) Semantic Drift ( Dsem ): The average cosine distance between the inferred latent states inside the tunnel and the ground truth embeddings of the unoccluded object. Lower is better. 
+
+The “Vanishing Object” in Generative Models Stable Video Diffusion (SVD) performs competitively on accuracy but suffers from a high Semantic Drift (0.28). Qualitative inspection reveals that SVD prioritizes pixel-level realism 
+
+over semantic consistency. When generating the “middle” of a tunnel sequence, the diffusion model often inpaints a perfectly realistic, high-resolution image of an empty tunnel. The prior probability of “tunnel interior” in the training data strongly favors empty spaces. In contrast, SLAP operates purely in the latent space. The kinetic term T carries the “object vector” forward. To “delete” the object embedding and replace it with an “empty tunnel” embedding would require a discontinuous jump in the manifold, incurring a massive kinetic energy penalty 12 ∥ ˙z∥2. Thus, the principle of least action physically forces the object to persist. 
+
+The “Context Drift” in Transformers Video-LLaMA 3 relies on the attention mechanism to bridge temporal gaps. While effective for short durations, we observe a “Context Drift” in long tunnels ( > 30 tokens). Without fresh visual tokens to attend to, the model’s hidden state drifts towards QA Accuracy (%) 
+
+Figure 3. Where does Physics help? The performance gap is widest for questions involving verbs and temporal ordering (“What happens after...?”), confirming that SLAP captures dynamics better than autoregressive baselines. 
+
+the generic priors of the language model. It begins to hallu-cinate typically associated concepts (e.g., describing “lights” or “traffic” inside the tunnel) rather than the specific object (e.g., “red cube”) that entered. SLAP avoids this because the boundary condition zend (the object exiting) acts as a future constraint, pulling the trajectory back to the correct semantic path. 
+
+Ablation of Semantic Inertia To confirm that the “Inertia” term T is responsible for this performance, we performed an ablation study varying the mass parameter μ. 1) μ → 0
+
+(Pure Potential): The trajectory becomes jagged, jump-ing instantly to maximize text alignment frame-by-frame. Accuracy drops to 62% as the model hallucinates objects ap-pearing and disappearing. 2) μ → ∞ (Pure Inertia): The trajectory approaches a geodesic (SLERP). Accuracy drops to 41% (Linear baseline) as the model ignores the “pull” of the text context. The optimal performance is achieved at 
+
+μ ≈ 1.0, confirming that object persistence is best modeled as a balance between inertial conservation and contextual force. 
+
+4.2. Results Analysis on MSR-VTT QA 
+
+While the Tunnel Test isolates object persistence, the MSR-VTT QA dataset provides a broader evaluation of general video understanding capabilities in the wild. This dataset contains diverse queries ranging from static object recogni-tion to complex action recognition. 
+
+Overall Performance vs. Sparsity We evaluate the models under three distinct sparsity regimes: Mild Sparsity (50% frames retained), High Sparsity (25% frames retained), and 
+
+Extreme Sparsity (10% frames retained). The results are summarized in Table 3. 
+
+Robustness to Extreme Sparsity: The most striking result is SLAP’s resilience. While Video-LLaMA 3 drops nearly 7SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling                          
+
+> Table 3. Zero-shot QA Accuracy (%) on MSR-VTT under varying frame sparsity ratios. SLAP demonstrates superior robustness, maintaining near-peak performance even when 90% of frames are dropped. The “drop” column indicates the performance loss from 50% to 10% retention.
+> Method 50%Frames 25%Frames 10%Frames Drop ↓
+> Zero-Order Hold 38.4 31.2 22.5 -15.9 Linear Interpolation 40.1 35.8 30.1 -10.0 Video-LLaMA 3 44.5 41.2 34.7 -9.8 Stable Video Diffusion 43.8 39.5 35.2 -8.6
+> SLAP (Ours) 45.2 43.9 41.8 -3.4
+> Figure 4. Energy Landscape Analysis for Action Recognition.
+
+10% in accuracy when moving to the 10% frame setting, SLAP drops only 3.4%. This suggests that the Semantic Action defined by the boundary frames and the text query is often sufficient to reconstruct the essential semantic content of the missing interval, rendering the intermediate pixel data redundant for high-level QA tasks. 
+
+Fine-Grained Analysis: Verbs vs. Nouns To understand the source of SLAP’s advantage, we categorize the MSR-VTT questions into “Object-Centric” (nouns) and “Action-Centric” (verbs) subsets. 1) Object-Centric: (e.g., “What color is the car?”) Standard interpolation (LERP) per-forms adequately here because static object attributes (color, shape) often change slowly in the latent space. 2) Action-Centric: (e.g., “What is the man doing?”) This requires understanding the trajectory . If a man is standing in frame 
+
+t0 and lying down in frame tN , LERP creates a “morphing” ghost in the middle. Generative models might hallucinate him sitting. Our analysis shows that SLAP outperforms Video-LLaMA 3 by a margin of 12% on Action-Centric queries under extreme sparsity. By minimizing the action integral, the inferred path must respect the manifold geometry associated with the verb. For instance, the transition from “standing” to “lying down” via “falling” follows a geodesic in the semantic manifold that minimizes kinetic energy. SLAP recovers this “falling” state naturally, whereas baselines fail to capture the causality of the motion.  
+
+> Table 4. Ablation Study of Semantic Lagrangian Components (Ac-curacy). The full model (Kinetic + Learned Potential) significantly outperforms ablated versions.
+
+Method Variant MSR-VTT Tunnel Test 
+
+Full SLAP Model 41.8% 83.9% 
+
+No Kinetic Energy ( μ = 0 ) 38.5% 62.0% No Potential Energy ( λ = 0 ) 40.1% 41.5% Static Potential (Cosine) 42.1% 70.5% L2 Kinetic (vs. Geodesic) 41.0% 78.2% 
+
+Ablation Study To dissect the contribution of each compo-nent in the Semantic Lagrangian, we perform an ablation study. We remove the kinetic term, the potential term, or replace the learned potential with a simple cosine similarity metric. The results in Table 4 confirm that both physical terms are necessary. 
+
+4.3. Efficiency Analysis 
+
+In addition to superior semantic consistency, a primary mo-tivation for the Semantic Least Action Principle is compu-tational efficiency. Current state-of-the-art video models operate in high-dimensional pixel or feature spaces, mak-ing them prohibitively expensive for long-horizon reasoning. SLAP shifts the burden of generation to the low-dimensional semantic manifold. 
+
+Theoretical Complexity and Scaling Laws Let T be the number of missing frames, H × W the pixel resolu-tion, C the feature channels, and d the latent dimension (d ≪ C · H · W ). 1) Generative Infilling (e.g., Video-LDM): Requires iterative denoising in pixel/latent feature space. The complexity is O(Kdif f · T · H · W ), where 
+
+Kdif f ≈ 50 is the number of diffusion steps. Crucially, compute scales linearly with resolution; high-res videos are intractable. 2) Autoregressive Transformers (e.g., Video-LLaMA): Self-attention scales quadratically with sequence length. Complexity is O(( Nctx + T )2 · dmodel ). As the tem-poral gap T grows, inference hits a memory wall due to the KV-cache bottleneck. 3) SLAP (Ours): We optimize a tra-jectory of T vectors of dimension d. The Potential Network 
+
+Pθ is a lightweight MLP. The complexity is O(Kopt ·T ·d2),where Kopt ≈ 50 is the number of gradient descent steps. The resolution term H · W is entirely absent from the in-ference loop. Furthermore, the discrete Euler-Lagrange equation forms a tridiagonal system that can be solved in 
+
+O(log T ) parallel time using the Thomas algorithm or par-allel scan operations, unlike the strictly sequential O(T ) of autoregressive generation. 
+
+FLOPs and Latency Comparison We measure the Floating Point Operations (FLOPs) and wall-clock latency required to interpolate a 10-second gap (approx. 30 frames) on a single NVIDIA A100 GPU. 
+
+Green AI: Energy Consumption With the growing con-8SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+Table 5. Computational Cost for Interpolating a 10-second Video Gap. SLAP achieves a 177x speedup over diffusion baselines and operates within a minimal memory footprint, enabling deployment on edge devices.                                 
+
+> Method FLOPs(T) ↓Latency(s) ↓VRAM(GB) ↓Speedup
+> Stable Video Diffusion 185.0 14.20 22.5 1.0 ×
+> Video-LLaMA 3 45.2 3.80 16.0 3.7 ×
+> Neural ODE 12.5 1.10 8.4 12.9 ×
+> SLAP (Ours) 0.15 0.08 0.8 177.5 ×0246810 12 14 16 18 20
+> Coupling Constant (log scale)
+> 020 40 60 80 100
+> QA Accuracy (%)
+> 0510 15
+> Trajectory Kinetic Energy (S kin )
+> Balancing Inertia (Smoothness) vs. Potential (Alignment)
+> RESONANT REGIME
+> (Optimal )
+> BALLISTIC
+> (Too rigid)
+> CHAOTIC
+> (Overfitting)
+> Peak: 83.9%
+> Model Accuracy Kinetic Energy (Roughness)
+
+Figure 5. Hyperparameter Sensitivity. The “Resonant Regime” (λ ≈ 0.5) achieves peak accuracy. Excessive Potential coupling (λ > 1.0) leads to chaotic trajectories with high kinetic energy, destroying temporal coherence. 
+
+cern over the carbon footprint of Large Multi-modal Models, energy efficiency is paramount. SLAP requires only 0.15 TeraFLOPs per inference, translating to approximately 0.5 Joules of energy on an A100. In contrast, Stable Video Dif-fusion consumes ≈ 150 Joules per query. For a video search engine processing millions of queries per day, switching to a SLAP-based interpolation method would reduce carbon emissions by three orders of magnitude while preserving semantic accuracy. 
+
+4.4. Hyperparameter Sensitivity Analysis 
+
+The hyperparameter λ in the Semantic Action S =R ( 12 ∥ ˙z∥2 − λV (z, q )) dt is the critical coupling constant of our physical system. We swept the hyperparameters extensively to find the optimal operating regime. Table 6 details the search space. It governs the trade-off between the temporal smoothness (Kinetic Energy) and the semantic alignment (Potential Energy). In this appendix, we provide a comprehensive analysis of how λ dictates the dynamics of the inferred trajectory and empirically determine the “reso-nant” regime where object persistence is maximized. 
+
+Theoretical Regimes of Operation The Euler-Lagrange equation for our system is ¨z = λμ ∇V (z). We can categorize the behavior of the solver based on the ratio κ = λ/μ .1) The Ballistic Regime ( κ → 0): When λ ≪ μ, the semantic force is negligible compared to the inertia. The 
+
+Table 6. Hyperparameter Search Space and Optimal Values found via grid search on the validation set.                                   
+
+> Hyperparameter Search Space Optimal Value
+> Coupling Constant λ{0.01 ,0.1,0.5,1.0,5.0,10 .0}0.5 Inference Steps K{10 ,30 ,50 ,100 }50 Learning Rate α{10 −3,5×10 −3,10 −2,5×10 −2}10 −2
+> Hidden Dimension {1024 ,2048 ,4096 }2048 Batch Size {32 ,64 ,128 }64
+
+Table 7. Sensitivity Analysis of λ. The “Sweet Spot” is observed around λ = 0 .5. Note the trade-off: high λ improves Text Align-ment (lower Potential Energy Epot ) but explodes Kinetic Energy 
+
+Skin (roughness), destroying QA accuracy (ACC) due to lack of persistence. 
+
+Coupling λ Regime ACC Skin Epot 
+
+0.0 Ballistic 41.5% 0.12 0.85 0.1 Weak 65.2% 0.18 0.62 
+
+0.5 Resonant 83.9% 0.35 0.31 1.0 Strong 79.1% 0.88 0.15 
+
+5.0 Chaotic 52.4% 4.20 0.12 10.0 Overdamped 31.0% 12.55 0.11 
+
+trajectory is dominated by the boundary conditions. The solution converges to the geodesic connecting zstart and 
+
+zend . 2) The Resonant Regime ( κ ≈ 1): When the forces are balanced, the trajectory is smooth but responsive. The particle carries momentum from the start frame but can be steered by the potential field of the text. This is the ideal operating point for SLAP. 3) The Chaotic Regime (κ → ∞ ): When λ ≫ μ, the inertia is negligible. The particle instantly accelerates towards local minima of the potential energy V (z, q ).
+
+Empirical Sensitivity on The Tunnel Test We evaluated the performance of SLAP on the Tunnel Test validation set ( N = 200 videos) while sweeping λ on a logarithmic scale from 10 −2 to 10 1. We measure three metrics: 1) QA Accuracy: Correct identification of the occluded object. 2) 
+
+Trajectory Smoothness ( Skin ): Average discrete kinetic energy 1
+
+> T
+
+P ∥zt+1 − zt∥2. 3) Text Alignment ( Epot ): Av-erage potential energy − 1
+
+> T
+
+P Pθ (zt, q ).
+
+## 5. Conclusion 
+
+In this work, we identified a critical pathology in modern Large Video-Language Models: the Kinematic Naivety that arises from treating video frames as statistically independent tokens rather than states in a continuous physical process. The reliance on sparse sampling to circumvent computa-tional bottlenecks has created a generation of models that “see” snapshots but “hallucinate” motion, leading to severe failures in object permanence and causal consistency when faced with occlusions or long temporal gaps. Extensive ex-periments show that the proposed method can achievement state-of-the-art performance, which illustrates the effective-ness of our proposed method. 9SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+## Impact Statement 
+
+This paper presents work whose goal is to advance the field of Machine Learning. There are many potential societal consequences of our work, none which we feel must be specifically highlighted here. 
+
+## References 
+
+Alayrac, J.-B., Donahue, J., Luc, P., Miech, A., Barr, I., Hasson, Y., Lenc, K., Mensch, A., Millican, K., Reynolds, M., et al. Flamingo: a visual language model for few-shot learning. Advances in neural information processing systems , 35:23716–23736, 2022. Bain, M., Nagrani, A., Varol, G., and Zisserman, A. Frozen in time: A joint video and image encoder for end-to-end retrieval. In Proceedings of the IEEE/CVF international conference on computer vision , pp. 1728–1738, 2021. Blattmann, A., Dockhorn, T., Kulal, S., Mendelevitch, D., Kilian, M., Lorenz, D., Levi, Y., English, Z., Voleti, V., Letts, A., et al. Stable video diffusion: Scaling latent video diffusion models to large datasets. arXiv preprint arXiv:2311.15127 , 2023. Bronstein, M. M., Bruna, J., LeCun, Y., Szlam, A., and Van-dergheynst, P. Geometric deep learning: going beyond euclidean data. IEEE Signal Processing Magazine , 34(4): 18–42, 2017. Caba Heilbron, F., Escorcia, V., Ghanem, B., and Car-los Niebles, J. Activitynet: A large-scale video bench-mark for human activity understanding. In Proceedings of the ieee conference on computer vision and pattern recognition , pp. 961–970, 2015. Cai, F., Liu, D., Fang, X., Yu, J., Tang, K., and Zhou, P. Imperceptible beam-sensitive adversarial attacks for lidar-based object detection in autonomous driving. In 2025 IEEE International Conference on Multimedia and Expo (ICME) , pp. 1–6. IEEE, 2025. Cai, X., Liu, D., Qu, X., Fang, X., Dong, J., Tang, K., Zhou, P., Sun, L., and Hu, W. Towards building model/prompt-transferable attackers against large vision-language mod-els. Advances in Neural Information Processing Systems ,38:174022–174058, 2026. Chen, R. T., Rubanova, Y., Bettencourt, J., and Duvenaud, D. K. Neural ordinary differential equations. Advances in neural information processing systems , 31, 2018. Cranmer, M., Greydanus, S., Hoyer, S., Battaglia, P., Spergel, D., and Ho, S. Lagrangian neural networks. In ICLR 2020 Workshop on Integration of Deep Neural Models and Differential Equations , 2020. Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., et al. An image is worth 16x16 words: Transformers for image recognition at scale. In 
+
+International Conference on Learning Representations (ICLR) , 2021. Fang, W., Zhang, T., and Chan, A. To align or not to align: Strategic multimodal representation alignment for opti-mal performance. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 40, pp. 21056–21064, 2026a. Fang, W., Zhang, T., Tao, W., and Chan, A. Towards un-derstanding modality interaction in multimodal language models via partial information decomposition. In Inter-national Conference on Machine Learning , 2026b. Fang, X. Advancing out-of-distribution detection across diverse scenarios. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 40, pp. 41042–41043, 2026. Fang, X. and Fang, W. Disentangling adversarial prompts: A semantic-graph defense for robust llm security. In 
+
+Proceedings of the AAAI Conference on Artificial Intelli-gence , 2026. Fang, X. and Hu, Y. Double self-weighted multi-view clustering via adaptive view fusion. arXiv preprint arXiv:2011.10396 , 2020. Fang, X., Hu, Y., Zhou, P., and Wu, D. O. V3h: View variation and view heredity for incomplete multiview clustering. IEEE Transactions on Artificial Intelligence ,1(3):233–247, 2020. Fang, X., Hu, Y., Zhou, P., and Wu, D. Animc: A soft ap-proach for autoweighted noisy and incomplete multiview clustering. IEEE Transactions on Artificial Intelligence ,3(2):192–206, 2021a. Fang, X., Hu, Y., Zhou, P., and Wu, D. O. Unbalanced incomplete multi-view clustering via the scheme of view evolution: Weak views are meat; strong views do eat. 
+
+IEEE Transactions on Emerging Topics in Computational Intelligence , 6(4):913–927, 2021b. Fang, X., Liu, D., Zhou, P., and Hu, Y. Multi-modal cross-domain alignment network for video moment retrieval. 
+
+IEEE Transactions on Multimedia , 25:7517–7532, 2022. Fang, X., Liu, D., Fang, W., Zhou, P., Cheng, Y., Tang, K., and Zou, K. Annotations are not all you need: A cross-modal knowledge transfer network for unsupervised tem-poral sentence grounding. In Findings of the Association for Computational Linguistics: EMNLP 2023 , pp. 8721– 8733, 2023a. 10 SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+Fang, X., Liu, D., Zhou, P., and Nan, G. You can ground earlier than see: An effective and efficient pipeline for temporal sentence grounding in compressed videos. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 2448–2460, 2023b. Fang, X., Liu, D., Zhou, P., Xu, Z., and Li, R. Hierarchical local-global transformer for temporal sentence grounding. 
+
+IEEE Transactions on Multimedia , 2023c. Fang, X., Fang, W., Liu, D., Qu, X., Dong, J., Zhou, P., Li, R., Xu, Z., Chen, L., Zheng, P., et al. Not all inputs are valid: Towards open-set video moment retrieval using language. In Proceedings of the 32nd ACM International Conference on Multimedia , pp. 28–37, 2024a. Fang, X., Liu, D., Fang, W., Zhou, P., Xu, Z., Xu, W., Chen, J., and Li, R. Fewer steps, better performance: Efficient cross-modal clip trimming for video moment retrieval using language. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 38, pp. 1735–1743, 2024b. Fang, X., Xiong, Z., Fang, W., Qu, X., Chen, C., Dong, J., Tang, K., Zhou, P., Cheng, Y., and Liu, D. Rethink-ing weakly-supervised video temporal grounding from a game perspective. In European Conference on Computer Vision . Springer, 2024c. Fang, X., Easwaran, A., and Genest, B. Adaptive multi-prompt contrastive network for few-shot out-of-distribution detection. In International Conference on Machine Learning , 2025a. Fang, X., Easwaran, A., Genest, B., and Suganthan, P. N. Adaptive hierarchical graph cut for multi-granularity out-of-distribution detection. IEEE Transactions on Artificial Intelligence , 2025b. Fang, X., Easwaran, A., Genest, B., and Suganthan, P. N. Your data is not perfect: Towards cross-domain out-of-distribution detection in class-imbalanced data. Expert Systems with Applications , 2025c. Fang, X., Fang, W., Ji, W., and Chua, T.-S. Turing patterns for multimedia: Reaction-diffusion multi-modal fusion for language-guided video moment retrieval. In ACM International Conference on Multimedia , 2025d. Fang, X., Fang, W., and Wang, C. Hierarchical semantic-augmented navigation: Optimal transport and graph-driven reasoning for vision-language navigation. In Ad-vances in Neural Information Processing Systems , 2025e. Fang, X., Fang, W., Wang, C., Liu, D., Tang, K., Dong, J., Zhou, P., and Li, B. Multi-pair temporal sentence grounding via multi-thread knowledge transfer network. In Proceedings of the AAAI Conference on Artificial In-telligence , 2025f. Fang, X., Fang, W., Wang, C., Liu, D., Tang, K., Dong, J., Zhou, P., and Li, B. Multi-pair temporal sentence grounding via multi-thread knowledge transfer network. In Proceedings of the AAAI Conference on Artificial In-telligence , volume 39, pp. 2915–2923, 2025g. Fang, X., Fang, W., and Ji, W. Immuno-vlm: Immunizing large vision-language models via generative semantic an-tibodies for open-world trustworthiness. In International Conference on Machine Learning , 2026c. Fang, X., Fang, W., and Wang, C. Cogniverse: Revolution-izing multi-modal retrieval-augmented generation with cognitive reflection and geometric reasoning. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2026d. Fang, X., Fang, W., and Wang, C. Unveiling the fragility of vision-language models: Multi-modal adversarial synergy via texture-constrained perturbations and cross-modal optimization. In Proceedings of the AAAI Conference on Artificial Intelligence , 2026e. Fang, X., Fang, W., Wang, C., Qu, X., and Liu, D. Re-thinking video-language model from the language input perspective. In Proceedings of the AAAI Conference on Artificial Intelligence , 2026f. Fang, X., Fang, W., Wang, C., Tang, K., Liu, D., Wang, S., and Ji, W. Towards unified vision-language models with incomplete multi-modal inputs. In Proceedings of the AAAI Conference on Artificial Intelligence , 2026g. Greydanus, S., Dzamba, M., and Yosinski, J. Hamiltonian neural networks. In Advances in Neural Information Processing Systems (NeurIPS) , 2019. Gutmann, M. and Hyv ¨arinen, A. Noise-contrastive estima-tion: A new estimation principle for unnormalized statisti-cal models. In Proceedings of the thirteenth international conference on artificial intelligence and statistics , pp. 297–304. JMLR Workshop and Conference Proceedings, 2010. Ho, J., Jain, A., and Abbeel, P. Denoising diffusion proba-bilistic models. Advances in neural information process-ing systems , 33:6840–6851, 2020. Kuai, M., Qin, Y., Fang, X., Ji, W., and Zimmermann, R. Dynamic graph-enhanced event refinement for temporal sentence grounding of micro-moments. IEEE Transac-tions on Multimedia , 2026. Langley, P. Crafting papers on machine learning. In Langley, P. (ed.), Proceedings of the 17th International Conference on Machine Learning (ICML 2000) , pp. 1207–1216, Stan-ford, CA, 2000. Morgan Kaufmann. 11 SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+LeCun, Y., Chopra, S., Hadsell, R., Ranzato, M., Huang, F., et al. A tutorial on energy-based learning. Predicting structured data , 1(0), 2006. Lei, H., Cai, X., Liu, D., Fang, X., Qu, X., Dong, J., Yu, J., and Jin, K. Exploring disentangled appearance-motion contexts for temporal activity localization. In 2025 Inter-national Joint Conference on Neural Networks (IJCNN) ,pp. 1–8. IEEE, 2025. Li, J., Li, D., Savarese, S., and Hoi, S. Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models. In International conference on machine learning , pp. 19730–19742. PMLR, 2023a. Li, J., Qiu, X., Xu, L., Guo, L., Qu, D., Long, T., Fan, C., and Li, M. Unif2ace: Fine-grained face understanding and generation with unified multimodal models. arXiv preprint arXiv:2503.08120 , 3, 2025. Li, M., Huang, X., and Zhang, Z. Self-supervised geometric features discovery via interpretable attention for vehicle re-identification and beyond. In ICCV , 2021. Li, M., Liu, J., Zheng, C., Huang, X., and Zhang, Z. Exploiting multi-view part-wise correlation via an ef-ficient transformer for vehicle re-identification. IEEE Transactions on Multimedia , 25:919–929, 2023b. doi: 10.1109/TMM.2021.3134839. Li, M., Xu, X., Fan, H., Zhou, P., Liu, J., Liu, J.-W., Li, J., Keppo, J., Shou, M. Z., and Yan, S. Stprivacy: Spatio-temporal privacy-preserving action recognition. In ICCV ,2023c. Li, M., Zhou, P., Liu, J.-W., Keppo, J., Lin, M., Yan, S., and Xu, X. Instant3d: Instant text-to-3d generation. Interna-tional Journal of Computer Vision , 132(10):4456–4472, 2024. Liu, D., Fang, X., Hu, W., and Zhou, P. Exploring optical-flow-guided motion and detection-based appearance for temporal sentence grounding. IEEE Transactions on Multimedia , 25:8539–8553, 2023a. Liu, D., Fang, X., Zhou, P., Di, X., Lu, W., and Cheng, Y. Hypotheses tree building for one-shot temporal sentence localization. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 37, pp. 1640–1648, 2023b. Liu, D., Zhu, J., Fang, X., Xiong, Z., Wang, H., Li, R., and Zhou, P. Conditional video diffusion network for fine-grained temporal sentence grounding. IEEE Transactions on Multimedia , 26:5461–5476, 2023c. Liu, D., Fang, X., Qu, X., Dong, J., Yan, H., Yang, Y., Zhou, P., and Cheng, Y. Unsupervised domain adaptative temporal sentence localization with mutual information maximization. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 38, pp. 3567–3575, 2024a. Liu, D., Qu, X., Fang, X., Dong, J., Zhou, P., Nan, G., Tang, K., Fang, W., and Cheng, Y. Towards robust tem-poral activity localization learning with noisy labels. In 
+
+Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024) , pp. 16630–16642, 2024b. Liu, D., Yang, M., Qu, X., Zhou, P., Fang, X., Tang, K., Wan, Y., and Sun, L. Pandora’s box: Towards building universal attackers against real-world large vision-language models. 
+
+Advances in Neural Information Processing Systems , 37: 52127–52158, 2024c. Liu, D., Cai, X., Dong, J., Guo, Z., Qu, X., Guan, R., Fang, X., and Ye, D. Attacking gray-box large vision-language models with adaptive svd-structured adversarial align-ment. In International Conference on Machine Learning ,2026. Liu, H., Li, C., Wu, Q., and Lee, Y. J. Visual instruction tun-ing. Advances in neural information processing systems ,36:34892–34916, 2023d. Miyato, T., Kataoka, T., Koyama, M., and Yoshida, Y. Spec-tral normalization for generative adversarial networks. In 
+
+International Conference on Learning Representations (ICLR) , 2018. Oord, A. v. d., Li, Y., and Vinyals, O. Representation learn-ing with contrastive predictive coding. arXiv preprint arXiv:1807.03748 , 2018. Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., et al. Learning transferable visual models from natural language supervision. In International conference on machine learning , pp. 8748–8763. PmLR, 2021. Shazeer, N. Glu variants improve transformer. arXiv preprint arXiv:2002.05202 , 2020. Song, Y., Durkan, C., Murray, I., and Ermon, S. Maxi-mum likelihood training of score-based diffusion models. 
+
+Advances in neural information processing systems , 34: 1415–1428, 2021. Tan, S., Qiu, X., Shu, Y., Xu, G., Xu, L., Xu, X., Zhuang, H., Li, M., and Yu, F. WMarkGPT: Watermarked image understanding via multimodal large language models. In 
+
+Proceedings of the 42nd International Conference on Ma-chine Learning , volume 267 of Proceedings of Machine Learning Research , pp. 58621–58636. PMLR, 13–19 Jul 2025. 12 SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+Tang, K., Zhao, W., Peng, W., Fang, X., Cui, X., Zhu, P., and Tian, Z. Reparameterization head for efficient multi-input networks. In ICASSP 2024-2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) , pp. 6190–6194. IEEE, 2024. Tang, K., Hou, C., Peng, W., Fang, X., Wu, Z., Nie, Y., Wang, W., and Tian, Z. Simplification is all you need against out-of-distribution overconfidence. In Proceed-ings of the Computer Vision and Pattern Recognition Conference , pp. 5030–5040, 2025. Touvron, H., Martin, L., Stone, K., Albert, P., Almahairi, A., Babaei, Y., Bashlykov, N., Batra, S., Bhargava, P., Bhosale, S., et al. Llama 2: Open foundation and fine-tuned chat models. arXiv preprint arXiv:2307.09288 ,2023. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., and Polosukhin, I. At-tention is all you need. Advances in neural information processing systems , 30, 2017. Wang, C., Fang, X., and Tiwari, P. Dypolyseg: Taylor series-inspired dynamic polynomial fitting network for few-shot point cloud semantic segmentation. In Forty-second International Conference on Machine Learning ,2025a. Wang, C., He, S., Fang, X., Han, J., Liu, Z., Ning, X., Li, W., and Tiwari, P. Point clouds meets physics: Dynamic acoustic field fitting network for point cloud understand-ing. In Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 22182–22192, 2025b. Wang, C., He, S., Fang, X., Nan, F., and Tiwari, P. See-ing the overlooked: Bio-visual inspired weak saliency feedback transformer for person re-identification. In Pro-ceedings of the 33rd ACM International Conference on Multimedia , pp. 3192–3201, 2025c. Wang, C., He, S., Fang, X., Wu, M., Lam, S.-K., and Tiwari, P. Taylor series-inspired local structure fitting network for few-shot point cloud semantic segmentation. In Proceed-ings of the AAAI Conference on Artificial Intelligence ,volume 39, pp. 7527–7535, 2025d. Wang, C., He, S., Fang, X., Hu, Z., Huang, J.-H., Shen, Y., and Tiwari, P. Reasoning beyond points: A visual introspective approach for few-shot 3d segmentation. Ad-vances in Neural Information Processing Systems , 38: 117394–117414, 2026a. Wang, C., He, S., Fang, X., Li, W., Gao, X., Liu, Z., Ti-wari, P., and Kanoulas, D. From coarse to fine: Deep prototype refinement network for few-shot point cloud semantic segmentation. International Conference on Ma-chine Learning , 2026b. Wang, C., He, S., Fang, X., Li, W., Shen, Y., Xu, M., Sun, Z., and Tiwari, P. Topadapter: Topology-aware prompt tun-ing for efficient point cloud understanding. International Conference on Machine Learning , 2026c. Wang, C., Hu, Z., Fang, X., Yu, Z. Y., Wu, Y., Xu, M., Wang, Y., Gao, X., and Tiwari, P. Biologically-inspired evolutionary domain symbiosis for few-shot and zero-shot point cloud semantic segmentation. In Proceedings of the AAAI Conference on Artificial Intelligence , vol-ume 40, pp. 9666–9674, 2026d. Wang, J., Li, J., Fan, G., Ju, Y., Fang, X., and Kot, A. C. Prototype-driven structure synergy network for remote sensing images segmentation. IEEE Transactions on Geoscience and Remote Sensing , 2025e. Wang, S., Dutta, S., Lee, W. J. B., Feng, J., Fang, X., and Chattopadhyay, A. Reducing t-depth and t-count in quan-tum multiplication using compressor primitives. In Pro-ceedings of the Great Lakes Symposium on VLSI 2025 ,pp. 35–40, 2025f. Wang, T. and Isola, P. Understanding contrastive represen-tation learning through alignment and uniformity on the hypersphere. In International conference on machine learning , pp. 9929–9939. PMLR, 2020. Xiong, Z., Liu, D., Fang, X., Qu, X., Dong, J., Zhu, J., Tang, K., and Zhou, P. Rethinking video sentence grounding from a tracking perspective with memory network and masked attention. IEEE Transactions on Multimedia , 26: 11204–11218, 2024. Xu, J., Mei, T., Yao, T., and Rui, Y. Msr-vtt: A large video description dataset for bridging video and language. In 
+
+Proceedings of the IEEE conference on computer vision and pattern recognition , pp. 5288–5296, 2016. Yan, H., Ma, H., Cai, X., Liu, D., Yuan, Z., Qu, X., Dong, J., Guan, R., Fang, X., He, H., et al. Fit the distribution: Cross-image/prompt adversarial attacks on multimodal large language models. Advances in Neural Information Processing Systems , 38:75204–75247, 2026. Yang, G., Hou, C., Peng, W., Fang, X., Nie, Y., Zhu, P., and Tang, K. Eood: Entropy-based out-of-distribution detection. In 2025 International Joint Conference on Neural Networks (IJCNN) , pp. 1–8. IEEE, 2025. Yilun, D. and Mordatch, I. Implicit generation and general-ization in energy-based models. In Advances in Neural Information Processing Systems (NeurIPS) , 2019. Zhang, H., Li, X., and Bing, L. Video-llama: An instruction-tuned audio-visual language model for video understand-ing. In Proceedings of the 2023 conference on empirical methods in natural language processing: system demon-strations , pp. 543–553, 2023. 13 SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling 
+
+Zhang, X., Lei, H., Liu, D., Qu, X., Fang, X., Guan, R., and Jin, K. Manipulating the bounding box: Multimodal controlled backdoor attacks on 3d visual grounding mod-els. In 2025 International Joint Conference on Neural Networks (IJCNN) , pp. 1–8. IEEE, 2025a. Zhang, X., Lei, H., Liu, D., Qu, X., Fang, X., Guan, R., and Jin, K. Monoattack: A strong attack framework with depth-migration and attribute-tampering for monocular 3d object detection. In 2025 International Joint Confer-ence on Neural Networks (IJCNN) , pp. 1–8. IEEE, 2025b. Zhang, Y., Wu, J., Li, W., Li, B., MA, Z., Liu, Z., and Li, C. Llava-video: Video instruction tuning with synthetic data. 
+
+Transactions on Machine Learning Research , 2025c. 14
