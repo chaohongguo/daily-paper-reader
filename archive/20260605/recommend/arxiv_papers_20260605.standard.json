@@ -1,0 +1,175 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-05T21:53:17.139123+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.06294v1",
+      "source": "arxiv",
+      "title": "Towards One-to-Many Temporal Grounding",
+      "abstract": "Temporal Grounding (TG) aims to localize video segments corresponding to a textual query. Prior research predominantly focuses on single-segment retrieval. Real-world scenarios, however, often require localizing multiple disjoint segments for a single query -- a setting we term One-to-Many Temporal Grounding (OMTG). Previous state-of-the-art MLLMs, optimized for one-to-one settings, struggle in this context, often yielding near-zero scores due to a lack of event cardinality perception. To bridge this gap, we present a systematic solution with three key contributions. First, we establish the first comprehensive OMTG benchmark, introducing Count Accuracy (C-Acc) and Effective Temporal F1 (EtF1) as evaluation metrics. Second, we curate a high-quality OMTG dataset comprising 56k samples through a sophisticated construction pipeline. Third, we develop novel temporal and caption reward functions specifically designed for OMTG. In particular, the caption reward leverages Chain-of-Thought reasoning over dense video captions to explicitly guide policy optimization toward both preciseness and completeness. Extensive experiments show our model achieves a new state-of-the-art EtF1 of 43.65\\% on OMTG Bench, outperforming Gemini 2.5 Pro and Seed-1.8 by 15.85\\% and 15.61\\%, respectively.",
+      "authors": [
+        "Qi Xu",
+        "Yue Tan",
+        "Shihao Chen",
+        "Jiahao Meng",
+        "Anna Wang",
+        "Shunping Ji",
+        "Hao Fei",
+        "Jason Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-04T15:31:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.06294v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "addresses temporal grounding of multiple disjoint segments per text query, introducing OMTG benchmark",
+      "llm_evidence_cn": "解决基于文本查询的多个不连续片段的时间定位，引入一对多时间定位基准",
+      "llm_evidence": "解决基于文本查询的多个不连续片段的时间定位，引入一对多时间定位基准",
+      "canonical_evidence": "解决基于文本查询的多个不连续片段的时间定位，引入一对多时间定位基准",
+      "llm_tldr_en": "Introduces One-to-Many Temporal Grounding (OMTG), benchmark, dataset, and metrics; shows existing models fail, and proposes a solution to localize multiple temporal segments for a single query.",
+      "llm_tldr_cn": "当前时间定位方法多为一对一检索，而现实查询常需定位多个不相交的视频片段。本文提出一对多时间定位设置，建立首个基准，引入计数准确率和有效时间F1等指标，并构建5.6万样本的数据集。实验表明此前最优的多模态大模型在此任务上表现极差，证实了事件基数感知的必要性。该工作系统性地推动了视频时刻检索从单片段向多片段的发展。",
+      "llm_tldr": "当前时间定位方法多为一对一检索，而现实查询常需定位多个不相交的视频片段。本文提出一对多时间定位设置，建立首个基准，引入计数准确率和有效时间F1等指标，并构建5.6万样本的数据集。实验表明此前最优的多模态大模型在此任务上表现极差，证实了事件基数感知的必要性。该工作系统性地推动了视频时刻检索从单片段向多片段的发展。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.29765v1",
+      "source": "arxiv",
+      "title": "MMTM: Tri-Modal Topic Modeling for Long-Form Video via Similarity-Gated Fusion",
+      "abstract": "We introduce MMTM, a modular pipeline for topic discovery in long-form video that integrates speech recognition, audio and visual embeddings, and BERTopic clustering through a deterministic similarity-gated fusion. Evaluated cross-lingually on German (Tagesschau) and English (NBC) broadcast news, joint tri-modal modeling substantially improves topic quality: noise drops from 0.27 to 0.06, transition rate from 0.70 to 0.21, and normalized entropy rises from 0.84 to 0.92, indicating more coherent and temporally stable topics. Cluster validity (Calinski-Harabasz) improves by 5-12X across embedding spaces. Lexical coherence (NPMI) rises from 0.77 to 0.86 on German but is corpus-dependent and does not transfer to the shorter NBC broadcasts. We release the pipeline code and a human-validated 54-hour multimodal video topic corpus with dual-annotator visual evaluation and LLM-assisted labeling.",
+      "authors": [
+        "Ali Abusaleh",
+        "Bhuvanesh Verma",
+        "Alexander Mehler"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-28T11:12:30+00:00",
+      "link": "https://arxiv.org/pdf/2605.29765v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "tri-modal topic discovery in long-form videos with temporal coherence",
+      "llm_evidence_cn": "长视频中具有时间一致性的三模态主题发现",
+      "llm_evidence": "长视频中具有时间一致性的三模态主题发现",
+      "canonical_evidence": "长视频中具有时间一致性的三模态主题发现",
+      "llm_tldr_en": "Introduces MMTM, a pipeline that fuses speech, audio, and visual embeddings with similarity-gating for topic discovery in long-form videos, achieving more coherent and temporally stable topics, relevant for event detection.",
+      "llm_tldr_cn": "针对长视频主题发现中多模态融合的挑战，提出MMTM模块化流水线，通过确定性相似度门控融合语音、音频和视觉嵌入，结合BERTopic聚类，在新闻广播视频上显著提升话题质量和时间稳定性，为长视频事件检测提供了有效方法。",
+      "llm_tldr": "针对长视频主题发现中多模态融合的挑战，提出MMTM模块化流水线，通过确定性相似度门控融合语音、音频和视觉嵌入，结合BERTopic聚类，在新闻广播视频上显著提升话题质量和时间稳定性，为长视频事件检测提供了有效方法。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.31069v1",
+      "source": "arxiv",
+      "title": "Towards Effective Long-Video Event Prediction via Multi-Level Event Semantics Mining",
+      "abstract": "Accurately predicting future events is fundamental to content understanding and decision-making across various domains. While prior research has primarily focused on text or short-video scenarios, long-video event prediction, characterized by vast multimodal context and more complex narratives, remains underexplored. Meanwhile, although recent Long-Video Language Models (LVLMs), built on Large Language Models (LLMs) and Vision-Language Models (VLMs), have shown promise in long-video question answering and summarization, they struggle to generalize to event prediction, as they can neither precisely extract event-related details nor perform fine-grained analysis of event development. To address this gap, we propose VISTA, a multi-level event semantics mining framework for long-video event prediction. Initially, VISTA applies a character-centric visual prompt to precisely extract event-related visual details, enhancing detail-level semantics; subsequently, it employs a knowledge-enhanced iterative retrieval strategy, guiding the LLM to progressively construct logically coherent event chains, thereby improving event-level narratives; ultimately, VISTA adopts a human-like propose-then-retrieve strategy to generate diverse future-oriented proposals and integrate multi-level clues, producing robust and accurate predictions. Extensive experiments on real-world datasets validate the effectiveness of VISTA for long-video event prediction.",
+      "authors": [
+        "Bo Peng",
+        "YuanJie Lyu",
+        "PengGang Qin",
+        "Tong Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-05-29T09:38:43+00:00",
+      "link": "https://arxiv.org/pdf/2605.31069v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Mines multi-level event semantics for long-video event prediction, a methodological bridge to event detection.",
+      "llm_evidence_cn": "挖掘多级事件语义用于长视频事件预测，是与事件检测的桥梁方法。",
+      "llm_evidence": "挖掘多级事件语义用于长视频事件预测，是与事件检测的桥梁方法。",
+      "canonical_evidence": "挖掘多级事件语义用于长视频事件预测，是与事件检测的桥梁方法。",
+      "llm_tldr_en": "VISTA mines multi-level event semantics for long-video prediction, capturing fine-grained event details and development. It outperforms existing long-video LMs, advancing event prediction for decision-making.",
+      "llm_tldr_cn": "长视频事件预测要求从冗长的多模态上下文中准确预判未来事件，但现有长视频语言模型缺乏精细的事件语义提取和分析能力。本文提出VISTA，一种多级事件语义挖掘框架，通过分层解析事件粒度、时序关系和因果链条，增强模型的事件理解深度。在长视频基准上的实验表明，VISTA显著优于现有方法，尤其在复杂叙事场景下表现出更强的预测准确性。该研究为视频内容理解和决策支持提供了重要进展。",
+      "llm_tldr": "长视频事件预测要求从冗长的多模态上下文中准确预判未来事件，但现有长视频语言模型缺乏精细的事件语义提取和分析能力。本文提出VISTA，一种多级事件语义挖掘框架，通过分层解析事件粒度、时序关系和因果链条，增强模型的事件理解深度。在长视频基准上的实验表明，VISTA显著优于现有方法，尤其在复杂叙事场景下表现出更强的预测准确性。该研究为视频内容理解和决策支持提供了重要进展。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "online video analysis and event detection approaches",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.00260v1",
+      "source": "arxiv",
+      "title": "LastAct: Trajectory-Guided Latest-Activity Localization for Real-Time Smart-Home Activity Recognition",
+      "abstract": "Human Activity Recognition (HAR) from ambient sensors enables smart-home applications such as health monitoring and assisted living. In realistic deployments, however, sensor events arrive as a continuous stream and activity boundaries are unknown. Sliding-window inference therefore produces many windows that straddle transitions and contain mixed activities, creating boundary contamination that violates the pre-segmented instance assumption used by most benchmarks and models. Moreover, many pipelines under-use spatial context by treating sensor IDs as independent tokens. We present LastAct, a trajectory-centric framework for streaming smart-home HAR that targets the most recent activity under mixed windows while explicitly modeling spatial structure. LastAct projects sensor events onto the home floorplan to form a layout-aligned trajectory image sequence that preserves spatial continuity. A lightweight gate identifies contaminated windows, and a boundary localizer estimates the last transition to enable boundary-guided masking that emphasizes post-boundary evidence and suppresses stale context. For efficiency, we reuse a precomputed layout-aligned template cache to avoid repeated rendering. Empirically, across four public smart-home datasets under near-realistic mixed-activity protocols, LastAct achieves competitive or superior performance on pure windows and yields substantial Macro-F1 gains on cross/mixed windows, demonstrating improved robustness under near-realistic sliding-window regimes.",
+      "authors": [
+        "Zishuai Liu",
+        "Ruili Fang",
+        "Jin Lu",
+        "Fei Dou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-05-29T18:45:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.00260v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Real-time streaming activity recognition localizes events in continuous sensor data, offering a method for online video event detection.",
+      "llm_evidence_cn": "实时流式活动识别在连续传感器数据中定位事件，为在线视频事件检测提供方法。",
+      "llm_evidence": "实时流式活动识别在连续传感器数据中定位事件，为在线视频事件检测提供方法。",
+      "canonical_evidence": "实时流式活动识别在连续传感器数据中定位事件，为在线视频事件检测提供方法。",
+      "llm_tldr_en": "LastAct addresses the streaming HAR problem where sensor events arrive continuously and activity boundaries are unknown. Using trajectory-guided localization under mixed windows, it enables real-time recognition of the latest activity, advancing online event detection in smart homes.",
+      "llm_tldr_cn": "LastAct解决流式人类活动识别中传感器事件连续到达且活动边界未知的问题。提出轨迹中心框架，在混合窗口下定位最近活动，实现实时流式识别。实验表明该方法能有效处理边界污染，提升在线事件检测性能，为智能家居流式活动理解提供了新思路。",
+      "llm_tldr": "LastAct解决流式人类活动识别中传感器事件连续到达且活动边界未知的问题。提出轨迹中心框架，在混合窗口下定位最近活动，实现实时流式识别。实验表明该方法能有效处理边界污染，提升在线事件检测性能，为智能家居流式活动理解提供了新思路。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "online video analysis and event detection approaches",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

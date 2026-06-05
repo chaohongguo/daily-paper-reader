@@ -6,37 +6,34 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-04
-- 运行时间：2026-06-04 22:02:22 UTC
+- 最新运行日期：2026-06-05
+- 运行时间：2026-06-05 22:00:44 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：2
+- 本次总论文数：4
+- 精读区：1
 - 速读区：3
 
 ### 今日简报（AI）
-今日精读聚焦视频中的精准时空定位：用零空间调优保留知识，用轨迹引导实时识别最新活动。
-最值得关注：在模型更新时守住旧知识不崩塌，以及用运动轨迹锁定智能家居中的关键瞬时动作。
-建议今天从“多时相参照分割”的开放基准入手，动手评测你的视频理解模型稳定性。
-- 详情：[/202606/04/README](/202606/04/README)
+今日精读一篇顶会论文，探讨文本到视频的“一对多”时序定位新范式，并速览三篇多模态主题建模、活动定位与事件预测相关研究。  
+最值得关注的是，新范式打破传统一一对应假设，让单个文本同时定位视频中多个相关片段，更贴近现实需求。  
+如果想了解前沿，不妨从这篇精读论文入手，它可能会改变你对视频理解任务的认知。
+- 详情：[/202606/05/README](/202606/05/README)
 
 ### 精读区论文标签
-1. [Knowledge-Preserved Model Tuning in Null-Space for Robust Spatio-Temporal Video Grounding](/202606/04/2606.03539v1-knowledge-preserved-model-tuning-in-null-space-for-robust-spatio-temporal-video-grounding)  
-   标签：评分：9.0/10、query:vtg
-   evidence：时空视频接地使用零空间调优从文本查询定位物体管道
-2. [LastAct: Trajectory-Guided Latest-Activity Localization for Real-Time Smart-Home Activity Recognition](/202606/04/2606.00260v2-lastact-trajectory-guided-latest-activity-localization-for-real-time-smart-home-activity-recognition)  
-   标签：评分：8.0/10、query:vtg
-   evidence：流式传感器数据中的实时活动定位与在线视频事件检测一致。
+1. [Towards One-to-Many Temporal Grounding](/202606/05/2606.06294v1-towards-one-to-many-temporal-grounding)  
+   标签：评分：10.0/10、query:vtg
+   evidence：解决基于文本查询的多个不连续片段的时间定位，引入一对多时间定位基准
 
 ### 速读区论文标签
-1. [SLAP: The Semantic Least Action Principle for Variational Video-Language Modeling](/202606/04/2605.30750v1-slap-the-semantic-least-action-principle-for-variational-video-language-modeling)  
+1. [MMTM: Tri-Modal Topic Modeling for Long-Form Video via Similarity-Gated Fusion](/202606/05/2605.29765v1-mmtm-tri-modal-topic-modeling-for-long-form-video-via-similarity-gated-fusion)  
    标签：评分：7.0/10、query:vtg
-   evidence：通过变分力学改善视频语言模型的时间一致性
-2. [PEEK: Picking Essential frames via Efficient Knowledge distillation](/202606/04/2605.31029v1-peek-picking-essential-frames-via-efficient-knowledge-distillation)  
+   evidence：长视频中具有时间一致性的三模态主题发现
+2. [LastAct: Trajectory-Guided Latest-Activity Localization for Real-Time Smart-Home Activity Recognition](/202606/05/2606.00260v1-lastact-trajectory-guided-latest-activity-localization-for-real-time-smart-home-activity-recognition)  
    标签：评分：7.0/10、query:vtg
-   evidence：视频标题生成的高效帧选择提升速度，可用于实时视频理解
-3. [An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation](/202606/04/2606.00987v1-an-open-source-benchmark-and-baseline-for-multi-temporal-referring-segmentation)  
-   标签：评分：7.0/10、query:vtg
-   evidence：提出多时相指代分割，将语言描述的时序变化进行定位，与视频中多模态指代表达定位相关
+   evidence：实时流式活动识别在连续传感器数据中定位事件，为在线视频事件检测提供方法。
+3. [Towards Effective Long-Video Event Prediction via Multi-Level Event Semantics Mining](/202606/05/2605.31069v1-towards-effective-long-video-event-prediction-via-multi-level-event-semantics-mining)  
+   标签：评分：6.0/10、query:vtg
+   evidence：挖掘多级事件语义用于长视频事件预测，是与事件检测的桥梁方法。
 
 
 <div class="dpr-home-promo-card">
