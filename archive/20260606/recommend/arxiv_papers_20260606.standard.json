@@ -1,0 +1,181 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-06T20:06:31.457663+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.05758v1",
+      "source": "arxiv",
+      "title": "DRIFT: A Residual Flow Adapter for Decoding Continuous Outputs in Vision-Language Models",
+      "abstract": "Many modern vision-language models (VLMs) build on autoregressive decoding of discrete tokens. While text-based output interfaces enable scalable pretraining and strong zero-shot generalization across diverse tasks, they are poorly suited for problems that require precise continuous outputs, such as localizing temporal boundaries of events or generating robotic control actions. To address this challenge, we propose DRIFT, a general framework for adapting pretrained VLMs to continuous decoding tasks. DRIFT combines a base predictor, which provides a coarse estimate of the target output, with a generative refinement module based on flow matching that iteratively improves the prediction. This residual formulation transforms the generative modeling problem from learning a global output distribution to modeling a localized residual distribution around a strong prior, substantially simplifying optimization. We evaluate DRIFT on both perception and planning tasks, including visual grounding and robotic control. Across multiple tasks and architectures spanning MLLMs, VLAs, and WAMs, DRIFT consistently outperforms a strong set of regression- and generative-based solutions.",
+      "authors": [
+        "Zhuoming Liu",
+        "Jinhong Lin",
+        "Kwan Man Cheng",
+        "Lin Zhang",
+        "Shayok Bagchi",
+        "Yin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-04T06:37:10+00:00",
+      "link": "https://arxiv.org/pdf/2606.05758v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "method for VLMs to decode continuous temporal boundaries for event localization",
+      "llm_evidence_cn": "使视觉语言模型解码连续时间边界以进行事件定位的方法",
+      "llm_evidence": "使视觉语言模型解码连续时间边界以进行事件定位的方法",
+      "canonical_evidence": "使视觉语言模型解码连续时间边界以进行事件定位的方法",
+      "llm_tldr_en": "DRIFT adapts pretrained VLMs to produce continuous outputs via flow-based refinement, enabling accurate temporal boundary prediction for tasks like video moment localization.",
+      "llm_tldr_cn": "论文针对视觉语言模型难以输出精确连续值的问题，提出DRIFT框架，通过流匹配生成的残差式预测实现连续解码，特别适合视频时刻定位中时间边界的精确预测，有望大幅提升基于文本的视频时刻检索性能。",
+      "llm_tldr": "论文针对视觉语言模型难以输出精确连续值的问题，提出DRIFT框架，通过流匹配生成的残差式预测实现连续解码，特别适合视频时刻定位中时间边界的精确预测，有望大幅提升基于文本的视频时刻检索性能。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.05035v1",
+      "source": "arxiv",
+      "title": "Anchor3R: Streaming 3D Reconstruction with Transient Anchors for Long-Horizon Visual Mapping",
+      "abstract": "Long-horizon online visual mapping is a core capability for robot perception, requiring continuous camera-motion and scene-geometry estimation from visual streams under bounded memory and computation. Recent feed-forward 3D reconstruction models provide strong geometric priors, but their streaming variants often predict poses in a fixed coordinate system tied to the first frame or a persistent scene memory. This fixed-gauge design leads to train--test mismatch, attention bias toward early anchors, and accumulated drift on sequences much longer than those seen during training. We propose \\emph{Anchor3R}, a streaming 3D reconstruction framework that treats feed-forward reconstruction as current-centric local measurement prediction rather than persistent global-gauge regression. At each time step, Anchor3R predicts window-relative poses and a local pointmap in the current-frame coordinate system, turning streaming reconstruction into relative-pose measurement generation. These measurements support online pose updates, while loop-closure reinsertion and motion averaging align the trajectory and transform local pointmaps into a coherent global reconstruction. Experiments on indoor, outdoor, driving, and RGB-D benchmarks show that Anchor3R improves long-horizon pose accuracy and dense reconstruction quality over existing streaming baselines, while supporting bounded-memory online inference.",
+      "authors": [
+        "Peilin Tao",
+        "Chong Cheng",
+        "Yuansen Du",
+        "Caiwei Song",
+        "Zhengqing Chen",
+        "Xiaoyang Guo",
+        "Wei Yin",
+        "Weiqiang Ren",
+        "Qian Zhang",
+        "Hainan Cui",
+        "Shuhan Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-03T16:00:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.05035v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "streaming 3D reconstruction for visual mapping directly addresses real-time perception in streaming video",
+      "llm_evidence_cn": "流式三维重建用于视觉建图，直接面向流视频中的实时感知",
+      "llm_evidence": "流式三维重建用于视觉建图，直接面向流视频中的实时感知",
+      "canonical_evidence": "流式三维重建用于视觉建图，直接面向流视频中的实时感知",
+      "llm_tldr_en": "Proposes Anchor3R, a streaming 3D reconstruction framework using transient anchors to mitigate drift and achieve robust real-time perception from long video streams for robotic mapping.",
+      "llm_tldr_cn": "针对长时序流视频在线建图中由固定坐标系导致的位姿漂移和注意力偏倚问题，提出Anchor3R，以当前帧为中心进行局部测量预测，采用瞬态锚点避免历史偏向。实验在超长序列上明显降低了累积误差，保证了实时性能，为机器人流式三维感知提供了鲁棒解决方案。",
+      "llm_tldr": "针对长时序流视频在线建图中由固定坐标系导致的位姿漂移和注意力偏倚问题，提出Anchor3R，以当前帧为中心进行局部测量预测，采用瞬态锚点避免历史偏向。实验在超长序列上明显降低了累积误差，保证了实时性能，为机器人流式三维感知提供了鲁棒解决方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real-time perception in streaming video",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.00910v1",
+      "source": "arxiv",
+      "title": "Reason, Retrieve, Re-rank: A Zero-Shot Reasoning-Aware Framework for Composed Video Retrieval",
+      "abstract": "Composed Video Retrieval (CoVR) seeks the target video that results from applying a free-form textual modification to a reference video. We address the \\emph{Reason-Aware} CoVR (CoVR-R) challenge at the CVPR~2026 VidLLMs workshop, where retrieval is strictly zero-shot. We present \\textbf{R3-CoVR} (\\emph{Reason, Retrieve, Re-rank}), a training-free pipeline built entirely from frozen foundation models. A multimodal large language model (Qwen3-VL-8B) reasons about the \\emph{after-effects} an edit implies -- state transitions, action phases, scene, camera and tempo -- and verbalises a concise post-edit description; a contrastive video--text encoder (SigLIP-2) embeds this description and the gallery for first-stage retrieval; finally a constraint-aware re-ranking stage uses the same multimodal model as a judge that scores each shortlisted candidate against the intended edited result. On the challenge test set, R3-CoVR attains \\textbf{91.9\\% R@1} and \\textbf{98.2\\% R@10}. Two findings drive these results: (i)~matching the description length to the contrastive encoder's text window lifts \\Rk{1} from $67.5$ to $72.7$; and (ii)~the constraint-aware re-ranker, which reorders only the shortlist, lifts \\Rk{1} from $72.7$ to $91.9$ -- the single largest gain. We analyse the re-ranker's behaviour, the retrieve/re-rank blend, and the shortlist depth, and we release a clean three-layer implementation.",
+      "authors": [
+        "Ali Alavi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-05-30T22:21:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.00910v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "zero-shot composed video retrieval via reasoning on text modifications, closely related to natural language video retrieval",
+      "llm_evidence_cn": "基于文本修改推理的零样本组合视频检索，与自然语言视频检索强相关",
+      "llm_evidence": "基于文本修改推理的零样本组合视频检索，与自然语言视频检索强相关",
+      "canonical_evidence": "基于文本修改推理的零样本组合视频检索，与自然语言视频检索强相关",
+      "llm_tldr_en": "Develops R3-CoVR, a training-free pipeline that leverages an MLLM to reason about edit effects and retrieves target videos, achieving strong performance on zero-shot composed video retrieval.",
+      "llm_tldr_cn": "针对零样本组合视频检索任务，提出R3-CoVR流水线，利用多模态大模型推理文本编辑后效并生成目标描述，结合视频-文本编码器检索，再通过重排序优化。在CVPR 2026挑战赛上取得优异成绩，验证了推理增强检索的有效性，为基于语言的视频搜索和时刻定位提供了可迁移框架。",
+      "llm_tldr": "针对零样本组合视频检索任务，提出R3-CoVR流水线，利用多模态大模型推理文本编辑后效并生成目标描述，结合视频-文本编码器检索，再通过重排序优化。在CVPR 2026挑战赛上取得优异成绩，验证了推理增强检索的有效性，为基于语言的视频搜索和时刻定位提供了可迁移框架。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.02161v1",
+      "source": "arxiv",
+      "title": "InfoMerge: Information-aware Token Compression for Efficient Video Large Language Models",
+      "abstract": "Video Large Language Models (Video-LLMs) achieve strong performance in video understanding, but their excessive visual tokens bring substantial computational overhead. Existing training-free compression methods improve inference efficiency by reducing visual tokens, yet they often rely on local adjacent-frame similarity for temporal redundancy estimation or allocate token budgets mainly according to segment length. Such designs are sensitive to frame-level noise and fail to capture the non-uniform information distribution of real-world videos. To address these challenges, we propose InfoMerge, a training-free visual token compression method that improves token utilization through robust redundancy estimation and content-aware budget allocation. Specifically, we propose the Temporal Fingerprint Difference: a segment-level second-order temporal redundancy estimation strategy, which models the temporal similarity structure of tokens at the same spatial positions within each segment. We further introduce Content-Aware Budget Allocation (CABA), which dynamically allocates segment-level token budgets based on segment uniqueness and spectral-entropy-based representational richness. By reducing repeated preservation of redundant static regions and allocating more tokens to informative segments, InfoMerge makes better use of the limited token budget while maintaining strong performance. Extensive experiments show that InfoMerge achieves strong efficiency--accuracy trade-offs across multiple benchmarks and backbones, with more pronounced advantages under aggressive compression. On LLaVA-OneVision-7B, InfoMerge retains 98.8\\% of the original average performance while reducing 85\\% of visual tokens and achieving a 4.24-fold speedup in the prefill stage.",
+      "authors": [
+        "Xinxin Liu",
+        "Shiwei Gan",
+        "Xiao Liu",
+        "Yafeng Yin",
+        "Lei Xie",
+        "Sanglu Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-06-01T12:24:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.02161v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Efficient token compression for video LLMs, enabling faster video understanding",
+      "llm_evidence_cn": "视频大语言模型的高效令牌压缩，加速视频理解",
+      "llm_evidence": "视频大语言模型的高效令牌压缩，加速视频理解",
+      "canonical_evidence": "视频大语言模型的高效令牌压缩，加速视频理解",
+      "llm_tldr_en": "Proposes InfoMerge, a training-free visual token compression method that improves efficiency of video LLMs through robust redundancy estimation and content-aware budget allocation.",
+      "llm_tldr_cn": "针对视频大语言模型视觉令牌过多导致计算负担大的问题，提出InfoMerge，一种无需训练的令牌压缩方法，通过鲁棒冗余估计和内容感知预算分配提高令牌利用率。该方法提升了视频LLM的推理效率，为实时视频理解应用提供了加速可能。实验显示在保持理解性能的同时显著减少计算量。",
+      "llm_tldr": "针对视频大语言模型视觉令牌过多导致计算负担大的问题，提出InfoMerge，一种无需训练的令牌压缩方法，通过鲁棒冗余估计和内容感知预算分配提高令牌利用率。该方法提升了视频LLM的推理效率，为实时视频理解应用提供了加速可能。实验显示在保持理解性能的同时显著减少计算量。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
