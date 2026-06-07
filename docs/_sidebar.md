@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-07 <!--dpr-date:20260607-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/07/2606.03837v1-where-do-we-not-need-temporal-context-in-low-resource-video-task-adaptation" data-sidebar-item="{&quot;title&quot;: &quot;Where Do We (Not) Need Temporal Context in Low-Resource Video Task Adaptation?&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.03837v1-where-do-we-not-need-temporal-context-in-low-resource-video-task-adaptation&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vtg&quot;}], &quot;evidence&quot;: &quot;系统研究视频理解任务中时序上下文的分布策略&quot;}">Where Do We (Not) Need Temporal Context in Low-Resource Video Task Adaptation?</a>
   * 2026-06-06 <!--dpr-date:20260606-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/06/2606.05758v1-drift-a-residual-flow-adapter-for-decoding-continuous-outputs-in-vision-language-models" data-sidebar-item="{&quot;title&quot;: &quot;DRIFT: A Residual Flow Adapter for Decoding Continuous Outputs in Vision-Language Models&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.05758v1-drift-a-residual-flow-adapter-for-decoding-continuous-outputs-in-vision-language-models&quot;, &quot;score&quot;: &quot;10.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vtg&quot;}], &quot;evidence&quot;: &quot;使视觉语言模型解码连续时间边界以进行事件定位的方法&quot;}">DRIFT: A Residual Flow Adapter for Decoding Continuous Outputs in Vision-Language Models</a>

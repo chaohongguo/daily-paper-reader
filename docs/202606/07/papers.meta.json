@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-07",
+  "date": "2026-06-07",
+  "generated_at": "2026-06-07T20:15:34",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/07/2606.03837v1-where-do-we-not-need-temporal-context-in-low-resource-video-task-adaptation",
+      "section": "quick",
+      "title_en": "Where Do We (Not) Need Temporal Context in Low-Resource Video Task Adaptation?",
+      "authors": "Luc P. J. Sträter, Hazel Doughty",
+      "date": "2026-06-02",
+      "pdf": "https://arxiv.org/pdf/2606.03837v1",
+      "score": "6.0",
+      "evidence": "系统研究视频理解任务中时序上下文的分布策略",
+      "tldr": "视频理解任务标注昂贵，参数高效微调(PEFT)虽能减少可训练参数，但现有方法未充分探索时间上下文在模型各组件间的分配。本文系统研究了低资源视频任务适配策略，评估了聚焦外观、运动及空间密集任务的不同PEFT与探测方法。结果显示时间上下文分配对视频适配效果至关重要，为后续高效视频理解提供了新见解。",
+      "tags": "query:vtg",
+      "abstract_en": "Parameter-efficient fine-tuning (PEFT) and probing enable adaptation of foundation models using only a small number of trainable parameters, making it attractive for video understanding where annotation and computation are expensive. However, video PEFT has focused on adapting image-pretrained models, while standard PEFT methods can also be applied to video representations. These settings are rarely compared and both confine temporal reasoning to a single component of the model, leaving open how temporal context should be distributed across backbone, PEFT and probe. In this work we provide a systematic study of model adaptation strategies for video understanding. We evaluate methods across appearance-focused, motion-focused and spatially dense settings, with a particular focus on scenarios with limited data where parameter-efficiency is most beneficial. Our results provide new insights into PEFT and probing across settings and demonstrate the importance of temporal context allocation for effective video adaptation",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

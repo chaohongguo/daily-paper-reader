@@ -1,0 +1,53 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-07T20:14:17.983486+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.03837v1",
+      "source": "arxiv",
+      "title": "Where Do We (Not) Need Temporal Context in Low-Resource Video Task Adaptation?",
+      "abstract": "Parameter-efficient fine-tuning (PEFT) and probing enable adaptation of foundation models using only a small number of trainable parameters, making it attractive for video understanding where annotation and computation are expensive. However, video PEFT has focused on adapting image-pretrained models, while standard PEFT methods can also be applied to video representations. These settings are rarely compared and both confine temporal reasoning to a single component of the model, leaving open how temporal context should be distributed across backbone, PEFT and probe. In this work we provide a systematic study of model adaptation strategies for video understanding. We evaluate methods across appearance-focused, motion-focused and spatially dense settings, with a particular focus on scenarios with limited data where parameter-efficiency is most beneficial. Our results provide new insights into PEFT and probing across settings and demonstrate the importance of temporal context allocation for effective video adaptation",
+      "authors": [
+        "Luc P. J. Sträter",
+        "Hazel Doughty"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T16:19:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.03837v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "systematic study on temporal context distribution for video understanding tasks",
+      "llm_evidence_cn": "系统研究视频理解任务中时序上下文的分布策略",
+      "llm_evidence": "系统研究视频理解任务中时序上下文的分布策略",
+      "canonical_evidence": "系统研究视频理解任务中时序上下文的分布策略",
+      "llm_tldr_en": "Studies where to place temporal context in model adaptation for video tasks, revealing that self-attention with temporal context benefits motion-focused tasks like temporal localization.",
+      "llm_tldr_cn": "针对视频理解中参数高效微调时上下文的分布问题，系统研究了在不同模型组成部分（主干、适配器、探针）中配置时序上下文的策略，发现同时自注意力中的时序上下文对运动聚焦任务至关重要，为视频模型轻量化提供了设计指导。",
+      "llm_tldr": "针对视频理解中参数高效微调时上下文的分布问题，系统研究了在不同模型组成部分（主干、适配器、探针）中配置时序上下文的策略，发现同时自注意力中的时序上下文对运动聚焦任务至关重要，为视频模型轻量化提供了设计指导。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
