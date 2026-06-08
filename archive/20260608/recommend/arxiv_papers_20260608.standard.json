@@ -1,0 +1,507 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-08T21:52:37.075542+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.06819v1",
+      "source": "arxiv",
+      "title": "VideoSEG-O3: A Multi-turn Reinforcement Learning Framework for Reasoning Video Object Segmentation",
+      "abstract": "Reasoning Video Object Segmentation (RVOS) demands a sophisticated integration of temporal dynamics, spatial details, and linguistic reasoning to achieve precise pixel-level localization. Existing methods are limited to reasoning over fixed initial inputs and lack the capacity to actively acquire further visual evidence, which is often essential for resolving complex references in long or intricate videos. To address this, we propose \\textbf{VideoSEG-O3}, the first multi-turn reinforcement learning framework for RVOS that emulates the human \\textit{``coarse-to-fine''} cognitive process. It employs a \\textit{multi-turn temporal-spatial chain-of-thought} to capture fine-grained details by iteratively pinpointing critical intervals and keyframes. Additionally, to enable the policy to perceive segmentation quality beyond mere text probability of \\texttt{[SEG]} during the RL stage, we introduce \\textit{SEG-aware logit calibration}, which integrates pixel-wise segmentation feedback directly into the token-level logits. Furthermore, we design a \\textit{decoupled thinking trace} to hierarchically decompose the reasoning process into temporal, spatial, and linguistic dimensions, and construct \\textbf{VTS-CoT}, a specialized cold-start dataset featuring comprehensive reasoning trajectories. The code and models will be released at https://github.com/Dmmm1997/VideoSEG-O3.",
+      "authors": [
+        "Ming Dai",
+        "Sen Yang",
+        "Boqiang Duan",
+        "Boyuan Tong",
+        "Jiedong Zhuang",
+        "Wankou Yang",
+        "Jingdong Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-05T01:44:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.06819v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Multi-turn reinforcement learning for reasoning video object segmentation with temporal-spatial chain-of-thought and linguistic reasoning, addressing pixel-level grounding of referring expressions.",
+      "llm_evidence_cn": "多轮强化学习用于推理视频对象分割，结合时空思维链和语言推理，实现指代表达的像素级定位。",
+      "llm_evidence": "多轮强化学习用于推理视频对象分割，结合时空思维链和语言推理，实现指代表达的像素级定位。",
+      "canonical_evidence": "多轮强化学习用于推理视频对象分割，结合时空思维链和语言推理，实现指代表达的像素级定位。",
+      "llm_tldr_en": "Proposes VideoSEG-O3, the first multi-turn RL framework for RVOS that iteratively gathers visual evidence via temporal-spatial chain-of-thought to achieve fine-grained pixel-level localization of objects described by natural language.",
+      "llm_tldr_cn": "提出首个多轮强化学习框架VideoSEG-O3，模拟人类“由粗到细”的认知过程，通过迭代式时空思维链获取关键视觉证据，实现对自然语言描述的物体的像素级分割。在ReasonVOS等基准上取得显著性能提升。",
+      "llm_tldr": "提出首个多轮强化学习框架VideoSEG-O3，模拟人类“由粗到细”的认知过程，通过迭代式时空思维链获取关键视觉证据，实现对自然语言描述的物体的像素级分割。在ReasonVOS等基准上取得显著性能提升。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06991v1",
+      "source": "arxiv",
+      "title": "Don't Pause: Streaming Video-Language Synchrony for Online Video Understanding",
+      "abstract": "Online Video Large Language Models (Video-LLMs) have advanced toward seamless human-AI interaction through frame-by-frame processing and proactive responding. However, a critical challenge remains in streaming scenarios: existing models typically pause video perception while generating responses, breaking real-time video-language synchrony and causing stutters. To address this, we introduce a novel paradigm for online video understanding: Streaming Video-Language Synchrony (SVLS), and present LyraV, a live streaming assistant built upon a hierarchical control framework with two core innovations. First, the Frame-Driven Transition Controller (FDTC), a training-free verification-based finite-state machine, makes high-level semantic decisions on when to continue speaking, start a new response, or stay silent. Second, the Streaming Token Pacer (SToP), a plug-and-play lightweight predictive module, dynamically adapts the language generation rate to match the pace of the visual content. Concretely, LyraV performs \\emph{per-frame incremental, sub-budget decoding}: within each frame interval it emits only a small chunk of tokens that fits the real-time budget, so perception is never blocked for a full sentence. Together, these components enable LyraV to seamlessly interleave incoming video frames with generated word tokens, achieving a fine-grained synchrony. Extensive experiments conducted on five online and three offline benchmarks demonstrate that LyraV preserves the backbone's general understanding ability while substantially improving streaming synchrony and narrative fluency, delivering a 98.29\\% synchrony with video playback and a real-time processing speed of 3.89 FPS. Interestingly, we observe an empirical capability in LyraV: dynamic reasoning over streaming tokens, enabling continuous interpretation and \"thinking\" alongside visual input.",
+      "authors": [
+        "Zhenyu Yang",
+        "Kairui Zhang",
+        "Shengsheng Qian",
+        "Weiming Dong",
+        "Changsheng Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T07:29:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.06991v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Enables real-time streaming video understanding without pausing video perception.",
+      "llm_evidence_cn": "无需暂停视频感知的实时流视频理解助手。",
+      "llm_evidence": "无需暂停视频感知的实时流视频理解助手。",
+      "canonical_evidence": "无需暂停视频感知的实时流视频理解助手。",
+      "llm_tldr_en": "Proposes LyraV, a live streaming assistant that maintains video-language synchrony via a hierarchical control framework with a Frame-Driven Transition Controller, enabling continuous video perception during response generation.",
+      "llm_tldr_cn": "现有在线视频大模型在生成回复时暂停视频感知，破坏了实时视频-语言同步。本文提出流式视频-语言同步新范式，并构建LyraV实时助手。其核心是分层控制框架，包含基于验证的无训练有限状态机——帧驱动转换控制器，用于高层语义决策，以及低层异步流设计，使视频感知与回复生成并行。实验表明LyraV在保证回复质量的同时，实现了低延迟、不卡顿的流视频交互，推动了实时在线视频理解的发展。",
+      "llm_tldr": "现有在线视频大模型在生成回复时暂停视频感知，破坏了实时视频-语言同步。本文提出流式视频-语言同步新范式，并构建LyraV实时助手。其核心是分层控制框架，包含基于验证的无训练有限状态机——帧驱动转换控制器，用于高层语义决策，以及低层异步流设计，使视频感知与回复生成并行。实验表明LyraV在保证回复质量的同时，实现了低延迟、不卡顿的流视频交互，推动了实时在线视频理解的发展。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.07355v1",
+      "source": "arxiv",
+      "title": "Spatial-Temporal Decoupled Adapter for Micro-gesture Online Recognition",
+      "abstract": "Micro-gesture online recognition aims to temporally localize and classify subtle gestures in untrimmed videos. Owing to their extremely short duration, low motion amplitude, and ambiguous visual cues, capturing discriminative spatiotemporal representations remains highly challenging. Existing parameter-efficient adapters typically employ a single branch to model spatial and temporal cues jointly, which may fail to capture the fine-grained patterns of micro-gestures. To address this limitation, we propose a Spatial-Temporal Decoupled Adapter that decomposes video adaptation into independent temporal and spatial branches via lightweight depthwise convolutions. In addition, to address the long-tail distribution problem in the benchmark dataset, we introduce Adaptive Soft Balanced Augmentation, which dynamically allocates augmentation intensity based on class rarity and learning difficulty, without manual thresholds. Our method achieves an F1 score of 0.43808, ranking 1st in Track 2 of the 4th EI-MiGA-IJCAI Challenge.",
+      "authors": [
+        "Xucheng Shen",
+        "Kun Li",
+        "Fei Wang",
+        "Wei Qian",
+        "Jin Jiang",
+        "Dan Guo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-05T15:03:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.07355v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Online temporal localization and classification of micro-gestures in untrimmed videos",
+      "llm_evidence_cn": "在未修剪视频中在线时间定位和分类微手势",
+      "llm_evidence": "在未修剪视频中在线时间定位和分类微手势",
+      "canonical_evidence": "在未修剪视频中在线时间定位和分类微手势",
+      "llm_tldr_en": "Proposes a spatial-temporal decoupled adapter for online micro-gesture recognition in untrimmed videos, achieving better fine-grained pattern capture.",
+      "llm_tldr_cn": "针对未修剪视频中微手势在线识别任务，现有参数高效适配器未能充分捕捉时空细粒度特征。本文提出时空解耦适配器，将视频适配分解为独立的时间与空间分支，并引入平衡损失缓解长尾分布。在评测数据集上取得领先结果，验证了分解式设计对细微动作时序定位的有效性。",
+      "llm_tldr": "针对未修剪视频中微手势在线识别任务，现有参数高效适配器未能充分捕捉时空细粒度特征。本文提出时空解耦适配器，将视频适配分解为独立的时间与空间分支，并引入平衡损失缓解长尾分布。在评测数据集上取得领先结果，验证了分解式设计对细微动作时序定位的有效性。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06926v1",
+      "source": "arxiv",
+      "title": "SVHighlights: Towards Extremely Long Sport Video Highlight Detection",
+      "abstract": "While highlight detection for long-form videos is of great practical importance, most existing methods remain limited to short-form content, largely due to the absence of a suitable benchmark. To bridge this gap, we introduce SVHighlights, to the best of our knowledge, the first benchmark for highlight detection in extremely long sports videos, each exceeding one hour in duration, across multiple sports categories. SVHighlights is constructed from pairs of full-length sports videos and their corresponding official highlight videos using a dataset generation pipeline, enabling scalable label generation without conventional per-clip saliency annotation. The benchmark comprises 320 videos with an average duration of 2.00 hours and a total of 640.18 hours, substantially exceeding previous datasets. Existing methods also face fundamental challenges on long videos: models trained on short clips fail to generalize to hour-long content, and their clip-level scoring lacks the broader context needed to identify highlights. To address this and provide a strong baseline, we present TF-SELECTOR, a training-free segment-based approach that divides each video into context-aware segments by merging adjacent shots sharing the same semantic content, and predicts segment-level saliency scores using a large language model with multimodal inputs including visual captions, transcripts, and audio volume. Experiments demonstrate that TF-SELECTOR achieves superior performance across most metrics compared to Video Temporal Grounding (VTG)-tuned baselines, with improvements of +3.12 in HIT@1, +4.06 in HIT@K, and +2.95 in IoU. These results establish SVHighlights as a challenging testbed for long-form highlight detection and demonstrate that a simple segment-based strategy can effectively scale to hour-long videos.",
+      "authors": [
+        "Donggyu Lee",
+        "Youngbin Ki",
+        "Jeonghun Kang",
+        "Taehwan Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.MM"
+      ],
+      "published": "2026-06-05T05:42:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.06926v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Detects highlights as events in long sports videos for temporal localization.",
+      "llm_evidence_cn": "检测长体育视频中的精彩片段，作为事件检测和时间定位。",
+      "llm_evidence": "检测长体育视频中的精彩片段，作为事件检测和时间定位。",
+      "canonical_evidence": "检测长体育视频中的精彩片段，作为事件检测和时间定位。",
+      "llm_tldr_en": "Introduces SVHighlights, the first benchmark for highlight detection in extremely long sports videos (average 2h), with a scalable pipeline using full-length and official highlight pairs, establishing baselines for this challenging task.",
+      "llm_tldr_cn": "现有精彩片段检测方法局限于短视频，缺乏超长视频基准。针对此，构建了SVHighlights，首个面向超一小时多类体育视频的精彩片段检测基准，包含320个视频，平均时长2小时，总时长640小时。提出利用完整视频与官方集锦自动生成标签的可扩展流水线。基准测试表明，现有方法在超长视频上性能大幅下降，揭示了长程上下文建模的挑战。该基准推动了视频事件检测在真实长视频场景中的应用。",
+      "llm_tldr": "现有精彩片段检测方法局限于短视频，缺乏超长视频基准。针对此，构建了SVHighlights，首个面向超一小时多类体育视频的精彩片段检测基准，包含320个视频，平均时长2小时，总时长640小时。提出利用完整视频与官方集锦自动生成标签的可扩展流水线。基准测试表明，现有方法在超长视频上性能大幅下降，揭示了长程上下文建模的挑战。该基准推动了视频事件检测在真实长视频场景中的应用。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "online video analysis and event detection approaches",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.07033v1",
+      "source": "arxiv",
+      "title": "Hierarchical Semantic-Constrained Heterogeneous Graph for Audio-Visual Event Localization",
+      "abstract": "Open-vocabulary audio-visual event localization (OV-AVEL) jointly models audio-visual cues to recognize and temporally localize events, including categories unseen during training. Existing methods primarily learn joint audio-visual representations in Euclidean space, but still face two significant challenges. First, the lack of supervision signals for unseen categories makes it difficult to maintain audio-visual consistency across multiple temporal scales. Second, the lack of hierarchical constraints between segment- and video-level semantics prevents the model from establishing semantic consistency across different levels. To address these challenges, we propose a hierarchical semantic constrained heterogeneous graph (HSCHG) for audio-visual event localization framework. We first construct a heterogeneous hierarchical graph in Euclidean space, which includes audio and visual segment nodes and their corresponding video-level nodes. We use multi-directional temporal edges to capture complete temporal information within each modality. Simultaneously, we employ a dual-threshold filtering gated fusion strategy, introducing cross-modal information only when the alignment confidence is high. Furthermore, we introduce bidirectional semantic constraints between segment- and video-level representations to achieve semantic consistency across different levels. Based on this, we map the multi-level audio-visual representations and text prototypes uniformly into hyperbolic space. We use a hierarchical entailment regularization loss to characterize the hierarchical relationships between videos and segments. Extensive experimental results show that our method outperforms existing methods on the OV-AVEL benchmark. Ablation studies further validate the effectiveness of our method.",
+      "authors": [
+        "Zhe Yang",
+        "Ruyi Zhang",
+        "Hongtao Chen",
+        "Wenrui Li",
+        "Hengyu Man",
+        "Wangmeng Zuo",
+        "Xiaopeng Fan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-06-05T08:23:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.07033v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly addresses open-vocabulary audio-visual event localization, which is temporal localization in videos",
+      "llm_evidence_cn": "直接处理开放词汇音视频事件定位，即视频中的时序定位",
+      "llm_evidence": "直接处理开放词汇音视频事件定位，即视频中的时序定位",
+      "canonical_evidence": "直接处理开放词汇音视频事件定位，即视频中的时序定位",
+      "llm_tldr_en": "Proposes a hierarchical semantic constrained heterogeneous graph for open-vocabulary audio-visual event localization, addressing multi-scale consistency and hierarchical semantics.",
+      "llm_tldr_cn": "针对开放词汇音视频事件定位中多尺度一致性和层次语义约束不足的问题，提出层次语义约束异构图HSCHG，通过段级与视频级语义约束提升未见过类别的定位性能。",
+      "llm_tldr": "针对开放词汇音视频事件定位中多尺度一致性和层次语义约束不足的问题，提出层次语义约束异构图HSCHG，通过段级与视频级语义约束提升未见过类别的定位性能。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06891v1",
+      "source": "arxiv",
+      "title": "Stream3D-VLM: Online 3D Spatial Understanding with Incremental Geometry Priors",
+      "abstract": "Despite advances in 3D scene understanding, existing 3D Large Multimodal Models operate in offline settings, requiring complete scene observations or predefined video clips. In this paper, we present an online 3D vision-language model that enables real-time spatial understanding from streaming video. Our approach adopts an autoregressive streaming control modeling based on the LLM's next-token prediction objective to learn when to respond, and employs a lightweight Visual-Spatial Feature Integration (VSFI) module to incrementally inject temporally aligned geometry priors into the visual stream. To alleviate long-context decoding overhead, we propose a plug-and-play Geometry-Adaptive Voxel Compression (GAVC) module for efficient visual token compression. To address the scarcity of streaming 3D-language data, we further develop a scalable data generation pipeline that curates over 1M online spatio-temporal 3D QA pairs and establishes a comprehensive benchmark spanning 29 tasks. Extensive experiments show that our approach significantly outperforms both proprietary and open-source models across online and offline 3D spatial understanding, reasoning, and grounding tasks. The project page is available at https://stream3d-vlm.github.io/",
+      "authors": [
+        "Hanxun Yu",
+        "Xuan Qu",
+        "Lei Ke",
+        "Boqiang Zhang",
+        "Yuxin Wang",
+        "Jianke Zhu",
+        "Dong Yu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-05T04:16:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.06891v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "online 3D vision-language model for real-time spatial understanding from streaming video",
+      "llm_evidence_cn": "面向流视频的实时3D空间理解在线视觉语言模型",
+      "llm_evidence": "面向流视频的实时3D空间理解在线视觉语言模型",
+      "canonical_evidence": "面向流视频的实时3D空间理解在线视觉语言模型",
+      "llm_tldr_en": "Proposes Stream3D-VLM, an online 3D VLM that performs real-time spatial understanding from streaming video by autoregressive streaming control and incremental geometry injection, enabling efficient and responsive online perception.",
+      "llm_tldr_cn": "现有3D多模态模型依赖完整场景或预定义片段，无法处理流视频实时理解。本文提出Stream3D-VLM，通过自回归流控建模和视觉-空间特征增量注入实现实时空间理解，并引入几何自适应体素压缩降低长上下文解码开销，使模型能够在线高效感知三维空间。实验表明，该方法在流视频理解任务上取得了实时响应能力和良好的空间理解性能，为流视频在线理解提供了一个有效的框架。",
+      "llm_tldr": "现有3D多模态模型依赖完整场景或预定义片段，无法处理流视频实时理解。本文提出Stream3D-VLM，通过自回归流控建模和视觉-空间特征增量注入实现实时空间理解，并引入几何自适应体素压缩降低长上下文解码开销，使模型能够在线高效感知三维空间。实验表明，该方法在流视频理解任务上取得了实时响应能力和良好的空间理解性能，为流视频在线理解提供了一个有效的框架。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real-time perception in streaming video",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.01104v1",
+      "source": "arxiv",
+      "title": "Adaptive Dense Evidence Refinement for Video Relational Reasoning for VRR-QA Challenge",
+      "abstract": "VRR-QA evaluates whether video-language systems can infer spatial, temporal, viewpoint, depth, and visibility relations that are not always resolved by a single frame. We present an inference-only system built around adaptive test-time computation. The system first answers each question with a direct video-language model pass, then uses multiple lightweight views to find unstable questions. Only these difficult questions are routed to a high-budget dense evidence module that constructs timestamped frame observations, relation-specific probes, candidate verification, and conservative temporal aggregation. This design separates two problems that are often confused in video question answering: finding plausible alternative answers and deciding when a current answer should actually be changed. On the test split, the final system obtains 90.07 average accuracy and 87.81 macro average accuracy. The report focuses on the final test system and the implementation settings required to reproduce the adaptive dense verifier.",
+      "authors": [
+        "Yuyang Sun",
+        "Yongliang Wu",
+        "Xingyu Zhu",
+        "Yuxia Chen",
+        "Zhenxiang Jiang",
+        "Yangguang Ji",
+        "Wenbo Zhu",
+        "Yanxi Shi",
+        "Jay Wu",
+        "Shuo Wang",
+        "Xu Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-31T08:45:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.01104v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Adaptive dense evidence refinement for spatio-temporal reasoning in video QA",
+      "llm_evidence_cn": "自适应稠密证据精炼用于视频问答中的时空关系推理",
+      "llm_evidence": "自适应稠密证据精炼用于视频问答中的时空关系推理",
+      "canonical_evidence": "自适应稠密证据精炼用于视频问答中的时空关系推理",
+      "llm_tldr_en": "Proposes an inference-only system for VRR-QA that adaptively routes difficult questions to a dense evidence module, which constructs timestamped observations and relation-specific probes to improve temporal reasoning.",
+      "llm_tldr_cn": "针对视频问答中需要时空关系推理的问题，提出一种自适应测试时计算系统。首先用直接视频语言模型回答，再通过多轻量视图识别不稳定问题，仅对难题路由到高预算稠密证据模块，该模块构建带时间戳的帧观测和关系特定探针，并进行保守时序聚合，从而有效分离了寻找备选答案和精确决策两个子问题。",
+      "llm_tldr": "针对视频问答中需要时空关系推理的问题，提出一种自适应测试时计算系统。首先用直接视频语言模型回答，再通过多轻量视图识别不稳定问题，仅对难题路由到高预算稠密证据模块，该模块构建带时间戳的帧观测和关系特定探针，并进行保守时序聚合，从而有效分离了寻找备选答案和精确决策两个子问题。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.02321v1",
+      "source": "arxiv",
+      "title": "Training-Free Composed Video Retrieval via Visual Representation-Guided Video-LLM Reasoning",
+      "abstract": "Recent advances in large vision-language models have expanded video retrieval from simple text-based search to more flexible scenarios, where users may specify the desired result through both visual examples and textual instructions. In the CVPR 2026 Reason-Aware Composed Video Retrieval Challenge, the system is required to retrieve a target video according to a reference video and a modification instruction. To address this task, we develop Visual Representation-Guided Video-LLM Reasoning for Training-Free Composed Video Retrieval. Our framework first uses frozen DINOv3 models to obtain a compact set of visually relevant candidates, and then applies large vision-language models to evaluate whether each candidate satisfies the modification instruction. A final reasoning-based refinement is further performed on the top candidates to improve the first-ranked prediction. Without training, our system achieves 48.78 Recall@1 and 51.48 Recall@5 on the test set. Future work may further improve retrieval accuracy through stronger video-LLMs and detailed integration between visual representations and language reasoning.",
+      "authors": [
+        "Yang Liu",
+        "Qianqian Xu",
+        "Peisong Wen",
+        "Siran Dai",
+        "Qingming Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-01T14:35:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.02321v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Composed video retrieval using visual representations and video-LLM reasoning without training",
+      "llm_evidence_cn": "基于视觉表示引导的视频-LLM推理的无训练组合视频检索",
+      "llm_evidence": "基于视觉表示引导的视频-LLM推理的无训练组合视频检索",
+      "canonical_evidence": "基于视觉表示引导的视频-LLM推理的无训练组合视频检索",
+      "llm_tldr_en": "Develops a training-free framework for composed video retrieval, first using DINOv3 for candidate filtering then applying a video-LLM for instruction-based refinement.",
+      "llm_tldr_cn": "针对组合视频检索任务，提出一种无需训练的两阶段方法：先用冻结的DINOv3模型获取视觉相关候选集，再用大型视觉语言模型评估每个候选是否满足参考视频和修改指令。在CVPR 2026挑战中，该系统展示了推理能力，为灵活的视频检索提供了高效方案。",
+      "llm_tldr": "针对组合视频检索任务，提出一种无需训练的两阶段方法：先用冻结的DINOv3模型获取视觉相关候选集，再用大型视觉语言模型评估每个候选是否满足参考视频和修改指令。在CVPR 2026挑战中，该系统展示了推理能力，为灵活的视频检索提供了高效方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.01113v2",
+      "source": "arxiv",
+      "title": "R^3: Composed Video Retrieval via Reasoning-Guided Recalling and Re-ranking",
+      "abstract": "The CoVR-R challenge evaluates composed video retrieval, where a system must retrieve a target video from a large gallery given a reference video and a textual edit instruction. This setting is not a standard video-text retrieval problem: the query is defined by both the visual evidence in the source video and the transformation implied by the edit. A strong embedding model can provide scalable candidate recall, but it may under-express target-side consequences such as state changes, action replacement, object preservation, or temporal consistency. A pairwise multimodal reranker can verify such details more directly, but exhaustive reranking over the full gallery is computationally infeasible. We present $\\mathbb{R}^3$, a zero-shot composed video retrieval pipeline built around Reasoning-guided Recalling and Reranking. The core idea is to turn the source-edit query into a reasoning-grounded retrieval program rather than treating the edit text as a short caption. First, the model generates a reasoning trace that describes the expected target video after applying the edit. Then the trace is encoded together with the source video as a reasoning-augmented query, and its retrieval score is fused with the base composed query through an agreement-gated residual rule. At last, a re-ranker verifies the recalled candidates with direct source-candidate comparison. Experiments have demonstrated the effectiveness of our method in addressing this challenge. Codes are available on https://github.com/Lee-zixu/R-3.",
+      "authors": [
+        "Zixu Li",
+        "Yupeng Hu",
+        "Zhiheng Fu",
+        "Zhiwei Chen",
+        "Weili Guan",
+        "Liqiang Nie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-31T09:20:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.01113v2",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Zero-shot composed video retrieval with text edit instructions, akin to moment retrieval with textual modification.",
+      "llm_evidence_cn": "基于参考视频和文本编辑指令的零样本组合视频检索。",
+      "llm_evidence": "基于参考视频和文本编辑指令的零样本组合视频检索。",
+      "canonical_evidence": "基于参考视频和文本编辑指令的零样本组合视频检索。",
+      "llm_tldr_en": "Presents R^3, a zero-shot composed video retrieval method using reasoning-guided recalling and re-ranking, balancing efficiency and verification for CoVR-R challenge.",
+      "llm_tldr_cn": "针对组合视频检索任务，即给定参考视频和文本编辑指令检索目标视频，提出零样本R^3方法。通过推理引导的召回和重排序，先利用强嵌入模型高效召回候选，再使用多模态精排模型验证细节，如状态变化、动作替换等。在CoVR-R挑战中，R^3在效率与准确性间取得平衡，展示了零样本组合视频检索的有效性。",
+      "llm_tldr": "针对组合视频检索任务，即给定参考视频和文本编辑指令检索目标视频，提出零样本R^3方法。通过推理引导的召回和重排序，先利用强嵌入模型高效召回候选，再使用多模态精排模型验证细节，如状态变化、动作替换等。在CoVR-R挑战中，R^3在效率与准确性间取得平衡，展示了零样本组合视频检索的有效性。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.05769v1",
+      "source": "arxiv",
+      "title": "Imagine Before You Predict: Interleaved Latent Visual Reasoning for Video Event Prediction",
+      "abstract": "Video event prediction (VEP) requires models to infer unobserved future states from partial video evidence. Existing video MLLMs usually verbalize intermediate future reasoning in text space: once visual evidence is verbalized, fine-grained motion, geometry, and interaction cues can be lost, leading to plausible but visually ungrounded hallucinations. We introduce Future-L1, an interleaved latent visual reasoning framework that lets an MLLM alternate between language tokens and continuous latent visual spans during autoregressive decoding. To train this capability, we construct Future-L1-50K by selecting examples where future visual hints help prediction and align latent states to future-frame embeddings, then further optimize sampled latent trajectories with LA-DAPO, a latent-aware RL objective with outcome-contrastive and temporal-diversity rewards. Future-L1 achieves new state-of-the-art results on both benchmarks: on FutureBench, it improves Qwen3-VL-8B from 61.0 to 85.4 and exceeds the previous best Video-CoE by 10.4 points; on TwiFF-Bench, it improves the average score from 2.44 to 3.04. These results suggest that future-oriented video reasoning benefits from preserving intermediate visual semantics in latent space rather than translating every reasoning step into text.",
+      "authors": [
+        "Tianxiang Jiang",
+        "Linquan Wu",
+        "Sheng Xia",
+        "Songze Li",
+        "Ziang Yan",
+        "Haoyu Yang",
+        "Yu Qiao",
+        "Yi Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T06:53:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.05769v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Video event prediction with interleaved latent visual reasoning for future state inference",
+      "llm_evidence_cn": "通过交错潜视觉推理进行视频事件预测",
+      "llm_evidence": "通过交错潜视觉推理进行视频事件预测",
+      "canonical_evidence": "通过交错潜视觉推理进行视频事件预测",
+      "llm_tldr_en": "Proposes Future-L1, which interleaves language and latent visual tokens during decoding to improve video event prediction, maintaining visual grounding and reducing hallucinations.",
+      "llm_tldr_cn": "针对视频事件预测中语言推理丢失细粒度运动和交互线索的问题，提出Future-L1框架，在自回归解码中交替使用语言token和连续潜视觉跨度，保持视觉根基以减少幻觉。通过构建Future-L1-50K数据集并对齐潜状态与未来帧嵌入进行训练，优化采样过程，实验证明该方法能更准确地预测未观察到的未来状态。",
+      "llm_tldr": "针对视频事件预测中语言推理丢失细粒度运动和交互线索的问题，提出Future-L1框架，在自回归解码中交替使用语言token和连续潜视觉跨度，保持视觉根基以减少幻觉。通过构建Future-L1-50K数据集并对齐潜状态与未来帧嵌入进行训练，优化采样过程，实验证明该方法能更准确地预测未观察到的未来状态。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "online video analysis and event detection approaches",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.06158v1",
+      "source": "arxiv",
+      "title": "Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting",
+      "abstract": "Adaptive video tokenisation seeks to dynamically allocate token budgets based on the underlying visual complexity of a sequence. Current continuous-regime approaches achieve this via iterative binarised searches or trained neural regressors, while discrete methods often require a full-rate decoder pass to estimate information content. We demonstrate that such computational overheads are not strictly necessary. We show that the latent space of a frozen continuous video tokeniser inherently encodes temporal redundancy that can be exploited directly: spatial positions whose latent representations change minimally between consecutive frames carry near-zero additional information.   We introduce a parameter-free adaptive token allocation mechanism that applies a fixed threshold to per-position temporal-L1 differences, identifying and dropping redundant latent positions. Consequently, the compression rate emerges naturally from the input content rather than being enforced top-down: static scenes get compressed aggressively, while highly dynamic sequences retain more tokens. To reconstruct the dropped positions, we propose the Latent Inpainting Transformer (LIT), a lightweight factorised spatial-temporal attention architecture. The resulting inference pipeline is highly efficient, requiring only a single encoder pass and one LIT forward pass, eliminating the need for auxiliary routing networks. Evaluations across TokenBench and DAVIS, which are the standard benchmarks used by recent tokenisers~\\cite{infotok, agarwal2025cosmos}, indicate that our framework yields meaningful, content-driven token allocation while maintaining competitive reconstruction fidelity, and delivers a $31\\times$ inference-time speedup over the continuous adaptive baseline (ElasticTok-CV) and an $\\approx2\\times$ speedup over the discrete information-theoretic baseline (InfoTok)",
+      "authors": [
+        "Kevin Dave",
+        "Sai Aditya Patkuri",
+        "Chhaya Kumar Das",
+        "Gouranga Bala",
+        "R. Venkatesh Babu",
+        "Rajeshkumar SA"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T13:31:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.06158v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "adaptive token allocation exploits temporal redundancy for efficient video processing, enabling real-time streaming",
+      "llm_evidence_cn": "自适应令牌分配利用时间冗余实现高效视频处理，支持实时流媒体",
+      "llm_evidence": "自适应令牌分配利用时间冗余实现高效视频处理，支持实时流媒体",
+      "canonical_evidence": "自适应令牌分配利用时间冗余实现高效视频处理，支持实时流媒体",
+      "llm_tldr_en": "Proposes parameter-free adaptive video tokenization by leveraging latent temporal redundancy, reducing computational overhead for streaming.",
+      "llm_tldr_cn": "针对视频流处理中的计算开销，提出无参数的自适应令牌分配机制，利用连续帧间的潜在时间冗余进行掩蔽和修复，大幅降低冗余计算，为实时视频流理解提供高效预处理。",
+      "llm_tldr": "针对视频流处理中的计算开销，提出无参数的自适应令牌分配机制，利用连续帧间的潜在时间冗余进行掩蔽和修复，大幅降低冗余计算，为实时视频流理解提供高效预处理。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.07512v1",
+      "source": "arxiv",
+      "title": "MemDreamer: Decoupling Perception and Reasoning for Long Video Understanding via Hierarchical Graph Memory and Agentic Retrieval Mechanism",
+      "abstract": "Current Vision-Language Models struggle with hours-long videos because processing full-length visual sequences induces prohibitive token explosion and attention dilution. To overcome this, we introduce MemDreamer to decouple perception and reasoning, shifting long-video understanding into an agentic exploration process. As a plug-and-play framework, it incrementally streams videos to construct a Hierarchical Graph Memory, a top-down three-tier architecture for semantic abstraction, anchored by a foundational graph capturing spatiotemporal and causal relations. During inference, the reasoning model employs agentic tool-augmented retrieval, navigating hierarchies, searching nodes, and traversing logical edges via an Observation-Reason-Action loop. Experiments show MemDreamer achieves SOTA results across four mainstream benchmarks, narrowing the gap with human experts to only 3.7 points. It constrains the reasoning context window to merely 2% of full-context ingestion while delivering a 12.5 point absolute accuracy gain. Furthermore, statistical analysis uncovers a strong positive linear correlation between an VLM's performance on logic reasoning and long-video understanding benchmarks, establishing agentic capability scaling as a new paradigm for multimodal comprehension.",
+      "authors": [
+        "Cong Chen",
+        "Guo Gan",
+        "Kaixiang Ji",
+        "ChaoYang Zhang",
+        "Zhen Yang",
+        "Guangming Yao",
+        "Hao Chen",
+        "Jingdong Chen",
+        "Yi Yuan",
+        "Chunhua Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-05T17:59:21+00:00",
+      "link": "https://arxiv.org/pdf/2606.07512v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "incrementally streams videos for long video understanding via hierarchical graph memory",
+      "llm_evidence_cn": "增量流式处理视频以通过层次图记忆进行长视频理解",
+      "llm_evidence": "增量流式处理视频以通过层次图记忆进行长视频理解",
+      "canonical_evidence": "增量流式处理视频以通过层次图记忆进行长视频理解",
+      "llm_tldr_en": "Proposes MemDreamer, a framework that decouples perception and reasoning for long video understanding by streaming videos into a hierarchical graph memory and using agentic retrieval, enabling efficient processing of hour-long videos.",
+      "llm_tldr_cn": "现有视觉语言模型难以处理小时级长视频，因视觉令牌爆炸和注意力稀释。MemDreamer提出解耦感知与推理，将长视频理解转化为智能探索过程：增量流式处理视频构建层次图记忆，推理时通过工具增强的智能检索机制导航记忆，高效处理长视频。",
+      "llm_tldr": "现有视觉语言模型难以处理小时级长视频，因视觉令牌爆炸和注意力稀释。MemDreamer提出解耦感知与推理，将长视频理解转化为智能探索过程：增量流式处理视频构建层次图记忆，推理时通过工具增强的智能检索机制导航记忆，高效处理长视频。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "analyzing videos as they stream online",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
