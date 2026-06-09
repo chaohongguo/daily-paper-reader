@@ -6,58 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-08
-- 运行时间：2026-06-08 22:03:32 UTC
+- 最新运行日期：2026-06-09
+- 运行时间：2026-06-09 21:00:35 UTC
 - 运行状态：成功
-- 本次总论文数：12
+- 本次总论文数：9
 - 精读区：6
-- 速读区：6
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读2篇，速读3篇，聚焦多模态推理在视频理解中的前沿突破。
-《VideoSEG-O3》首创多轮强化学习让视频对象分割学会自主推理，《Don't Pause》实现流式视频语言同步，挑战离线处理范式。
-若关注复杂视频问答，不妨看《Adaptive Dense Evidence Refinement》如何用自适应证据精炼解决关系推理。
-- 详情：[/202606/08/README](/202606/08/README)
+今日聚焦视频理解前沿：精读两篇满分论文，揭示实时交互与边缘智能新可能。  
+亮点在于跨注意力机制让视频预览秒级响应，以及动态记忆让边缘异常检测资源高效。  
+若你关注视频AI落地，不妨从这两项突破入手，思考如何迁移到自己的应用场景。
+- 详情：[/202606/09/README](/202606/09/README)
 
 ### 精读区论文标签
-1. [VideoSEG-O3: A Multi-turn Reinforcement Learning Framework for Reasoning Video Object Segmentation](/202606/08/2606.06819v1-videoseg-o3-a-multi-turn-reinforcement-learning-framework-for-reasoning-video-object-segmentation)  
+1. [MOSS-Video-Preview: Toward Real-Time Video Understanding via Cross-Attention](/202606/09/2606.07639v1-moss-video-preview-toward-real-time-video-understanding-via-cross-attention)  
    标签：评分：10.0/10、query:vtg
-   evidence：多轮强化学习用于推理视频对象分割，结合时空思维链和语言推理，实现指代表达的像素级定位。
-2. [Don't Pause: Streaming Video-Language Synchrony for Online Video Understanding](/202606/08/2606.06991v1-dont-pause-streaming-video-language-synchrony-for-online-video-understanding)  
+   evidence：实时视频理解，从离线转向流式交互，感知不受生成阻塞。
+2. [MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios](/202606/09/2606.07669v1-memovad-resource-efficient-video-anomaly-detection-via-dynamic-semantic-memory-in-edge-computing-scenarios)  
    标签：评分：10.0/10、query:vtg
-   evidence：无需暂停视频感知的实时流视频理解助手。
-3. [Spatial-Temporal Decoupled Adapter for Micro-gesture Online Recognition](/202606/08/2606.07355v1-spatial-temporal-decoupled-adapter-for-micro-gesture-online-recognition)  
+   evidence：边缘-云协同的流视频异常检测
+3. [Decoupling Semantics and Logic: A Training-Free Coarse-to-Fine Pipeline for Video Retrieval-Augmented Generation](/202606/09/2606.07924v1-decoupling-semantics-and-logic-a-training-free-coarse-to-fine-pipeline-for-video-retrieval-augmented-generation)  
    标签：评分：10.0/10、query:vtg
-   evidence：在未修剪视频中在线时间定位和分类微手势
-4. [SVHighlights: Towards Extremely Long Sport Video Highlight Detection](/202606/08/2606.06926v1-svhighlights-towards-extremely-long-sport-video-highlight-detection)  
+   evidence：解决视频RAG中的零幻觉时序定位问题
+4. [Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning](/202606/09/2606.08436v1-reinforcing-temporal-answer-grounding-in-instructional-video-via-candidate-aware-causal-reasoning)  
+   标签：评分：10.0/10、query:vtg
+   evidence：在指令视频中根据自然语言查询定位答案片段。
+5. [Harnessing Streaming Video in the Wild](/202606/09/2606.08615v1-harnessing-streaming-video-in-the-wild)  
+   标签：评分：10.0/10、query:vtg
+   evidence：处理无界视频流，使用视觉语言模型进行实时交互，包括训练与部署基础设施。
+6. [Detecting Temporally Localized Manipulations in Authentic Video Streams](/202606/09/2606.07090v1-detecting-temporally-localized-manipulations-in-authentic-video-streams)  
    标签：评分：9.0/10、query:vtg
-   evidence：检测长体育视频中的精彩片段，作为事件检测和时间定位。
-5. [Hierarchical Semantic-Constrained Heterogeneous Graph for Audio-Visual Event Localization](/202606/08/2606.07033v1-hierarchical-semantic-constrained-heterogeneous-graph-for-audio-visual-event-localization)  
-   标签：评分：9.0/10、query:vtg
-   evidence：直接处理开放词汇音视频事件定位，即视频中的时序定位
-6. [Stream3D-VLM: Online 3D Spatial Understanding with Incremental Geometry Priors](/202606/08/2606.06891v1-stream3d-vlm-online-3d-spatial-understanding-with-incremental-geometry-priors)  
-   标签：评分：8.0/10、query:vtg
-   evidence：面向流视频的实时3D空间理解在线视觉语言模型
+   evidence：专注于在真实视频流中检测和定位短时篡改片段
 
 ### 速读区论文标签
-1. [Adaptive Dense Evidence Refinement for Video Relational Reasoning for VRR-QA Challenge](/202606/08/2606.01104v1-adaptive-dense-evidence-refinement-for-video-relational-reasoning-for-vrr-qa-challenge)  
-   标签：评分：7.0/10、query:vtg
-   evidence：自适应稠密证据精炼用于视频问答中的时空关系推理
-2. [R^3: Composed Video Retrieval via Reasoning-Guided Recalling and Re-ranking](/202606/08/2606.01113v2-r3-composed-video-retrieval-via-reasoning-guided-recalling-and-re-ranking)  
-   标签：评分：7.0/10、query:vtg
-   evidence：基于参考视频和文本编辑指令的零样本组合视频检索。
-3. [Training-Free Composed Video Retrieval via Visual Representation-Guided Video-LLM Reasoning](/202606/08/2606.02321v1-training-free-composed-video-retrieval-via-visual-representation-guided-video-llm-reasoning)  
+1. [GOPAgen: Motion-Aware and Efficient Agentic Long-Video Understanding with Structural Memory and Hierarchical Reasoning](/202606/09/2606.06532v1-gopagen-motion-aware-and-efficient-agentic-long-video-understanding-with-structural-memory-and-hierarchical-reasoning)  
    标签：评分：6.0/10、query:vtg
-   evidence：基于视觉表示引导的视频-LLM推理的无训练组合视频检索
-4. [Imagine Before You Predict: Interleaved Latent Visual Reasoning for Video Event Prediction](/202606/08/2606.05769v1-imagine-before-you-predict-interleaved-latent-visual-reasoning-for-video-event-prediction)  
+   evidence：高效代理式长视频理解兼具运动理解与结构记忆，可用于流式分析
+2. [What Makes Video World Model Latents Action-Relevant: Prediction over Reconstruction](/202606/09/2606.07687v1-what-makes-video-world-model-latents-action-relevant-prediction-over-reconstruction)  
    标签：评分：6.0/10、query:vtg
-   evidence：通过交错潜视觉推理进行视频事件预测
-5. [Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting](/202606/08/2606.06158v1-adaptive-tokenisation-via-temporal-redundancy-masking-and-latent-inpainting)  
+   evidence：研究显示时序视频预训练驱动模型潜变量的动作相关性，对时序动作定位至关重要
+3. [Driving Video Retrieval for Complex Queries with Structured Grounding](/202606/09/2606.09109v1-driving-video-retrieval-for-complex-queries-with-structured-grounding)  
    标签：评分：6.0/10、query:vtg
-   evidence：自适应令牌分配利用时间冗余实现高效视频处理，支持实时流媒体
-6. [MemDreamer: Decoupling Perception and Reasoning for Long Video Understanding via Hierarchical Graph Memory and Agentic Retrieval Mechanism](/202606/08/2606.07512v1-memdreamer-decoupling-perception-and-reasoning-for-long-video-understanding-via-hierarchical-graph-memory-and-agentic-retrieval-mechanism)  
-   标签：评分：6.0/10、query:vtg
-   evidence：增量流式处理视频以通过层次图记忆进行长视频理解
+   evidence：驾驶视频检索，针对复杂查询进行结构化定位，寻找动态事件。
 
 
 <div class="dpr-home-promo-card">

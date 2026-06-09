@@ -1,0 +1,397 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-09T20:51:21.724384+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.07639v1",
+      "source": "arxiv",
+      "title": "MOSS-Video-Preview: Toward Real-Time Video Understanding via Cross-Attention",
+      "abstract": "Video understanding is shifting from the offline paradigm -- taking a fully recorded video as input and producing a single answer after it ends -- toward real-time interaction, in which the model perceives new frames while still replying, revises its answer as new evidence appears, and remains silent when there is nothing to say. We present MOSS-Video-Preview to validate this paradigm. Our central claim is that perception must not be blocked by generation; its natural realization is a two-channel architecture. We argue that a cross-attention backbone is better suited to real-time vision-language fusion than the prevailing decoder-only design: visual features enter through a side channel rather than joining the autoregressive sequence, so perception and generation run on separate, non-blocking pathways -- reducing the frequency of visual processing and exposing a clean channel-wise interface for independent compression. We complement this with a data synthesis pipeline that converts dense captions into real-time understanding QA whose answers are revised to match what the model has perceived so far, and we specialize an offline model on these data to elicit real-time behavior. Our model trails the strong Qwen2.5-VL-7B baseline overall -- a gap we attribute primarily to data and scale rather than the architecture -- yet attains competitive offline video and multimodal understanding, remains robust on the spatial and fine-grained temporal reasoning central to real-time use, and acquires behaviors that offline models lack: continuous perception, answer revision, and timely silence. On a single H200 with 256 frames per video, it achieves about a 5x speedup in time to first token and 2.7x higher decoding throughput, with negligible degradation in offline ability. Our study of paradigm, architecture, and data outlines a viable path toward real-time video understanding.",
+      "authors": [
+        "Pengyu Wang",
+        "Chenkun Tan",
+        "Shaojun Zhou",
+        "Wei Huang",
+        "Qirui Zhou",
+        "Zhan Huang",
+        "Zhen Ye",
+        "Jijun Cheng",
+        "Xiaomeng Qian",
+        "Yanxin Chen",
+        "Xingyang He",
+        "Huazheng Zeng",
+        "Chenghao Wang",
+        "Pengfei Wang",
+        "Hongkai Wang",
+        "Shanqing Gao",
+        "Yixian Tian",
+        "Chenghao Liu",
+        "Xinghao Wang",
+        "Botian Jiang",
+        "Xipeng Qiu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-01T09:07:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.07639v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Real-time video understanding shifting from offline to streaming interaction, with perception not blocked by generation.",
+      "llm_evidence_cn": "实时视频理解，从离线转向流式交互，感知不受生成阻塞。",
+      "llm_evidence": "实时视频理解，从离线转向流式交互，感知不受生成阻塞。",
+      "canonical_evidence": "实时视频理解，从离线转向流式交互，感知不受生成阻塞。",
+      "llm_tldr_en": "Proposes MOSS-Video-Preview, a two-channel cross-attention architecture for real-time video understanding. It allows continuous frame perception while asynchronously generating answers, revising responses as new evidence arrives, enabling streaming interaction.",
+      "llm_tldr_cn": "现有视频理解多为离线处理完整视频后给出答案，无法支持实时流式交互。MOSS-Video-Preview提出双通道交叉注意力架构，将视觉感知与语言生成解耦，使模型在流式接收新帧时持续更新回答，且保持低延迟。该设计解决了生成阻塞感知的问题，在实时视频问答中实现即时响应与渐进修正，为流视频理解奠定基础。",
+      "llm_tldr": "现有视频理解多为离线处理完整视频后给出答案，无法支持实时流式交互。MOSS-Video-Preview提出双通道交叉注意力架构，将视觉感知与语言生成解耦，使模型在流式接收新帧时持续更新回答，且保持低延迟。该设计解决了生成阻塞感知的问题，在实时视频问答中实现即时响应与渐进修正，为流视频理解奠定基础。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.07669v1",
+      "source": "arxiv",
+      "title": "MemoVAD: Resource-Efficient Video Anomaly Detection via Dynamic Semantic Memory in Edge Computing Scenarios",
+      "abstract": "Deploying Video Anomaly Detection (VAD) in real-world surveillance faces a fundamental tension between the demand for high-level semantics to ensure effectiveness and the limited computational resources of edge devices. Vision-Language Models (VLMs) provide rich open-vocabulary semantics, but their latency and computational cost preclude on-device deployment. To address the challenge, we propose MemoVAD, an edge-cloud collaborative framework that selectively incorporates VLM semantics into streaming VAD. MemoVAD runs most inference on the edge with a lightweight detector and a causal Temporal Context Encoder (TCE) to model temporal dependencies. Specifically, we introduce an Uncertainty-Aware Gating (UAG) policy grounded in Subjective Logic to model perceived uncertainty and query the cloud-based VLM only for high-uncertainty and semantically novel clips. Besides, a Dynamic Semantic Memory (DSM) is designed to cache VLM-verified prototypes for efficient retrieval, enabling the edge model to progressively incorporate VLM-level semantics via a semantic adapter. Experiments on UCF-Crime and XD-Violence datasets via a real edge device show that MemoVAD substantially reduces communication overhead while surpassing state-of-the-art performance.",
+      "authors": [
+        "Guo Li",
+        "Jiandian Zeng",
+        "Yang Li",
+        "Zihao Peng",
+        "Ke Chen",
+        "Tian Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-04T06:57:28+00:00",
+      "link": "https://arxiv.org/pdf/2606.07669v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "streaming video anomaly detection with edge-cloud collaboration",
+      "llm_evidence_cn": "边缘-云协同的流视频异常检测",
+      "llm_evidence": "边缘-云协同的流视频异常检测",
+      "canonical_evidence": "边缘-云协同的流视频异常检测",
+      "llm_tldr_en": "Proposes MemoVAD, an edge-cloud framework that selectively incorporates VLM semantics via uncertainty-aware gating for efficient streaming anomaly detection.",
+      "llm_tldr_cn": "提出MemoVAD边缘-云协作框架，通过不确定性感知门控策略选择性融入视觉语言模型语义，结合因果时序编码器，实现资源高效的流视频异常检测。",
+      "llm_tldr": "提出MemoVAD边缘-云协作框架，通过不确定性感知门控策略选择性融入视觉语言模型语义，结合因果时序编码器，实现资源高效的流视频异常检测。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "analyzing videos as they stream online",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.07924v1",
+      "source": "arxiv",
+      "title": "Decoupling Semantics and Logic: A Training-Free Coarse-to-Fine Pipeline for Video Retrieval-Augmented Generation",
+      "abstract": "This paper presents our system description for the 2nd Workshop on Multimodal Augmented Generation via MultimodAl Retrieval (MAGMaR). Addressing the critical challenges of cross-lingual long-video comprehension, strict persona adherence, and zero-hallucination temporal grounding, we propose a fully training-free, two-stage cascaded Video RAG pipeline. Our architecture strategically decouples semantic retrieval from cognitive logical reasoning through a modality-aware division of labor. In the first stage, a high-recall semantic pre-fetching module employs dense retrieval using only high-fidelity visual summaries and global text descriptions, explicitly isolating noisy modalities (e.g., OCR and ASR) to maintain a pristine vector space. In the second stage, an Adaptive, Iterative, and Reasoning-based (A.I.R.) filtering agent, powered by a commercial Large Language Model (LLM), performs fine-grained cognitive reranking. The agent re-incorporates full multimodal contexts to enforce strict logical alignment with user personas, effectively pruning semantically similar but logically irrelevant candidates. Finally, a Prompt Sculpting mechanism constrains the generator to synthesize the distilled subset into strictly formatted JSON responses with exact chunk-level citations. Evaluated on the RAG track, our resource-aware approach shows exceptional precision in both information retrieval and persona-conditioned generation.",
+      "authors": [
+        "Jiaxin Dai",
+        "Zehang Wei",
+        "Jiamin Yan",
+        "Xiang Xiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL",
+        "cs.LG",
+        "cs.MM"
+      ],
+      "published": "2026-06-06T01:17:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.07924v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Addresses zero-hallucination temporal grounding in video RAG.",
+      "llm_evidence_cn": "解决视频RAG中的零幻觉时序定位问题",
+      "llm_evidence": "解决视频RAG中的零幻觉时序定位问题",
+      "canonical_evidence": "解决视频RAG中的零幻觉时序定位问题",
+      "llm_tldr_en": "A training-free Video RAG pipeline decouples semantic retrieval from cognitive reasoning, using dense retrieval with clean modalities first, then logical grounding, to achieve zero-hallucination temporal grounding in long videos.",
+      "llm_tldr_cn": "针对跨语言长视频理解中的时序定位幻觉问题，提出免训练的两阶段级联视频RAG流水线。第一阶段通过仅使用高质量视觉摘要和全局文本描述的密集检索实现高召回语义预取，隔离噪声模态；第二阶段进行逻辑推理实现精确时序定位，消除幻觉。在MAGMaR评测中展示了高效且准确的视频理解与定位能力，为流视频场景下的时序接地提供了简洁范式。",
+      "llm_tldr": "针对跨语言长视频理解中的时序定位幻觉问题，提出免训练的两阶段级联视频RAG流水线。第一阶段通过仅使用高质量视觉摘要和全局文本描述的密集检索实现高召回语义预取，隔离噪声模态；第二阶段进行逻辑推理实现精确时序定位，消除幻觉。在MAGMaR评测中展示了高效且准确的视频理解与定位能力，为流视频场景下的时序接地提供了简洁范式。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.08436v1",
+      "source": "arxiv",
+      "title": "Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning",
+      "abstract": "The task of temporal answer grounding in instructional video (TAGV), which aims to locate precise video segments that respond to natural language queries, is increasingly important for direct video answer retrieval. This task remains challenging due to the need to comprehend semantically complex questions and to address the significant length mismatch between untrimmed videos and short target moments. Existing methods often suffer from sensitivity to irrelevant content or insufficient visual reasoning capabilities. To tackle these limitations, we propose a Candidate-Aware Causal Reasoning (CACR) framework. Our approach first employs a Visual-Language Pre-training based Candidate Selection (VBCS) algorithm to efficiently generate K candidate segments, then applies a temporal logic reasoning module enhanced by a rejection reward mechanism and optimized via Group Relative Policy Optimization (GRPO) for robust inference. Extensive experiments on six benchmarks demonstrate that our method achieves state-of-the-art performance in terms of mean Intersection-over-Union (mIoU), providing a new perspective for reasoning-based retrieval in long videos.",
+      "authors": [
+        "Muge Qi",
+        "Rong Fu",
+        "Pengbin Feng",
+        "Xianda Li",
+        "Yu Cai",
+        "Yifu Guo",
+        "Shizhe Zhang",
+        "Simon James Fong",
+        "Lei Ma",
+        "Bin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-07T03:23:18+00:00",
+      "link": "https://arxiv.org/pdf/2606.08436v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Temporal answer grounding in instructional videos, locating segments that answer natural language queries.",
+      "llm_evidence_cn": "在指令视频中根据自然语言查询定位答案片段。",
+      "llm_evidence": "在指令视频中根据自然语言查询定位答案片段。",
+      "canonical_evidence": "在指令视频中根据自然语言查询定位答案片段。",
+      "llm_tldr_en": "Addressing length mismatch and irrelevant content, this paper proposes CACR for temporal answer grounding in instructional videos. It employs candidate selection via vision-language pre-training and causal reasoning to precisely locate answer moments, enhancing robustness.",
+      "llm_tldr_cn": "针对指令视频中时间答案定位任务，现有方法对无关内容敏感且视觉推理不足，本文提出候选感知因果推理框架CACR。通过基于视觉-语言预训练的候选选择算法和因果干预模块，增强模型对复杂问题的理解与精确定位能力。实验表明CACR在多个基准上显著提升定位精度，为视频段落检索提供更鲁棒的方案。",
+      "llm_tldr": "针对指令视频中时间答案定位任务，现有方法对无关内容敏感且视觉推理不足，本文提出候选感知因果推理框架CACR。通过基于视觉-语言预训练的候选选择算法和因果干预模块，增强模型对复杂问题的理解与精确定位能力。实验表明CACR在多个基准上显著提升定位精度，为视频段落检索提供更鲁棒的方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.08615v1",
+      "source": "arxiv",
+      "title": "Harnessing Streaming Video in the Wild",
+      "abstract": "Vision-Language Models (VLMs) are increasingly required to process unbounded video streams in applications such as video-call assistants, live commentary, and embodied robots. An ideal streaming system should support proactive interaction, long-horizon memory, and real-time processing, while resting on a VLM backbone capable of handling diverse in-the-wild streaming tasks. However, existing VLMs excel at offline video understanding but fall short in streaming capabilities and lack dedicated infrastructure for streaming deployment. We address this gap on three fronts. (i) For backbone capability, we construct \\textbf{Streaming-Train-248K}, a streaming dataset paired with a novel training objective for adapting VLMs to streaming interaction and understanding. (ii) For real-world deployment, we introduce \\textbf{Streaming Harness}, a plug-and-play system that endows any VLM with three core abilities: proactive interaction (per-second response decisions), long-term memory (12-hour context retention), and real-time processing (sub-second latency). (iii) To drive continued community progress on streaming capabilities, we design \\textbf{Streaming-Eval}, a benchmark that reflects models' capabilities across diverse in-the-wild scenarios. Extensive experiments demonstrate consistent gains from our approach across all core capabilities required for streaming video understanding. We will open-source our data, code, and benchmark to advance the community's shift from offline video understanding to deployable streaming intelligence.",
+      "authors": [
+        "Dingyu Yao",
+        "Shuhuan Gu",
+        "Qingyi Si",
+        "Junhao Zhou",
+        "Chenxu Yang",
+        "Chuanyu Qin",
+        "Naibin Gu",
+        "Zheng Lin",
+        "Weiping Wang",
+        "Nan Duan",
+        "Jiaqi Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-06-07T13:00:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.08615v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Processes unbounded video streams with VLMs for real-time interaction, including training and deployment infrastructure.",
+      "llm_evidence_cn": "处理无界视频流，使用视觉语言模型进行实时交互，包括训练与部署基础设施。",
+      "llm_evidence": "处理无界视频流，使用视觉语言模型进行实时交互，包括训练与部署基础设施。",
+      "canonical_evidence": "处理无界视频流，使用视觉语言模型进行实时交互，包括训练与部署基础设施。",
+      "llm_tldr_en": "Addresses VLMs' lack of streaming capabilities by constructing Streaming-Train-248K, a streaming dataset with novel training objectives, and a deployment system supporting proactive interaction, long memory, and real-time processing for in-the-wild streaming tasks.",
+      "llm_tldr_cn": "视觉语言模型在离线视频理解上取得进展，但缺乏流式处理能力。本文从三个层面构建流视频理解系统：构建大规模流式训练数据集Streaming-Train-248K并设计新型训练目标以适配VLM，开发实时部署流系统支持主动交互与长程记忆，在视频通话、实时解说等场景中验证了有效性。该工作为流视频应用提供了从模型到部署的完整方案，推动在线视频理解实用化。",
+      "llm_tldr": "视觉语言模型在离线视频理解上取得进展，但缺乏流式处理能力。本文从三个层面构建流视频理解系统：构建大规模流式训练数据集Streaming-Train-248K并设计新型训练目标以适配VLM，开发实时部署流系统支持主动交互与长程记忆，在视频通话、实时解说等场景中验证了有效性。该工作为流视频应用提供了从模型到部署的完整方案，推动在线视频理解实用化。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.07090v1",
+      "source": "arxiv",
+      "title": "Detecting Temporally Localized Manipulations in Authentic Video Streams",
+      "abstract": "The rapid advancement of video editing and generative artificial intelligence technologies has made realistic video manipulation increasingly accessible. Although existing datasets have significantly advanced research in deepfake detection, object removal, and video inpainting, they do not adequately model scenarios in which a short manipulated segment is inserted into an otherwise authentic video and the original video continues afterward. In this study, we review representative datasets from the literature, analyze their characteristics, and discuss their limitations with respect to temporally localized realistic manipulation detection. Based on this analysis, we motivate the need for a new dataset specifically designed for authentic videos containing short and highly realistic manipulated intervals. Finally, we evaluate two complementary approaches on our custom-curated test set to establish an initial benchmark for this challenging scenario. The first employs a linear probe on DINOv3 features, assessed under three thresholding strategies. The second leverages DINOv3 features with a consecutive frame similarity-based method to detect temporal manipulation boundaries. Together, these experiments provide an initial benchmark for partially manipulated video detection and highlight the need for content-adaptive thresholding mechanisms. The dataset, code, and supplementary materials are publicly available at https://github.com/OkanUmur/temporally-localized-video-manipulation-detection.",
+      "authors": [
+        "Okan Umur",
+        "Ali Emre Güşlü",
+        "Ibrahim Delibasoglu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-05T09:35:51+00:00",
+      "link": "https://arxiv.org/pdf/2606.07090v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Focuses on detecting and localizing short manipulated segments in authentic video streams.",
+      "llm_evidence_cn": "专注于在真实视频流中检测和定位短时篡改片段",
+      "llm_evidence": "专注于在真实视频流中检测和定位短时篡改片段",
+      "canonical_evidence": "专注于在真实视频流中检测和定位短时篡改片段",
+      "llm_tldr_en": "This paper addresses temporally localized manipulation detection in authentic video streams, reviewing existing datasets’ limitations and motivating a new dataset for realistic manipulation localization, advancing online video forensics.",
+      "llm_tldr_cn": "现有深伪检测数据集未能充分模拟真实视频流中插入短时篡改片段的场景。本文回顾代表性数据集，分析其在时间定位篡改检测方面的局限，并阐述构建新数据集的动机，旨在推动面向流视频的篡改时间定位研究，对在线视频内容可信验证具有重要意义。",
+      "llm_tldr": "现有深伪检测数据集未能充分模拟真实视频流中插入短时篡改片段的场景。本文回顾代表性数据集，分析其在时间定位篡改检测方面的局限，并阐述构建新数据集的动机，旨在推动面向流视频的篡改时间定位研究，对在线视频内容可信验证具有重要意义。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.06532v1",
+      "source": "arxiv",
+      "title": "GOPAgen: Motion-Aware and Efficient Agentic Long-Video Understanding with Structural Memory and Hierarchical Reasoning",
+      "abstract": "Despite significant progress in agentic long video understanding, existing methods still lack detailed motion comprehension coupled with an efficient memory architecture. In this paper, we propose GOPAgen, a novel approach that first integrates video codec into the video understanding framework via a meticulously designed motion agent trained on Groups of Pictures (GOPs) from video codec. We further develop a GOP tree reasoning algorithm, which is naturally aligned with video codec and enhances the model's ability to understand local detailed motions in videos. Additionally, we carefully design a structural memory mechanism that integrates local motion information with detailed captions in structural pages, and propose an efficient coarse-to-fine zoom-in algorithm to fully exploit the structural memory. Furthermore, we incorporate a motion vector database into the framework to enable efficient retrieval of motion vectors at different granularities. Overall, our method achieves superior Video Question Answering (VQA) performance on various video understanding benchmarks, including MotionBench and Egoschema, thereby demonstrating the superiority of our proposed framework.",
+      "authors": [
+        "Haozhe Chi",
+        "Yang Jin",
+        "Yadong Mu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-03T17:47:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.06532v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "efficient agentic long-video understanding with motion comprehension and structural memory, applicable to streaming analysis",
+      "llm_evidence_cn": "高效代理式长视频理解兼具运动理解与结构记忆，可用于流式分析",
+      "llm_evidence": "高效代理式长视频理解兼具运动理解与结构记忆，可用于流式分析",
+      "canonical_evidence": "高效代理式长视频理解兼具运动理解与结构记忆，可用于流式分析",
+      "llm_tldr_en": "GOPAgen integrates video codec-based motion agents and a GOP tree reasoning with structural memory for efficient long-video understanding, excelling in motion comprehension and scalability.",
+      "llm_tldr_cn": "现有代理式长视频理解缺乏精细运动感知和高效记忆。本文提出GOPAgen，将视频编解码GOP结构融入运动代理，结合GOP树推理和结构化页式记忆实现局部精细运动捕捉与全局高效推理。在多项长视频任务上超越现有方案，为流媒体实时理解提供高效范式。",
+      "llm_tldr": "现有代理式长视频理解缺乏精细运动感知和高效记忆。本文提出GOPAgen，将视频编解码GOP结构融入运动代理，结合GOP树推理和结构化页式记忆实现局部精细运动捕捉与全局高效推理。在多项长视频任务上超越现有方案，为流媒体实时理解提供高效范式。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.07687v1",
+      "source": "arxiv",
+      "title": "What Makes Video World Model Latents Action-Relevant: Prediction over Reconstruction",
+      "abstract": "Video world models are increasingly used to provide predictive visual representations, yet it remains unclear which pretraining signals induce action-relevant structure in their latent spaces. We study this question through a unified probe-based evaluation across diverse encoder families, including image-only self-supervision, video pretraining with and without latent prediction, reconstruction-based autoencoders, diffusion models, and shortcut-forcing dynamics models. Using a common inverse-dynamics probing objective, we find that action-relevant structure is driven primarily by temporal video pretraining rather than pixel reconstruction fidelity: models with strong pixel decoding quality can exhibit near-zero action recoverability, while video-pretrained self-supervised encoders consistently achieve the best Pareto trade-off between visual fidelity and action prediction. Comparing V-JEPA and VideoMAE further shows that most gains arise from natural-video temporal context, with feature-level latent prediction providing a smaller additional benefit. These trends transfer across robotic benchmarks, though CALVIN reveals that static-environment tasks can partially mask the importance of temporal structure by allowing strong image priors to suffice. Finally, inverse-dynamics supervision substantially improves robustness to visual corruption, suggesting that action-aware objectives regularize latent geometry beyond clean-setting performance. Our results identify temporal predictive structure -- not reconstruction fidelity -- as the primary ingredient underlying action-relevant video representations.",
+      "authors": [
+        "Jewon Yeom",
+        "Hanseul Kim",
+        "Jeongjae Park",
+        "Sungmok Jung",
+        "Jaejin Lee",
+        "Taesup Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T04:43:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.07687v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "study shows temporal video pretraining drives action-relevant structure in video model latents, key for temporal action localization",
+      "llm_evidence_cn": "研究显示时序视频预训练驱动模型潜变量的动作相关性，对时序动作定位至关重要",
+      "llm_evidence": "研究显示时序视频预训练驱动模型潜变量的动作相关性，对时序动作定位至关重要",
+      "canonical_evidence": "研究显示时序视频预训练驱动模型潜变量的动作相关性，对时序动作定位至关重要",
+      "llm_tldr_en": "Through probe-based evaluation of diverse encoders, this paper finds that action-relevant latents in video world models are primarily induced by temporal prediction pretraining, not reconstruction fidelity, guiding action-localization model design.",
+      "llm_tldr_cn": "该研究通过统一探针评估多种编码器，揭示视频世界模型中与动作相关的潜表示主要源于时序预测预训练信号，而非像素重建保真度。强调预测优于重建，为构建更有效的时序动作定位模型提供了关键指导。",
+      "llm_tldr": "该研究通过统一探针评估多种编码器，揭示视频世界模型中与动作相关的潜表示主要源于时序预测预训练信号，而非像素重建保真度。强调预测优于重建，为构建更有效的时序动作定位模型提供了关键指导。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.09109v1",
+      "source": "arxiv",
+      "title": "Driving Video Retrieval for Complex Queries with Structured Grounding",
+      "abstract": "Video retrieval at scale is central to data curation and safety validation in autonomous driving, where users want to find not only scenes but also dynamic events such as cut-ins and hard braking. Existing vision-language and keyword-based retrieval methods often miss these events because the relevant motion may not be explicitly described in text or captured by lexical overlap. Rule-based retrieval can encode such events more directly, but it is brittle: generated or hand-written rules often fail when their assumptions do not match real driving data. We propose STRIVE-D, a data-calibrated retrieval framework for driving videos. It uses weakly labeled in-domain videos to estimate when a query rule is reliable, adapt rules that mismatch observed data, and fuse calibrated rule scores with vision-language and keyword-based retrieval signals. Across three driving benchmarks, including newly released human-annotated event data on DrivingDojo, STRIVE-D delivers up to 84% relative improvement in top-1 accuracy over state-of-the-art methods.",
+      "authors": [
+        "Manyi Yao",
+        "Sparsh Garg",
+        "Christian Shelton",
+        "Amit Roy-Chowdhury",
+        "Abhishek Aich"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-06-08T07:00:33+00:00",
+      "link": "https://arxiv.org/pdf/2606.09109v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Driving video retrieval for complex queries with structured grounding, locating dynamic events like cut-ins.",
+      "llm_evidence_cn": "驾驶视频检索，针对复杂查询进行结构化定位，寻找动态事件。",
+      "llm_evidence": "驾驶视频检索，针对复杂查询进行结构化定位，寻找动态事件。",
+      "canonical_evidence": "驾驶视频检索，针对复杂查询进行结构化定位，寻找动态事件。",
+      "llm_tldr_en": "Proposes STRIVE-D, a data-calibrated retrieval framework for driving videos that uses weak labels to evaluate and adapt rule-based queries, enabling reliable retrieval of dynamic events that text-based methods miss.",
+      "llm_tldr_cn": "现有视觉-语言和关键词方法难以检索驾驶视频中的动态事件，规则方法虽直接但脆弱。STRIVE-D利用弱标注域内数据校准查询规则，估计规则可靠性并自适应调整，从而实现精准检索。在自动驾驶场景中，该方法能有效捕捉换道、急刹等动作，为大规模数据筛选提供工具，其校准思想可拓展至其他事件定位任务。",
+      "llm_tldr": "现有视觉-语言和关键词方法难以检索驾驶视频中的动态事件，规则方法虽直接但脆弱。STRIVE-D利用弱标注域内数据校准查询规则，估计规则可靠性并自适应调整，从而实现精准检索。在自动驾驶场景中，该方法能有效捕捉换道、急刹等动作，为大规模数据筛选提供工具，其校准思想可拓展至其他事件定位任务。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "retrieving moments from videos based on text",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
