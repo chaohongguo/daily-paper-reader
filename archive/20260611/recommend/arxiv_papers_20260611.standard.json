@@ -1,0 +1,298 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-11T21:30:46.845642+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.11645v1",
+      "source": "arxiv",
+      "title": "Motion Reinforces Appearance: RGB-Skeleton Gated Residual Fusion for Micro-Gesture Online Recognition",
+      "abstract": "Micro-gesture analysis attracts increasing attention for inferring spontaneous emotion from subtle body movements. Micro-gesture online recognition, which localizes and classifies each gesture instance in untrimmed videos, is a core task in the 4th EI-MiGA-IJCAI Challenge. Compared with typical temporal action detection, MGR emphasizes the localization and classification of actions, requiring the model to output the start time, end time, and category of each micro-gesture. Moreover, since micro-gestures are highly spontaneous, relying solely on a single modality makes it difficult to capture the complete and accurate multi-modal cues. In this work, we propose DyFADet+, which extends DyFADet into a dual-stream RGB-skeleton framework. In our model, both modalities are projected into shared multi-scale temporal embeddings and fused through a gated residual module, which adaptively injects skeleton motion into the RGB representation rather than using naive concatenation. Finally, these fused features are decoded by a Dynamic TAD head for online classification and boundary regression. On the SMG dataset, our method achieves an F1 score of 40.88, ranking 2nd in the Micro-gesture Online Recognition track.",
+      "authors": [
+        "Jialin Liu",
+        "Xinwen He",
+        "Pengyu Liu",
+        "Jiale Shi",
+        "Huaijuan Zang",
+        "Yanbin Hao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T04:12:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.11645v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "localizes and classifies micro-gestures in untrimmed videos online",
+      "llm_evidence_cn": "对未剪辑视频中的微手势进行在线时序定位和分类",
+      "llm_evidence": "对未剪辑视频中的微手势进行在线时序定位和分类",
+      "canonical_evidence": "对未剪辑视频中的微手势进行在线时序定位和分类",
+      "llm_tldr_en": "This work introduces DyFADet+, a dual-stream RGB-skeleton fusion model for micro-gesture online recognition, which jointly localizes and classifies each gesture instance in untrimmed videos with improved multi-modal cues.",
+      "llm_tldr_cn": "针对未剪辑视频中微手势在线识别的挑战，本研究提出DyFADet+模型，采用RGB和骨架双流门控残差融合策略，捕获精细的多模态运动信息，实现对每个手势实例的起止时间与类别精确预测；在EI-MiGA-IJCAI挑战赛中验证了方法有效性，为自然情感计算提供了有力的时序动作检测工具。",
+      "llm_tldr": "针对未剪辑视频中微手势在线识别的挑战，本研究提出DyFADet+模型，采用RGB和骨架双流门控残差融合策略，捕获精细的多模态运动信息，实现对每个手势实例的起止时间与类别精确预测；在EI-MiGA-IJCAI挑战赛中验证了方法有效性，为自然情感计算提供了有力的时序动作检测工具。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.12300v1",
+      "source": "arxiv",
+      "title": "Natural-Language Temporal Grounding in Hour-Long Videos is a Search Problem: A Benchmark and Empirical Decomposition",
+      "abstract": "Temporal grounding--returning the interval $[t_s, t_e]$ for a natural-language query over a video--is the language interface to long-form video, yet has been studied on short videos; the dynamics of hour-scale natural-language grounding remain underexplored. We take the position that at hour-scale, the binding constraint is search, not recognition: Video-LLMs are bottlenecked not by localizing a nearby event, but--given a natural-language query--by searching for the relevant region of a long video. To test this, we release ExtremeWhenBench, the first open hour-scale grounding benchmark (2,273 queries over 194 videos, mean 75.7 min, max 9 hr) with an open-form query distribution. Every open Video-LLM collapses while a frame-level retrieval baseline outperforms them; a failure taxonomy attributes 85% of failures to search; and a retrieve-then-ground hybrid recovers 6.7x over the monolithic Video-LLM--mirroring retrieve-then-read in open-domain QA.",
+      "authors": [
+        "Sukmin Seo",
+        "Geewook Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T16:35:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.12300v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "natural-language temporal grounding in hour-long videos, directly video moment grounding",
+      "llm_evidence_cn": "在小时长视频中进行自然语言时序定位，即视频时刻定位",
+      "llm_evidence": "在小时长视频中进行自然语言时序定位，即视频时刻定位",
+      "canonical_evidence": "在小时长视频中进行自然语言时序定位，即视频时刻定位",
+      "llm_tldr_en": "Shows hour-scale temporal grounding is bottlenecked by search, not recognition, and provides ExtremeWhenBench where existing Video-LLMs collapse.",
+      "llm_tldr_cn": "针对小时长视频场景，该文指出时序定位的瓶颈在于检索而非识别。现有视频大模型在长视频中定位自然语言查询对应时段的能力崩塌，因此作者提出了首个开放的小时长定位基准 ExtremeWhenBench，包含2273个查询和194个平均75.7分钟的视频。该基准揭示了当前方法的搜索缺陷，推动了对长视频理解中检索策略的重新设计。",
+      "llm_tldr": "针对小时长视频场景，该文指出时序定位的瓶颈在于检索而非识别。现有视频大模型在长视频中定位自然语言查询对应时段的能力崩塌，因此作者提出了首个开放的小时长定位基准 ExtremeWhenBench，包含2273个查询和194个平均75.7分钟的视频。该基准揭示了当前方法的搜索缺陷，推动了对长视频理解中检索策略的重新设计。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.12047v1",
+      "source": "arxiv",
+      "title": "Metadata-Aware Multi-Prompt Reasoning for Zero-Shot Accident Understanding",
+      "abstract": "In this paper, we address the problem of zero-shot understanding of accidents from surveillance videos by identifying when an impact event occurs, what type of impact it is, and where in the frame it occurs using natural language. We propose a three-stage pipeline that decomposes the accident understanding into when, what, and where. The first stage extracts a short temporal window around the impact using vision-language similarity. In the second stage, we perform metadata-driven multi-prompt reasoning with five complementary views (baseline, motion, geometry, contrast, and tiebreaker) and resolve disagreement via an entropy-gated pairwise adjudicator. Finally, we localize the impact of an open-vocabulary detector queried on the predicted accident type and scene layout, and aggregate detections across keyframes using a score-weighted centroid. Our pipeline achieves a substantial improvement in the harmonic-mean score over a centre-of-frame baseline on the zero-shot ACCIDENT @ CVPR benchmark. We show that decomposing zero-shot video understanding into temporal localization, semantic classification, and spatial grounding enable more reliable reasoning with vision-language models than direct prompting alone.",
+      "authors": [
+        "Tarandeep Singh",
+        "Soumyanetra Pal",
+        "Soham Biswas",
+        "Nishanth Chandran"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "stat.ML"
+      ],
+      "published": "2026-06-10T13:12:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.12047v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Zero-shot accident understanding: identifies when, what type, and where an impact occurs in a video using natural language, which is video moment retrieval with text.",
+      "llm_evidence_cn": "零样本事故理解：用自然语言识别视频中撞击事件的发生时间、类型和位置，属于基于文本的视频时刻检索。",
+      "llm_evidence": "零样本事故理解：用自然语言识别视频中撞击事件的发生时间、类型和位置，属于基于文本的视频时刻检索。",
+      "canonical_evidence": "零样本事故理解：用自然语言识别视频中撞击事件的发生时间、类型和位置，属于基于文本的视频时刻检索。",
+      "llm_tldr_en": "A three-stage pipeline uses vision-language similarity to extract a temporal window, metadata-driven multi-prompt reasoning to classify the impact, and open-vocabulary detection to localize it. This zero-shot method accurately identifies when, what type, and where an accident occurs.",
+      "llm_tldr_cn": "针对监控视频中事故的零样本理解问题，本文提出一个三阶段框架，将任务分解为识别撞击发生的时间、类型和位置。第一阶段利用视觉-语言相似度提取一个短时窗口；第二阶段通过元数据驱动的多提示推理，从基线、运动、几何、对比和决胜五个视角进行事故类型判断，并采用熵门控成对裁决器解决分歧；第三阶段使用开放词汇检测器进行撞击点定位。在零样本条件下，该方法无需任何事故视频训练，即可实现准确的撞击事件理解，为开放域视频事件定位提供了有效的解决方案。",
+      "llm_tldr": "针对监控视频中事故的零样本理解问题，本文提出一个三阶段框架，将任务分解为识别撞击发生的时间、类型和位置。第一阶段利用视觉-语言相似度提取一个短时窗口；第二阶段通过元数据驱动的多提示推理，从基线、运动、几何、对比和决胜五个视角进行事故类型判断，并采用熵门控成对裁决器解决分歧；第三阶段使用开放词汇检测器进行撞击点定位。在零样本条件下，该方法无需任何事故视频训练，即可实现准确的撞击事件理解，为开放域视频事件定位提供了有效的解决方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.05736v1",
+      "source": "arxiv",
+      "title": "VTI-CoT: Visual-Textual Interleaved Chain of Thought for Video Reasoning",
+      "abstract": "Video reasoning aims to understand complex temporal events and causal relationships within videos. Recently, Chain-of-Thought (CoT) has been introduced to this field to enhance reasoning accuracy. However, existing CoT-based video reasoning methods primarily rely on text-only information for logical deduction, overlooking critical visual information during the inference process. Inspired by the human cognitive mechanism of reviewing visual segments during inference, we propose VTI-CoT, a Visual-Textual Interleaved CoT framework. VTI-CoT integrates textual reasoning steps with corresponding visual frames. Given the scarcity of visual-textual interleaved CoT in existing datasets, we develop an automated annotation pipeline to construct high-quality multimodal CoT data. Further, reasoning over long-form videos entails increasingly long CoT token sequences, which severely hinders training convergence and efficiency. To address this, we employ Optical Character Recognition (OCR)-based compression techniques to compress CoT supervision signals into a single canvas. Experimental results demonstrate that VTI-CoT achieves state-of-the-art performance among models of the same parameter scale while significantly improving training efficiency.",
+      "authors": [
+        "Shufan Zhang",
+        "Ziyue Lin",
+        "Bairun Wang",
+        "Lei Jin",
+        "Xuanding Ding",
+        "Xinzhu Ma",
+        "Kunlin Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T05:55:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.05736v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "visual-textual interleaved chain-of-thought for temporal event reasoning in videos",
+      "llm_evidence_cn": "视觉-文本交错链式思考用于视频时序事件推理",
+      "llm_evidence": "视觉-文本交错链式思考用于视频时序事件推理",
+      "canonical_evidence": "视觉-文本交错链式思考用于视频时序事件推理",
+      "llm_tldr_en": "VTI-CoT introduces a visual-textual interleaved chain-of-thought framework to enhance video reasoning by integrating textual reasoning steps with corresponding visual frames.",
+      "llm_tldr_cn": "VTI-CoT针对现有视频推理方法仅依赖文本信息的问题，提出视觉-文本交错的链式思考框架，通过自动标注管线生成高质量数据，将推理步骤与视频帧动态融合，有效提升了复杂时序事件和因果关系的理解能力，为视频推理研究提供了新的技术路线。",
+      "llm_tldr": "VTI-CoT针对现有视频推理方法仅依赖文本信息的问题，提出视觉-文本交错的链式思考框架，通过自动标注管线生成高质量数据，将推理步骤与视频帧动态融合，有效提升了复杂时序事件和因果关系的理解能力，为视频推理研究提供了新的技术路线。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.06853v1",
+      "source": "arxiv",
+      "title": "MotionEnhancer: Leveraging Video Diffusion for Motion-Enhanced Vision-Language Models",
+      "abstract": "The new era has witnessed a remarkable capability to extend Vision-Language Models (VLMs) for tackling tasks of video understanding. While current VLMs excel at event- or story-level understanding, their ability to capture fine-grained motion details remains limited, primarily due to their focus on high-level static semantic structures and macro-event logic. In contrast, Video Diffusion Models (VDMs) are adept at modeling dynamic motion patterns, benefiting from large-scale video data and the intrinsic requirement of temporal generation. In this paper, we introduce MotionEnhancer, a novel approach that leverages motion priors distilled from a powerful video diffusion model as auxiliary supervision to enhance the motion understanding capability of a VLM via attention alignment. MotionEnhancer comprises two simple parameter-free modules, Motion-sensitive Head Selection (MHS) and Motion-salient Text Token Identification (MTTI), to directly extract and optimize motion-related attentions from the VDM in a computation-only manner. MotionEnhancer provides a scalable solution for motion understanding without additional training parameters, modifications to existing architectures, or tool calling. Extensive experiments demonstrate that MotionEnhancer can achieve consistent improvements over state-of-the-art VLMs on two motion-level video understanding benchmarks, especially on motion-related metrics.",
+      "authors": [
+        "Yifan Xu",
+        "Chao Zhang",
+        "Ruifei Ma",
+        "Fei Gao",
+        "Zhifei Yang",
+        "Jiaxing Qi",
+        "Zhipeng Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-05T02:56:48+00:00",
+      "link": "https://arxiv.org/pdf/2606.06853v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "uses video diffusion motion priors to enhance VLM video understanding, relevant to video understanding theme",
+      "llm_evidence_cn": "利用视频扩散运动先验增强视觉语言模型的视频理解，与视频理解主题相关",
+      "llm_evidence": "利用视频扩散运动先验增强视觉语言模型的视频理解，与视频理解主题相关",
+      "canonical_evidence": "利用视频扩散运动先验增强视觉语言模型的视频理解，与视频理解主题相关",
+      "llm_tldr_en": "Leverages motion priors from video diffusion models to improve fine-grained motion understanding in VLMs, advancing video tasks like grounding.",
+      "llm_tldr_cn": "现有视觉语言模型理解视频时擅长事件/故事级理解，但缺乏精细运动细节捕捉能力。本文提出MotionEnhancer，从强大的视频扩散模型中蒸馏运动先验作为辅助监督，以增强VLMs的运动理解。实验结果表明，该方法在下游视频任务上显著提升了模型对动态细节的感知，为视频理解提供了新的增强范式。",
+      "llm_tldr": "现有视觉语言模型理解视频时擅长事件/故事级理解，但缺乏精细运动细节捕捉能力。本文提出MotionEnhancer，从强大的视频扩散模型中蒸馏运动先验作为辅助监督，以增强VLMs的运动理解。实验结果表明，该方法在下游视频任务上显著提升了模型对动态细节的感知，为视频理解提供了新的增强范式。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.11792v1",
+      "source": "arxiv",
+      "title": "MultiToP: Learning to Patch Visual Tokens to Mitigate Hallucinations in Video Large Multimodal Models",
+      "abstract": "Video Large Multimodal Models have achieved remarkable progress in video understanding, yet they remain prone to hallucinations, where generated responses are not faithfully supported by the input video. In this paper, we propose MultiToP, a multimodal-context-aware visual token patching framework that mitigates hallucinations by refining unreliable visual tokens before language generation. MultiToP introduces a lightweight Visual Token Patcher to predict token-level replacement distributions and selectively substitute unreliable visual tokens with a dynamic global patch token. To train the patcher effectively, we further propose information-guided rank calibration, which uses answer-conditioned frame-level information cues derived from the backbone to guide token replacement. Combined with ground-truth answer supervision and sparsity regularization, MultiToP enables localized visual evidence refinement without modifying the original model. Extensive experiments demonstrate that MultiToP effectively reduces hallucinations on Vript-HAL with negligible inference overhead, improving the F1 scores of Qwen3-VL-4B-Instruct by 50.60% over the vanilla model. Meanwhile, MultiToP preserves general video understanding ability, yielding an 18.58% relative accuracy gain on ActivityNet-QA for Video-LLaVA-7B.",
+      "authors": [
+        "Yuansheng Gao",
+        "Wenbin Xing",
+        "Jiahao Yuan",
+        "Kaiwen Zhou",
+        "Han Bao",
+        "Zonghui Wang",
+        "Wenzhi Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-10T08:25:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.11792v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "mitigates hallucinations in video LLMs, improving reliability for video understanding tasks",
+      "llm_evidence_cn": "缓解视频大模型中的幻觉，提升视频理解任务的可靠性",
+      "llm_evidence": "缓解视频大模型中的幻觉，提升视频理解任务的可靠性",
+      "canonical_evidence": "缓解视频大模型中的幻觉，提升视频理解任务的可靠性",
+      "llm_tldr_en": "Proposes MultiToP, a token patching framework that refines unreliable visual tokens in video LLMs, reducing hallucinations and improving response fidelity, thereby enhancing performance on various video understanding tasks.",
+      "llm_tldr_cn": "针对视频大模型容易产生幻觉、输出不可靠的问题，提出MultiToP框架。通过轻量级视觉令牌修补器预测令牌替换分布，选择性地替换不可靠令牌，并利用信息引导的排序校准进行训练。实验表明，MultiToP能有效减少幻觉，提升视频理解任务的应答忠实度，对需要精确定位和理解的任务如视频时序定位有间接帮助。",
+      "llm_tldr": "针对视频大模型容易产生幻觉、输出不可靠的问题，提出MultiToP框架。通过轻量级视觉令牌修补器预测令牌替换分布，选择性地替换不可靠令牌，并利用信息引导的排序校准进行训练。实验表明，MultiToP能有效减少幻觉，提升视频理解任务的应答忠实度，对需要精确定位和理解的任务如视频时序定位有间接帮助。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11913v1",
+      "source": "arxiv",
+      "title": "From Content to Knowledge: Lightning Fast Long-Video Understanding with Neural Knowledge Representations",
+      "abstract": "We propose a new paradigm for long video understanding by treating a long video as a Neural Knowledge Representation (NKR). NKR represents video contents neither as a stream of tokens nor pre-organized databases, but as an individual small portion of network weights attached to the VLM backbone. The NKR weights are optimized to encapsulate the video's semantic content via a novel Agentic Knowledge Distillation (AKD) process, where an agent automatically synthesizes dense descriptions and question-answer pairs to distill the video's knowledge into the NKR. While AKD serves as a comprehensive, one-time encoding phase, the resulting NKR transforms the video into a portable, reusable asset. At inference, the lightweight NKR is mounted onto a frozen Vision-Language Model (VLM), enabling direct, query-based understanding without reloading or re-encoding the original video. This approach decouples video length from inference cost, offering high amortized efficiency for multi-turn video understanding. Experiments on the LVBench benchmark show our method achieves performance comparable to state-of-the-art approaches while reducing end-to-end latency by over two orders of magnitude, opening new possibilities for interactive long-video understanding.",
+      "authors": [
+        "Yuchen Guan",
+        "Xiao Li",
+        "Zongyu Guo",
+        "Xiaoyi Zhang",
+        "Xiulian Peng",
+        "Chun Yuan",
+        "Yan Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T10:43:35+00:00",
+      "link": "https://arxiv.org/pdf/2606.11913v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "encodes long videos into Neural Knowledge Representations for lightning fast video understanding, analogous to streaming efficiency",
+      "llm_evidence_cn": "将长视频编码为神经知识表示以实现闪电般快速理解，类似流式效率",
+      "llm_evidence": "将长视频编码为神经知识表示以实现闪电般快速理解，类似流式效率",
+      "canonical_evidence": "将长视频编码为神经知识表示以实现闪电般快速理解，类似流式效率",
+      "llm_tldr_en": "Distills long videos into compact neural weight representations for efficient and fast video understanding, enabling potential streaming applications.",
+      "llm_tldr_cn": "为克服长视频理解的效率瓶颈，提出将视频内容蒸馏为轻量网络权重（神经知识表示），通过智能体知识蒸馏一次性编码，实现极快推理，大幅降低部署成本，为流式视频理解提供了高效方案。",
+      "llm_tldr": "为克服长视频理解的效率瓶颈，提出将视频内容蒸馏为轻量网络权重（神经知识表示），通过智能体知识蒸馏一次性编码，实现极快推理，大幅降低部署成本，为流式视频理解提供了高效方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
