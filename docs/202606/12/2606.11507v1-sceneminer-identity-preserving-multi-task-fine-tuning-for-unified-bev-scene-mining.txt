@@ -1,0 +1,341 @@
+Title: SceneMiner: Identity-Preserving Multi-Task Fine-Tuning for Unified BEV Scene Mining
+
+URL Source: https://arxiv.org/pdf/2606.11507v1
+
+Published Time: Thu, 11 Jun 2026 00:19:02 GMT
+
+Number of Pages: 19
+
+Markdown Content:
+> arXiv:2606.11507v1 [cs.CV] 9 Jun 2026
+
+ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 1
+
+# SceneMiner: Identity-Preserving Multi-Task Fine-Tuning for Unified BEV Scene Mining 
+
+Abdalmalek Aburaddaha 
+
+abdmalek@umich.edu 
+
+Venkatraman Narayanan 
+
+venn@umich.edu 
+
+Keval Thaker 
+
+tkeval@umich.edu 
+
+Samir A. Rawashdeh 
+
+srawa@umich.edu 
+
+University of Michigan-Dearborn 4901 Evergreen Rd Dearborn, MI 48128, USA 
+
+Abstract 
+
+Mining hard, safety-critical scenes from driving logs is bottlenecked by the absence of difficulty labels, and no single proxy, collision risk, trajectory ambiguity, or seman-tic rarity suffices to find such scenes on its own. We present SceneMiner , a unified, camera-only bird’s-eye-view pipeline that emits complementary mining signals from a frozen vision-language backbone in a single forward pass, with no LiDAR or radar: a re-trieval embedding for text-prompted scenario search, a multi-label scene-tag distribution, and a continuous physics-based risk score (a motion forecast is a byproduct, not a con-tribution). Building such a multi-head model exposes our central finding, a failure mode we term cross-task interference : adding or upgrading one head shifts a shared activation stream and degrades weight-frozen sibling heads, so freezing parameters alone is insuffi-cient. Our contribution, identity-preserving multi-task fine-tuning , removes this interfer-ence by zero-initializing every new sub-module and freezing every parameter that feeds the shared stream. The mining heads are thereby preserved bit-identically while training only ∼102k parameters. The tagging head reaches mAP 0 .4614 (micro-F1 0 .5557) on 20 scene tags by pooling each scene into 32 visual tokens, and the embedding head supports text-prompted retrieval, validated qualitatively. Code is available here. 
+
+# 1 Introduction 
+
+Autonomous vehicles must behave reliably across a long-tailed distribution of driving situa-tions, and the tail, occluded pedestrian crossings, unprotected left turns, aggressive cut-ins, contains many of the safety-critical cases that drive crash risk [30]. Establishing statistical confidence in this tail through unguided road testing is infeasible: demonstrating safety by exposure alone would require hundreds of millions to billions of miles [15]. The practical alternative is to mine hard scenes from logs already collected, to search a corpus for the rare, safety-critical situations worth re-simulating, labelling, or training on. This is the problem SceneMiner addresses. The obstacle is that large-scale corpora such as nuScenes [4] ship 
+
+© 2026. The copyright of this document resides with its authors. It may be distributed unchanged freely in print or electronic forms. 2ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+without ground-truth difficulty labels, and critically no single proxy can recover them: fore-casting error conflates genuine danger with benign trajectory ambiguity, language retrieval is blind to multi-agent kinematics, and physics-based risk heuristics ignore semantic context. Hard scenes are thus multi-faceted, and a useful miner must emit multiple complementary mining signals computed by the same model on the same input , so that scores remain directly comparable and a scene can be flagged hard for any of several reasons at once. Four mining signals together span the space of difficulty: (i) a retrieval embedding for text-prompted scenario search, (ii) a multi-label tag distribution over weather, road class, object, and behaviour, (iii) a scalar risk score from proximity, time-to-collision (TTC), and vulnerable-road-user (VRU) density, and (iv) a byproduct motion forecast that exercises the shared latent and provides a kinematic-difficulty stress test. SceneMiner produces all four from one frozen SigLIP2 [34] +BEVFormer [19] camera-only backbone in a single 204 .5 ms forward pass on an A40, with no LiDAR or radar, through a shared 32-query Q-Former [18] that pools 32 visual tokens from BEV spatial features, camera features, and the motion head’s 
+
+decoded_tokens stream. The entire miner trains only 102 ,031 parameters, making it far more parameter-efficient than unified driving stacks [12, 14] and large VLM-for-driving systems [29], while supporting dense latent retrieval where those systems rely on an offline tracker or text-emitting question answering. Constructing such a multi-head miner exposes the central methodological finding of this paper: a failure mode we term cross-task interference , the main obstacle to assembling a unified miner. Adding or upgrading one head shifts the activation distribution of a stream that other, parameter-frozen heads consume through the shared Q-Former, degrading those heads despite no weight updates. Concretely, replacing the motion head, a deliberately min-imal warm-start component, with a stronger decoder makes the tag and risk heads degrade sharply: tag macro-F1 falls by about a third and risk Pearson r flips sign (Tab. 1). This is not classical catastrophic forgetting [16], in which weights drift: here the affected weights are bit-identical, and the harm travels entirely through the inputs of the frozen modules. In short, frozen weights do not imply frozen activations, so parameter freezing, the standard multi-task safeguard, is necessary but not sufficient. We resolve this interference with identity-preserving multi-task fine-tuning , a discipline that makes head additions safe by construction. It couples two requirements: (a) every newly added sub-module is zero-initialized so the upgraded head is exactly the identity at warm start, and (b) every parameter that can influence a shared stream is frozen in the motion head; this leaves only the velocity head and trajectory projection trainable (102 ,031 param-eters, under 10 −4 the roughly 3-billion-parameter model). Together these hold the shared activation distribution invariant, so the addition does not interfere at step zero. The resulting model (Tab. 1) keeps the mining heads—tag micro-F1 (0 .5557), macro-F1 (0 .2605), and the risk head’s correlation with its physics target ( r=+ 0.3925)—bit-identical to the warm-start (within ±10 −4, reproduced across three seeds) while the byproduct motion head remains functional. Motion forecasting is not a contribution of this paper: the 102k-parameter head is reported only to show that a byproduct head can be attached to the shared latent without disturbing the tagging, risk, and retrieval outputs that constitute the mining signals. 
+
+Contributions. (i) A unified, camera-only BEV mining pipeline that emits a retrieval em-bedding, a 20-tag distribution, a risk score, and a byproduct motion forecast in one forward pass using neither LiDAR nor radar; it attains a tagging mAP of 0 .4614 while training only 102 ,031 parameters, two-to-four orders of magnitude fewer than comparable unified-AD and VLM-for-AD systems. (ii) The identification of cross-task interference —an activation-level failure distinct from gradient conflict and weight drift, and identity-preserving multi-task ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 3
+
+fine-tuning , which resolves it by zero-initialising new sub-modules and strictly freezing ev-ery parameter that feeds a shared stream so that a head can be added while the others remain bit-identical to the warm-start ( ∆ < 10 −4 across three seeds). (iii) Deterministic, auditable pseudo-labels requiring no human difficulty annotation: a physics risk score and a tag vocab-ulary built from the union of nuPrompt [38] prompts and official Motional scene descriptions. 
+
+(iv) A non-neural, auditable tag-centroid retrieval pipeline whose rankings are complemen-tary to those of CLIP on our query sample (0 /15 top-5 overlap), rather than re-deriving them. 
+
+# 2 Related Work 
+
+Scenario mining and difficulty estimation. RefAV [8] casts scenario mining as a text-to-scene retrieval problem but does so via an offline pipeline: it runs a 3D multi-object tracker and then synthesizes executable filtering code with an LLM to select matching scenarios. This pipeline is expressive but costly: it depends on a separate tracking stage and on per-query code generation, neither of which runs within a single model pass. SceneMiner in-stead performs dense latent retrieval directly: a text query is resolved against 256-d scene embeddings produced in the same single forward pass that emits the tagging and risk sig-nals, with no tracker and no per-query code synthesis. NuPrompt [38] contributes 35k+ object-level prompts on nuScenes for language-conditioned tracking and serves both as a tag-enrichment source and as our scene-tagging baseline, while nuScenes-MQA [13] adds markup-based QA pairs. These approaches couple mining to a human or LLM annotator; ours does not. Its retrieval pipeline is instead non-neural and substring-grounded against the official Motional scene descriptions, giving auditable provenance. On our query sample, its top-5 results share no scenes with those of CLIP (zero Jaccard overlap), indicating that the two rankings are complementary. Multi-dataset autonomous-driving benchmarks (nuScenes, Argoverse-2 [37], Waymo Open [32]) support cross-domain validation; such transfer is part of our planned validation rather than a current claim. 
+
+BEV perception and unified AD stacks. Bird’s-eye-view representations have become the dominant substrate for camera-only perception; BEVFormer [19] constructs a unified BEV through spatial-temporal cross-attention and forms the basis of our backbone. The broader camera-perception literature continues to advance the upstream signals such a substrate is built on, spanning multimodal detection fusion [22], unsupervised scene-flow estimation [1], and position encodings for wide-field-of-view cameras [2]; SceneMiner is agnostic to these choices and simply consumes a frozen BEV feature map. Unified stacks such as UniAD [12], VAD [14], and BEVerse [42] jointly learn perception, prediction, and planning under a sin-gle feature graph. We share their multi-task philosophy but differ on purpose and on foot-print : SceneMiner targets scene-mining signals—retrieval, tags, and risk, rather than plan-ning—and emits them from only 102 ,031 trainable parameters in a single 204 .5 ms pass. It is faster than UniAD and latency comparable to VAD-Base, while training orders of mag-nitude fewer parameters than UniAD, VAD, and DriveLM-Agent [29] (Tab. 6). Dedicated forecasters span graph-structured dynamics (Trajectron++ [26]), heterogeneous-input atten-tion (Wayformer [23]), goal-anchored decoding (MTR [28]), and waypoint-token language modeling (MotionLM [27]). We make no forecasting claim and do not compete on minADE: SceneMiner’s motion head is a deliberately compact byproduct of the shared Q-Former, re-ported only to show that it is functional and non-interfering. This literature is relevant here only because the pressure to upgrade such a head is what exposes our interference finding. 4ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+Vision-language models for autonomous driving. DriveLM [29], DriveVLM [33], and nuScenes-MQA [13] bring VLMs to AD question answering and captioning, and Qwen2.5-VL [3] offers a capable open backbone. A key distinction for mining is the output type :VQA-class methods emit free-form text, which a downstream system must re-parse and which cannot be indexed or compared as a vector. SceneMiner instead emits a retrievable 256-d embedding alongside discriminative tag and risk heads, so a corpus can be indexed once and queried densely. Talk2BEV [7] grounds language in BEV but, like the QA systems, is oriented toward dialogue rather than vectorized retrieval. SceneMiner adopts the BLIP-2 Q-Former [18] as a 32-query bridge over its BEV, camera, and motion streams; here, the Q-Former is supervised purely through the task heads, without language modeling fine-tuning on top of these queries. 
+
+Multi-task interference and function-preserving expansion. Continuous learning meth-ods such as EWC [16] and LwF [20] preserve knowledge across sequential tasks by regu-larizing weights, while PCGrad [39] and CAGrad [21] resolve conflicting gradients in joint multi-task training. Gradient-conflict diagnostics, e.g., cosine similarity between task gradi-ents, reveal when tasks conflict during optimization. The interference we study is fundamen-tally different in locus: it is distributional and arises at warm-start , before any gradient step, because the inputs to frozen modules shift rather than their parameters. The standard mitiga-tion is parameter freezing, often with adapters [10], LoRA [11], or side-tuning [40]; identity-preserving expansion (zero-initializing new layers so the enlarged network is the identity at warm-start) appears in ControlNet [41] (diffusion conditioning), adapters and LoRA with 
+
+B=0 [10, 11], and Net2Net [6] (layer widening). All of these operate at the weight level and tacitly assume that frozen modules stay correct under expansion—an assumption our set-ting violates. The affected heads’ weights are bit-identical across runs, yet the motion head’s 
+
+decoded_tokens shift when its architecture changes, and this activation-distribution shift propagates through a frozen Q-Former and corrupts the tag and risk heads (Tab. 1). Our rem-edy combines identity initialization with a strict freeze of every parameter feeding the shared stream . To our knowledge, this pairing has not been isolated and validated in prior multi-head BEV work, and it addresses an activation-level defect orthogonal to both gradient-conflict MTL and catastrophic forgetting. 
+
+# 3 Method 
+
+# 3.1 Overview 
+
+SceneMiner is a single camera-only model that ingests six surround-view RGB streams and emits four scene-mining outputs in a single forward pass: per-agent future trajectories, a scalar danger score, a 20-way multi-label tag vector, and a 256-dimensional retrieval embed-ding (Fig. 1). The model is organized as three shared stages feeding three parallel task heads. The shared stages are (i) a frozen SigLIP2 [34] visual encoder, (ii) a BEVFormer-style [19] spatial–temporal encoder that lifts per-camera patch features into a 50 ×50 bird’s-eye-view (BEV) grid, and (iii) a 32-query Q-Former [18] that pools the BEV, camera, and motion streams into a compact set of scene tokens shared by the heads. The methodological contri-bution of this paper is identity-preserving multi-task fine-tuning (Sec. 3.6), which we apply here to upgrade the architecture of the motion head while leaving the other three heads un-changed. We retain the Q-Former because it is the intended bridge to a vision language model: the per-agent latents that the Motion Head emits, denoted decoded_tokens , flow ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 5
+
+Figure 1: SceneMiner architecture. A frozen SigLIP2 [34] backbone and a BEVFormer [19] encoder lift the six surround-view cameras into a bird’s-eye-view grid; a temporal stack and the Motion Head produce per-agent decoded_tokens , which a 32-query Q-Former [18] pools together with the BEV and camera streams. The pooled tokens feed three parallel heads—tagging, risk, retrieval embedding, and a byproduct trajectory head, whose outputs drive the downstream mining tasks. Snowflakes mark frozen pretrained modules, flames mark the components trained on project labels, and the gear marks the parameter-free tem-poral warp. through the Q-Former to all three heads, and the Q-Former is the natural attachment point for caption-level supervision (Sec. 3.3), which we do not train. 
+
+# 3.2 BEV Feature Extraction 
+
+Camera encoding and BEV lifting. The first stage encodes the cameras and lifts them into a common bird’s-eye-view representation. The six surround-view cameras are passed through a frozen SigLIP2 backbone [34], which yields per-camera patch embeddings Fcam  
+
+> i
+
+∈
+
+RNp×dcam . A BEVFormer-style spatial cross-attention (SCA) encoder then lifts these features into a unified 50 ×50 BEV grid through the standard deformable sum [19]. For a BEV query 
+
+Qp at grid position p, the encoder computes SCA (Qp, Fcam ) = 1
+
+|Vhit (p)| ∑
+
+> i∈Vhit (p)
+> Nref
+
+# ∑
+
+> j=1
+
+DeformAttn  Qp, pi j , Fcam 
+
+> i
+
+, (1) where the index i ranges over the cameras whose viewing frusta cover p (the set Vhit (p)), the index j ranges over the Nref deformable sampling points projected into camera i, and 6ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+pi j is the reference location of the j-th sampling point in the i-th camera. Dividing by 
+
+|Vhit (p)| averages the contributions of every camera that observes the cell, so a cell seen by several cameras is not over-counted. The resulting feature volume Fbev ∈ RB×2500 ×256 
+
+is a 50 ×50 grid of 256-channel cells at 2 .048 m resolution, covering a 102 .4×102 .4 m ego-centric square. 
+
+Temporal stack. The second part of this stage adds kinematic context by stacking several BEV maps over time. We use a T =3 stack of BEV maps (the current keyframe and the two preceding ones, spaced ∆t=0.5 s apart). Because the ego vehicle moves between keyframes, the two past BEVs are first SE(2)-warped into the current ego frame using the nuScenes 
+
+ego_pose record. The aligned maps are then concatenated along the feature dimension and projected back to D=256 by a 1 ×1 convolution, temporal_proj :
+
+Fbev  
+
+> T
+
+= temporal_proj  [Fbev  
+
+> t
+
+, Wt−1→t (Fbev  
+
+> t−1
+
+), Wt−2→t (Fbev  
+
+> t−2
+
+)] . (2) Here Wt−k→t denotes the warp from keyframe t−k into the current frame. The past BEVs are produced under torch.no_grad , so only temporal_proj is trainable, and it is initialised so that it copies the current-frame slice unchanged (the identity initialisation of Sec. 3.6). 
+
+# 3.3 Q-Former Tokenisation 
+
+The third shared stage compresses the BEV, camera, and motion streams into a fixed-size set of scene tokens that the heads can consume cheaply. The Q-Former [18] pools these three streams into 32 scene tokens shared by the Risk, Tagging, and Embedding heads. A set of 
+
+K=32 learnable queries Qlearn cross-attends to the concatenation of the three streams: 
+
+Z = CrossAttn  Qlearn , [Fbev  
+
+> T
+
+; Fcam ; Πm(h)]  ∈ RB×32 ×D, (3) where h ∈ RB×Na×D is the Motion Head’s per-agent decoder output (Sec. 3.4) and Πm is a linear projection. The third stream, decoded_tokens , is what couples the Motion Head to the Q-Former: it is at once an output of the Motion Head and an input to the Q-Former. Any change to the Motion Head therefore perturbs the distribution of the pooled tokens 
+
+Z, and with it the features that the three pooled-token heads consume. This coupling is the reason the training protocol of Sec. 3.6 is needed. The central observation is that freezing the parameters of a downstream head does not freeze its inputs: modifying an upstream module that feeds a shared stream shifts the activation distribution that reaches the frozen heads, even though their weights are untouched, and heads tuned to the previous distribution degrade. A redesigned Motion Head can thus corrupt weight-frozen downstream heads through the 
+
+decoded_tokens stream—an effect we quantify in Sec. 3.6. 
+
+# 3.4 Four Parallel Heads 
+
+Three of the four heads read from the same pooled representation, whereas the Motion Head reads the BEV directly. Specifically, the Risk, Tagging, and Embedding heads consume the mean-pooled scene token ¯ z= 132 ∑k Z:,k,:, while the Motion Head consumes the BEV through its own decoder. 
+
+Motion Head. The Motion Head is a transformer decoder that operates over Na=8 learned agent queries, ranked by detection confidence. Each query is biased by an MLP applied to ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 7
+
+the agent’s BEV position aa ∈ R2, which anchors the prediction to that agent’s location: 
+
+qa = Qagent  
+
+> a
+
++ agent_pos_mlp (aa), (4) where agent_pos_mlp supplies explicit BEV grounding. The 4-layer decoder (each layer applying self-attention, BEV cross-attention, and a feed-forward block) outputs per-agent latents ha ∈ RD; these latents are the decoded_tokens of Eq. 3. Two linear sub-heads read ha: velocity_head predicts a velocity va ∈ R2 and traj_proj predicts a 6-step residual sequence {ra,t }5
+
+> t=0
+
+. The two are recombined into trajectories by 
+
+ya,t = aa + ( t + 1) ∆t v a + ra,t , t ∈ { 0, . . . , 5}, (5) with ∆t=0.5 s. This additive factorisation has a property we exploit in Sec. 3.6: when the residual vanishes ( r ≡0) the head reduces exactly to a constant-velocity forecaster, and when the velocity vanishes as well it reduces to the static prediction ya,t =aa. These limiting cases are what make a benign identity initialisation possible. 
+
+Risk Head. The Risk Head is a two-layer MLP RD → R applied to ¯ z, with a sigmoid output that produces a scalar danger score in [0, 1]. It is supervised by the pseudo-label of Sec. 3.5 through a Pearson-style regression loss. 
+
+Tagging Head. The Tagging Head is a single linear map RD → R20 over ¯ z, trained with a multi-label binary cross-entropy loss over the 20-tag nuPrompt vocabulary [38] (scene, object, and behaviour groups). 
+
+Embedding Head. The Embedding Head is a two-layer MLP that projects the pooled latent through a 512-d hidden bottleneck to a 256-d ℓ2-normalised embedding. It is supervised by an InfoNCE loss [35] that treats keyframes of the same scene as positives: 
+
+Lembed = − 1
+
+|P| ∑ 
+
+> (i,j)∈P
+
+log exp (e(si)⊤e(s j)/τ)
+
+∑k̸ =i exp (e(si)⊤e(sk)/τ) , (6) with τ=0.07. At inference, text queries are mapped to nuPrompt tag synonyms; the centroid of e(·) over tag-matching scenes is the query vector, and a strict substring mask over the official nuScenes scene.description filters environmental candidates. 
+
+# 3.5 Pseudo-Label Construction 
+
+Because nuScenes [4] provides no ground-truth difficulty labels, we derive two deterministic pseudo-labels from the annotations alone, using no human labels, no learned uncertainty, and no model ensemble. 
+
+Risk pseudo-label. For each keyframe we aggregate three components and then take the maximum over the keyframes of a scene. The three components capture distinct precur-sors of difficulty. Proximity is ρprox = exp (−dmin /5 m ), where dmin is the distance from the ego vehicle to the nearest annotated agent. Time-to-collision (TTC) is the smallest posi-tive constant-velocity time-to-collision, gated to a closest-approach distance below 3 m and mapped to ρttc = max (0, 1−TTC /4 s ). Vulnerable-road-user (VRU) density is the share of pedestrians, cyclists, and motorcyclists within 30 m, normalised by 10. The pseudo-label combines the three linearly: ˆr(s) = 0.4 ρprox + 0.3 ρttc + 0.3 ρvru , (7) 8ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+each component clipped to [0, 1] (ˆ r has mean 0 .41, std 0 .18 across 850 scenes). The compo-nent weights (0 .4, 0 .3, 0 .3) were tuned on the training split to maximise the rank correlation between ˆ r and per-scene motion difficulty, with proximity weighted most heavily as the most direct collision precursor. 
+
+Tag enrichment. The tag pseudo-label is a 20-bit per-scene vector formed by OR-merging two sources: (a) the per-frame nuPrompt [38] object prompts, mapped through a synonym list, and (b) the per-scene Motional scene.description string, tokenised against the same list. The second source recovers weather, lighting, and infrastructure cues that nuPrompt alone misses. After enrichment, 7 .3 tags fire per scene on average and only 2 of the 850 scenes have an empty vector. 
+
+# 3.6 Identity-Preserving Fine-Tuning 
+
+This subsection presents the methodological core of the paper: how to upgrade the motion head without disturbing the other heads. We begin from a multi-head warm start in which the backbone and the four heads are trained jointly. We then wish to upgrade the motion head, adding a T =3 temporal stack (Eq. 2), the agent_pos_mlp grounding (Eq. 4), three further decoder layers, and a velocity subhead, while leaving the other heads intact. A direct fine-tune fails at this, even when every other head is held frozen. The newly initialised layers shift the per-agent latents h, this shift propagates through the shared Q-Former stream (Eq. 3), and the heads tuned to the warm-start distribution degrade sharply (Sec. 5.1). The diagnosis is that the defect lies in the activations, not in the weights, so the remedy must act on the activations rather than on the weights. We therefore combine two requirements that together hold decoded_tokens bit-identical to the warm-start at step 0 and keep it from drifting thereafter. 
+
+(i) Identity initialization. The first rule makes the upgraded motion head start out exactly equal to the warm-start one. Every newly added sub-module is zero-initialized so that the ex-panded head reproduces the warm-start output. Concretely, the output projection of each new decoder layer is zeroed, which makes that layer the identity under its residual connection, and the final linear layers of agent_pos_mlp , temporal_proj , and velocity_head 
+
+are zeroed, which reduces Eq. 5 to ya,t = aa + ra,t . Under this scheme decoded_tokens 
+
+matches the warm start to within numerical noise. 
+
+(ii) Strict freeze of the decoded_tokens path. The second rule keeps the head equal to the warm start as training proceeds, by freezing everything that could move the latents h. We freeze the full decoder, the agent queries, agent_pos_mlp , temporal_proj , the BEV encoder, the Q-Former, and the three sibling heads, leaving only velocity_head and 
+
+traj_proj trainable (102 ,031 parameters, under 10 −4 of the roughly 3-billion-parameter model). Neither trainable layer lies on the computation graph that produces decoded_tokens ,so the shared tokens Z are invariant at initialization by construction. Empirically they remain so throughout fine-tuning: the mining-head metrics show zero variance across seeds (sup-plementary material), which also reports the full three-stage recipe and hyperparameters. 
+
+# 4 Experiments 
+
+Dataset and evaluation scope. All experiments use a single dataset under a camera-only protocol. We train and evaluate on nuScenes v1.0-trainval [4] under the standard 700/150 train/val scene split, using only the six surround-view cameras and no LiDAR or radar ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 9
+
+at any stage. Of the 6 ,019 validation keyframes, the 5 ,820 that carry at least one valid future-waypoint annotation form the well-posed set on which all metrics are computed; the remaining frames are degenerate boundary cases with no annotated agents and are ex-cluded. Tag supervision uses the 20-tag nuPrompt vocabulary [38], enriched with the official 
+
+scene.description strings (Sec. 3.5). Evaluation is confined to this single dataset; cross-corpus transfer (for example to Argoverse-2 or Waymo) is left to future work (Sec. 6). 
+
+Implementation. All experiments run on 4 ×NVIDIA A40 GPUs (46 GiB each) under CUDA 12.1 and PyTorch 2.3 with bfloat16 mixed precision, optimised with AdamW (weight decay 0 .01). The relevant training stages are Stages 2 and 3. Stage 2 trains the multi-head baseline with a cosine schedule at learning rate 5 ×10 −5 and batch size 2 per GPU (effective batch 8) for 12 epochs. Stage 3, the identity-preserving motion fine-tune, trains only the 102 ,031 parameters of velocity_head and traj_proj , at learning rate 1 ×10 −4, for a single epoch with early stopping on validation ADE. Every other parameter that can influ-ence decoded_tokens is frozen, so the shared stream remains bit-identical to the Stage-2 baseline at every optimisation step (Sec. 3.6). The BEV grid is 50 ×50 at 2 .048 m per cell (a 102 .4×102 .4 m ego-centric square), with a T =3 ego-motion-compensated temporal stack. 
+
+Evaluation protocol. Each of the four outputs is scored with the metric standard for its task. Tagging is scored at a binary-cross-entropy (BCE) decision threshold of 0 .5 by the micro-averaged F1 (pooling all tag decisions before computing F1), the macro-averaged F1 (the unweighted mean of per-tag F1), and the mean average precision (mAP, the mean over tags of the area under each precision-recall curve). Risk is scored by the Pearson and Spearman rank correlation between predicted risk and per-keyframe motion error and by the mean absolute error (MAE) against the physics pseudo-label. Motion is scored by the Average and Final Displacement Error (ADE, the mean ℓ2 distance between predicted and ground-truth waypoints; FDE, the same distance at the final waypoint), computed mask-aware over the eight ranked agents and six 0 .5 s waypoints so that only valid (agent, timestep) pairs contribute. Retrieval is scored by Recall@ K (the fraction of queries whose top-K
+
+results contain a correct scene) against scene_token identity, together with a description-grounded environmental-tier check. For tagging we additionally report a stricter per-tag calibrated protocol, whose ground truth comes from substring matches against the official 
+
+scene.description ; it complements the BCE scores. 
+
+# 5 Results 
+
+# 5.1 Cross-Task Interference and Its Resolution 
+
+Upgrading the Motion Head corrupts the sibling heads through their shared activations, and the identity-preserving protocol prevents this. We isolate each ingredient with a 2 ×2 factorial over identity initialization and the strict freeze (Tab. 1), spanning the multi-head Baseline , an 
+
+Unconstrained fine-tune (neither ingredient), a Frozen-Head variant (freeze without identity initialization), an Id-init only variant (identity initialization without the freeze), and the full 
+
+identity-preserving model (both). The Unconstrained fine-tune reduces motion ADE by almost an order of magnitude, but the tag and risk heads degrade sharply and the risk correlation reverses sign. This is the decisive test of the interference claim, since the tag and risk weights are frozen through-out and only the motion-head architecture changes: the harm can travel only through the activation distribution of decoded_tokens , the third stream into the shared Q-Former. 10 ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING                                                 
+
+> Configuration Id-init Lock ADE ↓FDE ↓Tag micro-F1 ↑Tag macro-F1 ↑Risk r↑
+> Baseline ––17.89 18.11 0.5556 0.2604 +0.3926 Unconstrained ××2.06 4.29 0.4613 0.1635 −0.0339 Frozen-Head ×part. 2.17 4.35 0.2669 0.1465 −0.1945 Id-init only ✓×2.08 4.28 0.4825 0.1976 +0.2175
+> Identity-Preserving ✓✓2.03 4.20 0.5557 0.2605 +0.3925
+
+Table 1: Effect of the identity-preserving protocol on nuScenes val, arranged as a 2 ×2factorial over identity initialization and the strict freeze. “Id-init” = identity initializa-tion of new motion-head components; “Lock” = freeze of every parameter influencing 
+
+decoded_tokens . Tag F1 uses the BCE@0 .5 protocol; risk r is the correlation with the physics pseudo-label. Retrieval R@10 is 0 .0653 for every configuration and is omitted. Identity initialization alone (Id-init only) partly restores the mining heads but does not pre-serve them; only the full Identity-Preserving model, which adds the strict freeze, keeps tag and risk at their preserved level while the byproduct motion head stays functional. Class n agents t1 t2 t3 t4 t5 t6
+
+Pedestrian 10,749 0.07 0.46 0.90 1.33 1.77 2.21 Vehicle 31,348 0.09 1.04 2.02 3.00 3.95 4.87 Other 25 0.10 0.17 0.23 0.32 0.34 0.40 
+
+All 42,122 0.08 0.89 1.74 2.57 3.40 4.20 
+
+Table 2: Per-class mask-aware ADE (m) at the six prediction horizons t1=0.5 s through 
+
+t6=3.0 s (steps of 0 .5 s); n is the number of valid agents. Vehicles dominate the population and the long-horizon error budget, while pedestrian errors grow roughly linearly with the velocity prior. Freezing the tag and risk heads as well, as in the frozen-head variant, does not help but instead worsens the degradation, confirming that freezing weights cannot stop interference carried through inputs. Identity initialisation, by contrast, attacks the activation shift at its source: the Id-init-only variant lifts the mining heads well above the Unconstrained and Frozen-Head variants (tag macro-F1 0 .1976, risk r=+ 0.2175), yet it does not restore them because the trainable upstream path drifts away from the identity during fine-tuning. Only the full identity-preserving model, which adds the strict freeze that holds that path in place, recovers the mining heads to within 10 −4 of the baseline while retaining the improved mo-tion. Retrieval R@10 is identical across all configurations because the Embedding Head’s parameters and inputs are never touched by the motion head edits. 
+
+# 5.2 Per-Class Motion 
+
+The byproduct motion head’s error grows as the constant-velocity prior predicts, diverging by agent class at longer horizons (Tab. 2). The near-zero error at the first step reflects the accuracy of the anchor position fed through agent_pos_mlp . Beyond it, pedestrian error grows roughly linearly while vehicle error grows faster than linearly because the prior’s un-modelled curvature accumulates fastest for fast-moving agents; vehicles, therefore, dominate the aggregate error. ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 11 
+
+Tag F1 Prevalence 
+
+scene_rainy 0.920 0.177 
+
+scene_school_zone 0.912 0.839 
+
+object_bicycle 0.898 0.823 
+
+object_bus 0.894 0.780 
+
+behavior_static 0.816 0.673 
+
+scene_dark 0.542 0.242 
+
+scene_residential 0.481 0.409 
+
+scene_parking_lot 0.478 0.496 
+
+scene_intersection 0.348 0.348 
+
+object_truck 0.327 0.391 
+
+Macro-F1 (20 tags) 0.357 —Table 3: Per-tag F1 on nuScenes val under the per-tag-calibrated description-substring pro-tocol (top-10 tags shown; full 20-tag macro mean below). This protocol differs from the BCE@0 .5 protocol of Tab. 1, which is why its macro-F1 (0 .357) exceeds the 0 .2605 re-ported there. 
+
+# 5.3 Multi-Label Scene Tagging 
+
+The tagging head reaches mAP 0 .4614 (micro-F1 0 .5557, macro-F1 0 .2605) on the 20 nuPrompt tags, despite pooling the entire scene into only 32 visual tokens from a frozen backbone—evidence that a compact learned bottleneck retains enough structure for reliable scene attribution. The per-tag breakdown (Tab. 3) shows where this accuracy concentrates: the head is strong on the high-prevalence scene and object tags that matter most for mining, while the low-prevalence long tail pulls the macro mean down. The two macro-F1 figures measure different protocols rather than the same quantity twice: the value in Tab. 1 uses the stricter BCE@0 .5 protocol matched to training, whereas Tab. 3 uses per-tag calibration, which is a better predictor of downstream retrieval. 
+
+# 5.4 Risk as a Difficulty Estimator 
+
+Predicted risk is useful for mining the difficult tail, but only as a ranking signal rather than a calibrated danger measure. The head fits its physics pseudo-label well (MAE 0 .1350, Pear-son r=+ 0.3925 against the label). What matters for mining, however, is whether predicted risk tracks actual scene difficulty, which we measure as its correlation with motion error atarget distinct from the supervising label. Here the correlation is positive but weak (Pearson 
+
+r = + 0.233, r2 = 0.054), so predicted risk explains only a small part of per-sample diffi-culty. At the tail it is nonetheless informative: the top-50 scenes by predicted risk are 2 .9×
+
+harder than the validation baseline, so the head reliably identifies the difficult cases a mining pipeline needs to retrieve. We frame this as a protocol we establish rather than a comparison we win: prior risk benchmarks use a different risk definition, dataset, or output type (dis-crete severity in CARScenes [9], CARLA risk anticipation in RiskBench [17], closed-loop scores in nuPlan [5]), so none is directly comparable to a continuous physics-based scalar on nuScenes keyframes. The validation is also not independent of its supervision: risk and the motion head use the same annotations, so the correlation may partly reflect shared inputs rather than a property of predicted risk that generalizes beyond its physics heuristic. 12 ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+Method Metric Output Value 
+
+SceneMiner (ours) R@1/5/10 dense latent .0066/.0327/.0653 SceneMiner (ours) desc-mask dense latent 6/6 PASS 
+
+RefAV RefProg † [8] HOTA-T tracker+LLM code 50.1 RefAV RefClassify † [8] HOTA-T 2D-crop classifier 17.2 RefAV RefBlind † [8] HOTA-T class-filter 19.2 NuScenes-QA † [24] VQA acc text 60.4 DriveLM-Agent † [29] CIDEr text 0.044 OmniDrive † [36] CIDEr text 0.686–0.732 Table 4: Text-prompted retrieval and scenario mining. The contribution is architectural: SceneMiner retrieves via a dense latent embedding in one forward pass, whereas RefAV needs an offline tracker plus LLM code synthesis and VQA-class methods emit text, not a retrievable vector. †: protocol/metric not commensurable with dense retrieval (shown for capability context, not as a common score). 
+
+# 5.5 Text-Prompted Retrieval 
+
+SceneMiner’s contribution to scenario mining is a capability rather than a single compa-rable score (Tab. 4): it retrieves by matching a query against scene embeddings emitted in the same forward pass as the other signals, reaching 6 .5× chance at R@10 under the strict scene_token pseudo-label. Prior systems obtain their results by means that do not produce a reusable index: RefAV [8] runs an offline 3D tracker and uses an LLM to syn-thesise per-query filtering code, while VQA-style systems (DriveLM [29], OmniDrive [36], NuScenes-QA [24]) emit free-form text rather than a retrievable embedding. Their met-rics (HOTA-Temporal, VQA accuracy, CIDEr) cannot be placed on the same scale as dense retrieval, so the table records a difference in capability, not a common score. The retrieval pipeline maps a text query through the Embedding Head to a tag centroid (env-priority synonym anchor, env-strict anchor pool), applies a strict description-substring mask over the official nuScenes scene.description , and re-ranks with MMR ( λ =0.5). A set of six one-token and full-sentence queries for “night” and “rain” returns top-3 scenes that, on manual inspection of the official descriptions, all match the queried attribute, with high within-attribute cosine similarity. Running off-the-shelf CLIP [25] over the same em-beddings yields rankings that share no scenes with ours (0 /15 top-5 overlap), so the learned space is complementary to CLIP rather than a copy of it; this complementarity is why queries must be anchored inside the learned space through the nuPrompt vocabulary. This check is qualitative rather than a quantitative benchmark. Fig. 2 shows top-ranked retrievals for natural-language queries spanning easy to hard conditions, with detected agents projected into the front camera. Two patterns are visible. First, retrieval stays semantically faithful as conditions degrade: the daytime, night, and rain queries each return scenes that match the requested attribute, even though night and rain are the lowest-prevalence conditions in nuScenes. Second, the predicted risk attached to each scene tracks query difficulty, near 0 .2 for clear daytime traffic, around 0 .5 when following a large vehicle at close range, and above 0 .75 for night and wet-road scenes so the risk head and the retrieval head agree on which retrieved scenes are hazardous without being trained to. 
+
+Hard-scene mining. Running the motion head on the sub-populations each signal retrieves ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 13 
+
+Figure 2: Qualitative text-prompted retrieval. Each row shows the top-3 scenes for one query (top: clear daytime traffic; middle: night with low visibility; bottom: heavy rain on wet roads), with the cosine similarity and predicted risk of each scene and the detected agents projected into the front camera. Retrieval remains correct as conditions worsen, and the predicted risk rises with the difficulty of the queried condition ( ≈ 0.2 daytime, ≈ 0.8night/rain), consistent with the risk–difficulty relationship reported in Sec. 5.4. (Tab. 5) shows that the signals are complementary: predicted risk picks out the hardest cases overall by dynamic hazard, while the semantic-retrieval signals pick out different difficult buckets organised by scene class. A practical mining pipeline can therefore combine them rather than choose between them. 
+
+# 5.6 Inference Efficiency 
+
+A single forward pass emits all four head outputs in 204 .5 ms at 8 .6 GiB peak memory on one A40 (measured over 20 warm-up and 100 timed passes), with throughput scaling sub-linearly up to batch 4. The pipeline is compute-bound on the shared frozen backbone, and no caption-time vision–language model enters the inference graph. Against published unified-AD and VLM-for-AD systems (Tab. 6), this makes SceneMiner faster than UniAD [12] and about on par with VAD-Base [14] on latency. The decisive margin, however, is in trainable parameters: at 102k parameters SceneMiner trains two-to-four orders of magnitude fewer 14 ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+Source ADE (m) FDE (m) val baseline ( n=5,820) 2.14 —top-50 by predicted risk 6.22 12.23 
+
+CLIP query 1 (night) 1.26 2.23 CLIP query 2 (intersection) 2.26 4.48 CLIP query 3 (rain) 4.52 9.52 Ours query 1 (night) 1.81 3.36 Ours query 2 (intersection) 2.44 4.70 Ours query 3 (rain) 1.21 2.30 Table 5: Motion-head stress under retrieved hard scenes. ADE/FDE here are averaged per scene over the 5 ,820 well-posed keyframes, giving a baseline of 2 .14 m; this differs from the agent-waypoint mask-aware ADE of 2 .03 m in Tab. 1, which averages over all valid (agent, timestep) pairs. The top-50 scenes by predicted risk reach 2 .9× the per-scene baseline, consistent with risk as a hard-scene-mining signal. Method HW Lat. (ms) ↓ FPS ↑ Train. params ↓
+
+VAD-Tiny [14] A100/3090 59.5 16.8 ∼119 M MomAD [31] RTX 4090 ∼128 ∼7.8 >100 M 
+
+SceneMiner (ours) A40 204.5 4.87 102 k 
+
+VAD-Base [14] A100/3090 224.3 4.5 >100 M UniAD [12] A100 555.6 1.8 >100 M DriveLM-Agent [29] unspec. ∼2777 0.36 3.96 B Table 6: Inference efficiency versus published unified-AD and VLM-for-AD systems. SceneMiner is 2 .7× faster than UniAD, latency-comparable to VAD-Base, and trains 980 ×–38 ,800 × fewer parameters than UniAD/VAD/DriveLM-Agent while running a 3B VLM. Hardware differs per row (each system on its published hardware); the parameter compari-son is hardware-independent. than UniAD, VAD, and DriveLM-Agent [29], even with a full 3B-parameter backbone in the loop. Baseline figures are quoted from the respective publications on the hardware each lists; as measurement conditions differ, the latency comparison is indicative, whereas the parameter comparison is hardware-independent. 
+
+# 6 Conclusion 
+
+We presented SceneMiner, a unified camera-only pipeline for hard-scene mining that emits a retrieval embedding, scene tags, and a risk score in a single forward pass, training only 
+
+∼102k parameters. Its central finding is cross-task interference : adding a head shifts a shared activation stream and degrades weight-frozen sibling heads. Our identity-preserving multi-task fine-tuning removes this by zero-initializing and freezing the parameters that feed the stream, a principle that should apply to any multi-head model sharing a pooled represen-tation. 
+
+Future work. Three directions follow. (i) Cross-dataset transfer : all experiments are on nuScenes, so transferring the frozen backbone to Argoverse-2 [37] and Waymo [32] would test the protocol under domain shift. (ii) Independent risk validation : predicted risk and ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 15 
+
+the motion head share annotations, so an external ground truth (human-labeled difficulty or an ensemble-uncertainty baseline) is needed to show the risk signal generalizes beyond its physics heuristic. (iii) Quantitative retrieval : a Precision@ K / NDCG benchmark and an open-vocabulary query interface would replace the current qualitative, 20-tag-bounded evaluation. 
+
+# References 
+
+[1] Rahul Ahuja, Chris Baker, and Wilko Schwarting. OptFlow: Fast optimization-based scene flow estimation without supervision. In Proceedings of the IEEE/CVF Win-ter Conference on Applications of Computer Vision (WACV) , 2024. doi: 10.1109/ WACV57701.2024.00313. [2] Rahul Ahuja, Mudit Jain, Bala Murali Manoghar Sai Sudhakar, Venkatraman Narayanan, Pratik Likhar, Varun Ravi Kumar, and Senthil Yogamani. FishRoPE: Projective rotary position embeddings for omnidirectional visual perception. arXiv preprint arXiv:2604.10391 , 2026. [3] Shuai Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Sibo Song, Kai Dang, Peng Wang, Shijie Wang, Jun Tang, Humen Zhong, Yuanzhi Zhu, Mingkun Yang, Zhaohai Li, Jianqiang Wan, Pengfei Wang, Wei Ding, Zheren Fu, Yiheng Xu, Jiabo Ye, Xi Zhang, Tianbao Xie, Zesen Cheng, Hang Zhang, Zhibo Yang, Haiyang Xu, and Junyang Lin. Qwen2.5-VL technical report. arXiv preprint arXiv:2502.13923 , 2025. [4] Holger Caesar, Varun Bankiti, Alex H. Lang, Sourabh Vora, Venice Erin Liong, Qiang Xu, Anush Krishnan, Yu Pan, Giancarlo Baldan, and Oscar Beijbom. nuScenes: A multimodal dataset for autonomous driving. In Proceedings of the IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition (CVPR) , pages 11621–11631, 2020. doi: 10.1109/CVPR42600.2020.01164. [5] Holger Caesar, Juraj Kabzan, Kok Seang Tan, Whye Kit Fong, Eric Wolff, Alex Lang, Luke Fletcher, Oscar Beijbom, and Sammy Omari. nuPlan: A closed-loop ML-based planning benchmark for autonomous vehicles. arXiv preprint arXiv:2106.11810 , 2021. CVPR ADP3 Workshop. [6] Tianqi Chen, Ian Goodfellow, and Jonathon Shlens. Net2net: Accelerating learning via knowledge transfer. In International Conference on Learning Representations (ICLR) ,2016. [7] Tushar Choudhary, Vikrant Dewangan, Shivam Chandhok, Shubham Priyadarshan, Anushka Jain, Arun K. Singh, Siddharth Srivastava, Krishna Murthy Jatavallabhula, and K. Madhava Krishna. Talk2BEV: Language-enhanced bird’s-eye view maps for autonomous driving. In Proceedings of the IEEE International Conference on Robotics and Automation (ICRA) , 2024. doi: 10.1109/ICRA57147.2024.10611485. [8] Cainan Davidson, Deva Ramanan, and Neehar Peri. RefAV: Towards planning-centric scenario mining. arXiv preprint arXiv:2505.20981 , 2025. [9] Yuankai He and Weisong Shi. CARScenes: Semantic VLM dataset for safe au-tonomous driving. arXiv preprint arXiv:2511.10701 , 2025. 16 ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+[10] Neil Houlsby, Andrei Giurgiu, Stanislaw Jastrzebski, Bruna Morrone, Quentin de Laroussilhe, Andrea Gesmundo, Mona Attariyan, and Sylvain Gelly. Parameter-efficient transfer learning for NLP. In Proceedings of the 36th International Conference on Machine Learning (ICML) , 2019. [11] Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. LoRA: Low-rank adaptation of large language models. In International Conference on Learning Representations (ICLR) , 2022. [12] Yihan Hu, Jiazhi Yang, Li Chen, Keyu Li, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, Wenhai Wang, Lewei Lu, Xiaosong Jia, Qiang Liu, Jifeng Dai, Yu Qiao, and Hongyang Li. Planning-oriented autonomous driving. In Pro-ceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2023. [13] Yuichi Inoue, Yuki Yada, Kotaro Tanahashi, and Yu Yamaguchi. NuScenes-MQA: In-tegrated evaluation of captions and QA for autonomous driving datasets using markup annotations. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) Workshops , pages 930–938, 2024. [14] Bo Jiang, Shaoyu Chen, Qing Xu, Bencheng Liao, Jiajie Chen, Helong Zhou, Qian Zhang, Wenyu Liu, Chang Huang, and Xinggang Wang. VAD: Vectorized scene repre-sentation for efficient autonomous driving. In Proceedings of the IEEE/CVF Interna-tional Conference on Computer Vision (ICCV) , 2023. doi: 10.1109/ICCV51070.2023. 00766. [15] Nidhi Kalra and Susan M. Paddock. Driving to safety: How many miles of driving would it take to demonstrate autonomous vehicle reliability? Technical Report RR-1478-RC, RAND Corporation, 2016. [16] James Kirkpatrick, Razvan Pascanu, Neil Rabinowitz, Joel Veness, Guillaume Des-jardins, Andrei A. Rusu, Kieran Milan, John Quan, Tiago Ramalho, Agnieszka Grabska-Barwinska, Demis Hassabis, Claudia Clopath, Dharshan Kumaran, and Raia Hadsell. Overcoming catastrophic forgetting in neural networks. Proceedings of the National Academy of Sciences , 114(13):3521–3526, 2017. [17] Chi-Hsi Kung, Chieh-Chi Yang, Pang-Yuan Pao, Shu-Wei Lu, Pin-Lun Chen, Hsin-Cheng Lu, and Yi-Ting Chen. RiskBench: A scenario-based benchmark for risk iden-tification. In Proceedings of the IEEE International Conference on Robotics and Au-tomation (ICRA) , 2024. doi: 10.1109/ICRA57147.2024.10610270. [18] Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi. BLIP-2: Bootstrapping language-image pre-training with frozen image encoders and large language models. In Proceedings of the 40th International Conference on Machine Learning (ICML) ,pages 19730–19742, 2023. [19] Zhiqi Li, Wenhai Wang, Hongyang Li, Enze Xie, Chonghao Sima, Tong Lu, Yu Qiao, and Jifeng Dai. BEVFormer: Learning bird’s-eye-view representation from multi-camera images via spatiotemporal transformers. In Proceedings of the Euro-pean Conference on Computer Vision (ECCV) , pages 1–18, 2022. doi: 10.1007/ 978-3-031-20077-9_1. ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 17 
+
+[20] Zhizhong Li and Derek Hoiem. Learning without forgetting. IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI) , 40(12):2935–2947, 2018. doi: 10.1109/TPAMI.2017.2773081. [21] Bo Liu, Xingchao Liu, Xiaojie Jin, Peter Stone, and Qiang Liu. Conflict-averse gradient descent for multi-task learning. In Advances in Neural Information Processing Systems (NeurIPS) , 2021. [22] Venkatraman Narayanan, Bala Sai, Rahul Ahuja, Pratik Likhar, Varun Ravi Kumar, and Senthil Yogamani. MambaFusion: Adaptive state-space fusion for multimodal 3d object detection. arXiv preprint arXiv:2602.08126 , 2026. [23] Nigamaa Nayakanti, Rami Al-Rfou, Aurick Zhou, Kratarth Goel, Khaled S. Refaat, and Benjamin Sapp. Wayformer: Motion forecasting via simple and efficient attention networks. In Proceedings of the IEEE International Conference on Robotics and Au-tomation (ICRA) , pages 2980–2987, 2023. doi: 10.1109/ICRA48891.2023.10160609. [24] Tianwen Qian, Jingjing Chen, Linhai Zhuo, Yang Jiao, and Yu-Gang Jiang. NuScenes-QA: A multi-modal visual question answering benchmark for autonomous driving sce-nario. In Proceedings of the AAAI Conference on Artificial Intelligence (AAAI) , 2024. doi: 10.1609/aaai.v38i5.28253. [25] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sand-hini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, and Ilya Sutskever. Learning transferable visual models from natural lan-guage supervision. In Proceedings of the 38th International Conference on Machine Learning (ICML) , pages 8748–8763, 2021. [26] Tim Salzmann, Boris Ivanovic, Punarjay Chakravarty, and Marco Pavone. Trajec-tron++: Dynamically-feasible trajectory forecasting with heterogeneous data. In Pro-ceedings of the European Conference on Computer Vision (ECCV) , pages 683–700, 2020. doi: 10.1007/978-3-030-58523-5_40. [27] Ari Seff, Brian Cera, Dian Chen, Mason Ng, Aurick Zhou, Nigamaa Nayakanti, Khaled S. Refaat, Rami Al-Rfou, and Benjamin Sapp. MotionLM: Multi-agent mo-tion forecasting as language modeling. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , 2023. doi: 10.1109/ICCV51070.2023.00788. [28] Shaoshuai Shi, Li Jiang, Dengxin Dai, and Bernt Schiele. Motion transformer with global intention localization and local movement refinement. In Advances in Neural Information Processing Systems (NeurIPS) , 2022. [29] Chonghao Sima, Katrin Renz, Kashyap Chitta, Li Chen, Hanxue Zhang, Chengen Xie, Jens Beißwenger, Ping Luo, Andreas Geiger, and Hongyang Li. DriveLM: Driving with graph visual question answering. In Proceedings of the European Conference on Computer Vision (ECCV) , 2024. doi: 10.1007/978-3-031-72943-0_15. [30] Santokh Singh. Critical reasons for crashes investigated in the national motor vehicle crash causation survey. Traffic Safety Facts Crash Stats DOT HS 812 115, National Highway Traffic Safety Administration, 2015. 18 ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 
+
+[31] Ziying Song, Caiyan Jia, Lin Liu, Hongyu Pan, Yongchang Zhang, Junming Wang, Xingyu Zhang, Shaoqing Xu, Lei Yang, and Yadan Luo. Don’t shake the wheel: Momentum-aware planning in end-to-end autonomous driving. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2025. doi: 10.1109/CVPR52734.2025.02089. [32] Pei Sun, Henrik Kretzschmar, Xerxes Dotiwalla, Aurelien Chouard, Vijaysai Patnaik, Paul Tsui, James Guo, Yin Zhou, Yuning Chai, Benjamin Caine, Vijay Vasudevan, Wei Han, Jiquan Ngiam, Hang Zhao, Aleksei Timofeev, Scott Ettinger, Maxim Krivokon, Amy Gao, Aditya Joshi, Yu Zhang, Jonathon Shlens, Zhifeng Chen, and Dragomir Anguelov. Scalability in perception for autonomous driving: Waymo Open Dataset. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2020. [33] Xiaoyu Tian, Junru Gu, Bailin Li, Yicheng Liu, Yang Wang, Zhiyong Zhao, Kun Zhan, Peng Jia, Xianpeng Lang, and Hang Zhao. DriveVLM: The convergence of au-tonomous driving and large vision-language models. arXiv preprint arXiv:2402.12289 ,2024. [34] Michael Tschannen, Alexey Gritsenko, Xiao Wang, Muhammad Ferjad Naeem, Ibrahim Alabdulmohsin, Nikhil Parthasarathy, Talfan Evans, Lucas Beyer, Ye Xia, Basil Mustafa, Olivier Hénaff, Jeremiah Harmsen, Andreas Steiner, and Xiaohua Zhai. SigLIP 2: Multilingual vision-language encoders with improved semantic understand-ing, localization, and dense features. arXiv preprint arXiv:2502.14786 , 2025. [35] Aäron van den Oord, Yazhe Li, and Oriol Vinyals. Representation learning with con-trastive predictive coding. arXiv preprint arXiv:1807.03748 , 2018. [36] Shihao Wang, Zhiding Yu, Xiaohui Jiang, Shiyi Lan, Min Shi, Nadine Chang, Jan Kautz, Ying Li, and José M. Álvarez. OmniDrive: A holistic vision-language dataset for autonomous driving with counterfactual reasoning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2025. doi: 10.1109/CVPR52734.2025.02090. [37] Benjamin Wilson, William Qi, Tanmay Agarwal, John Lambert, Jagjeet Singh, Sid-dhesh Khandelwal, Bowen Pan, Ratnesh Kumar, Andrew Hartnett, Jhony Kaese-model Pontes, Deva Ramanan, Peter Carr, and James Hays. Argoverse 2: Next genera-tion datasets for self-driving perception and forecasting. In Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks (NeurIPS) , 2021. [38] Dongming Wu, Wencheng Han, Yingfei Liu, Tiancai Wang, Cheng-zhong Xu, Xiangyu Zhang, and Jianbing Shen. Language prompt for autonomous driving. arXiv preprint arXiv:2309.04379 , 2023. [39] Tianhe Yu, Saurabh Kumar, Abhishek Gupta, Sergey Levine, Karol Hausman, and Chelsea Finn. Gradient surgery for multi-task learning. In Advances in Neural In-formation Processing Systems (NeurIPS) , 2020. [40] Jeffrey O. Zhang, Alexander Sax, Amir Zamir, Leonidas Guibas, and Jitendra Ma-lik. Side-tuning: A baseline for network adaptation via additive side networks. In 
+
+Proceedings of the European Conference on Computer Vision (ECCV) , 2020. doi: 10.1007/978-3-030-58580-8_41. ABURADDAHA, NARAYANAN, THAKER, RAWASHDEH: SCENEMINER BEV SCENE MINING 19 
+
+[41] Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. Adding conditional control to text-to-image diffusion models. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , 2023. doi: 10.1109/ICCV51070.2023.00355. [42] Yunpeng Zhang, Zheng Zhu, Wenzhao Zheng, Junjie Huang, Guan Huang, Jie Zhou, and Jiwen Lu. BEVerse: Unified perception and prediction in birds-eye-view for vision-centric autonomous driving. arXiv preprint arXiv:2205.09743 , 2022.
