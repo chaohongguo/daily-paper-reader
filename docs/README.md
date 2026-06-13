@@ -6,29 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-12
-- 运行时间：2026-06-12 22:02:48 UTC
+- 最新运行日期：2026-06-13
+- 运行时间：2026-06-13 21:23:37 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：2
-- 速读区：0
+- 本次总论文数：5
+- 精读区：1
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦自动驾驶场景挖掘与脉冲视觉两大前沿，精读两篇9.0分顶会研究。
-SceneMiner用身份感知的统一微调突破BEV多任务瓶颈，SpikeTAD则以脉冲神经网络实现端到端时序动作检测。
-若想落地轻量化感知，可顺手把脉冲的事件驱动特性嫁接到3D场景理解里，低功耗实时推理很有戏。
-- 详情：[/202606/12/README](/202606/12/README)
+今日精读实时单域泛化目标检测模型，并速览视频运动增强、轨迹级文本识别与反事实推理等进展。
+RT-SDGOD兼顾速度与跨域鲁棒性，而MotionEnhancer用视频扩散先验显著提升了多模态动态理解力。
+建议关注实时泛化检测与视频运动增强的结合，可向自动驾驶或具身智能场景迁移落地。
+- 详情：[/202606/13/README](/202606/13/README)
 
 ### 精读区论文标签
-1. [SceneMiner: Identity-Preserving Multi-Task Fine-Tuning for Unified BEV Scene Mining](/202606/12/2606.11507v1-sceneminer-identity-preserving-multi-task-fine-tuning-for-unified-bev-scene-mining)  
-   标签：评分：9.0/10、query:vtg
-   evidence：利用文本提示检索嵌入来查找剪切和急刹等动态事件
-2. [SpikeTAD: Spiking Neural Networks for End-to-End Temporal Action Detection](/202606/12/2606.12033v1-spiketad-spiking-neural-networks-for-end-to-end-temporal-action-detection)  
-   标签：评分：9.0/10、query:vtg
-   evidence：利用脉冲神经网络进行端到端时序动作检测
+1. [RT-SDGOD: Real-Time Single-Domain Generalized Object Detection](/202606/13/2606.09367v1-rt-sdgod-real-time-single-domain-generalized-object-detection)  
+   标签：评分：8.0/10、query:vtg
+   evidence：用于流视频感知的实时单域泛化目标检测。
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [MotionEnhancer: Leveraging Video Diffusion for Motion-Enhanced Vision-Language Models](/202606/13/2606.06853v1-motionenhancer-leveraging-video-diffusion-for-motion-enhanced-vision-language-models)  
+   标签：评分：7.0/10、query:vtg
+   evidence：利用视频扩散先验增强VLMs的运动理解，有助于视频时序定位
+2. [TraRA: Trajectory-level Recognition Aggregation for Video Text Spotting in Urban Surveillance](/202606/13/2606.07161v1-trara-trajectory-level-recognition-aggregation-for-video-text-spotting-in-urban-surveillance)  
+   标签：评分：7.0/10、query:vtg
+   evidence：即插即用的轨迹级文本识别方法，用于监控视频流
+3. [Counterfactual Reasoning for Fine-Grained Evidence Disentanglement in VideoQA](/202606/13/2606.09181v1-counterfactual-reasoning-for-fine-grained-evidence-disentanglement-in-videoqa)  
+   标签：评分：7.0/10、query:vtg
+   evidence：通过反事实推理实现视频问答中细粒度证据定位，适用于时序定位任务。
+4. [IMAGINE: Adaptive Schema-Imagery Enhanced Composition for Composed Video Retrieval](/202606/13/2606.08144v1-imagine-adaptive-schema-imagery-enhanced-composition-for-composed-video-retrieval)  
+   标签：评分：6.0/10、query:vtg
+   evidence：带文本修改的组合视频检索
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,374 @@
+Title: TraRA: Trajectory-level Recognition Aggregation for Video Text Spotting in Urban Surveillance
+
+URL Source: https://arxiv.org/pdf/2606.07161v1
+
+Published Time: Mon, 08 Jun 2026 00:54:36 GMT
+
+Number of Pages: 6
+
+Markdown Content:
+# TraRA: Tra jectory-level Recognition Aggregation for Video Text Spotting in Urban Surveillance 
+
+Duc Tri Tran 1,2, Trung Thanh Nguyen 1,3, Vijay John 4, Phi Le Nguyen 2, and Yasutomo Kawanishi 1,51RIKEN, Japan 2Hanoi University of Science and Technology, Vietnam 
+
+3Nagoya University, Japan 4Lawrence Technological University, USA 5Ritsumeikan University, Japan 
+
+Abstract —Video Text Spotting (VTS) is essential for urban surveillance and intelligent transportation systems, enabling automated reading of street signs, vehicle markings, and scene text in video streams. However, reliable recognition remains challenging due to dynamic video factors common in surveillance scenarios, including motion blur, occlusion, and scale variation, which degrade frame-level recognition. Existing VTS methods typically perform recognition independently on each frame, leading to inconsistent and inaccurate results across sequences. To address these limitations, we propose TraRA (Trajectory-level Recognition Aggregation for VTS), a plug-and-play method that performs trajectory-level text recognition by leveraging temporal and multimodal consistency. TraRA integrates two key modules: (1) the Temporal Clustering and (2) the Vision-Language Aggregation. The former refines noisy trajectories by grouping temporally and visually coherent text instances, while the latter employs a Low-Rank Adaptation-enhanced Vision-Language model to fuse visual cues with linguistic context across frames. By aggregating information over entire text trajectories, TraRA achieves robust text recognition even under challenging surveillance conditions. Extensive experiments on four public benchmarks, including road and urban scene datasets (RoadText, BOVText, ArTVideo, and ICDAR15), demonstrate that TraRA consistently improves tracking and recognition performance over state-of-the-art VTS methods. The source code is available at https://github.com/trid2912/TraRA. 
+
+Index Terms —Temporal Clustering, Trajectory-level Recogni-tion, Video Text Spotting, Vision-Language Model. 
+
+I. I NTRODUCTION 
+
+The ability to robustly detect and recognize text in video streams is essential for urban surveillance systems [1], [2], including autonomous driving, intelligent navigation, traffic monitoring, and general scene understanding. In these sce-narios, automatically reading street signs, vehicle markings, and storefront text from surveillance footage enables richer situational awareness and supports downstream tasks such as vehicle identification and urban scene analysis. Video Text Spotting (VTS) addresses this need by extending static image text spotting into the temporal domain, involving localizing, tracking, and recognizing text that appears across a sequence of video frames. A common approach in modern VTS methods [3]– [5] is to employ a state-of-the-art image text spotter [6] to detect text in each frame, followed by associating these frame-level detections across time using a robust tracker, following the tracking-by-detection paradigm. However, as shown in Fig. 1, surveillance videos are particularly susceptible to dynamic factors such as rapid camera 
+
+Corresponding author. Email: kwns@fc.ritsumei.ac.jp 
+
+(a) Identity switches from wrong cross-frame associations. 
+
+(b) Incomplete trajectories due to fragmented tracking. 
+
+Fig. 1: Failure cases of the state-of-the-art VTS model Go-Matching++ [5]. or text movement and frequent occlusions, which often lead to unreliable text detection and recognition at the frame-level [6]–[8]. Consequently, matching these degraded and inconsistent frame-wise predictions across the sequence can introduce substantial uncertainty and reduce overall accuracy of the final text recognition. To mitigate these issues, many approaches enhance image-based text spotters by synthetically applying blur and other video-like degradations to static images [3], [9], [10]. Some methods also leverage synthetic video datasets [11], [12] to improve robustness against the degraded text quality in real-world videos. Yet, this strategy has an inherent limitation. Excessive simulation of severe video conditions forces recognition models to learn from text that is often unrecognizable even to humans. In this paper, we propose TraRA, a plug-and-play method for video text recognition that addresses the limitations of frame-based prediction in existing VTS methods. TraRA integrates two key components: (1) Temporal Clustering (TC) and (2) Vision-Language Aggregation (VLA), which work together to improve trajectory consistency and word recognition accuracy. The TC module refines the noisy trajectories produced by state-of-the-art VTS models by grouping visually and temporally consistent text instances into coherent trajectories. Afterward, the VLA module, built upon a Vision-Language Model (VLM) enhanced with a lightweight Low-Rank Adaptation (LoRA) [13], [14], processes the entire sequence of cropped text instances within each trajectory. By combining fragmented 
+
+> arXiv:2606.07161v1 [cs.CV] 5 Jun 2026
+
+visual cues with linguistic context across all frames, the VLM generates a unified and reliable word prediction that remains robust even under motion blur, occlusion, or low-resolution conditions typical of surveillance footage. Through this joint temporal refinement and multimodal reasoning, TraRA improves trajectory-level word recognition and enhances the overall performance of VTS. The main contributions of this work are summarized as follows:  
+
+> •
+
+We propose TraRA, a plug-and-play method for VTS that enhances trajectory-level text recognition by jointly leveraging temporal consistency through the Temporal Clustering (TC) module and multimodal reasoning via the Vision-Language Aggregation (VLA) module.  
+
+> •
+
+The TC module refines noisy trajectories by grouping temporally and visually consistent text instances, while the VLA module, based on LoRA-enhanced VLMs, integrates visual and linguistic cues for robust word recognition.  
+
+> •
+
+Extensive experiments on four VTS benchmarks, including road and urban scene datasets, demonstrate that TraRA consistently improves tracking accuracy and recognition performance over state-of-the-art VTS methods. II. R ELATED WORK 
+
+Scene Text Recognition (STR). Research on STR has evolved from CNN-RNN hybrid frameworks [15] to Transformer-based architectures [7], [8], [16], with a clear shift toward attention-driven models that capture global contextual features and complex character relationships. Notably, ABINet [16] introduced an iterative refinement mechanism between vision and language modules, inspiring subsequent methods such as SVTR [8] and PARSeq [7], which unify feature extraction and sequence modeling for improved accuracy. Contemporary research further extends these advances through lightweight architectures [17], diffusion-based models [18], and synthetic data generation [12]. Despite these advancements, most STR methods remain fundamentally frame-level and do not exploit temporal cues across frames, treating video sequences as inde-pendent snapshots without leveraging inter-frame continuity. 
+
+Video Text Spotting (VTS). The field of VTS, which unifies text detection and recognition in videos, has advanced considerably through image-based methods [6], [19], [20], but faces additional challenges such as flicker and temporal inconsistency. Early methods incorporated text tracking to move beyond frame-by-frame processing. Cheng et al. [21] introduced FREE, which leveraged temporal cues to stabilize recognition by selecting the highest-quality text instances across sequences. With the rise of Transformer architectures, Wu et al. [3] introduced TransDeTR, which reframed VTS as long-range sequence learning, jointly integrating detection, tracking, and recognition in an end-to-end framework. More recent work, such as GoMatching [4] and GoMatching++ [5], augments the state-of-the-art image spotter DeepSolo [6] with a customized tracking module for end-to-end video text spotting. Despite these advances, most existing methods still rely on frame-level results, where a single misread frame can corrupt the entire text trajectory. 
+
+Vision-Language Models (VLMs). Recent advances in VLMs have enabled unified reasoning across visual and textual modalities, leading to a new generation of OCR frameworks. Traditional pipelines that separate detection and recognition are increasingly being replaced by multimodal architectures capable of contextual understanding. Zhao et al. [22] proposed CLIP4STR, which adapts CLIP [23] for scene text recognition, while Nougat et al. [24] introduced an end-to-end framework for academic document OCR. Inspired by these developments, we leverage Ovis2.5 [25] for VTS, given its strong vision-language alignment and robust temporal reasoning capabilities as evidenced by its performance on the OpenCompass leader-board [26]. This integration enables the proposed method to capture semantic coherence across frames, thereby addressing the limitations of traditional frame-level recognition strategies. III. P ROPOSED TRA RA M ETHOD 
+
+Figure 2 presents an overview of the proposed TraRA for video text spotting. Given an input video sequence, a pre-trained Video Text Spotter (VTS) detects and tracks text regions across frames to produce trajectory-level text crops. However, these trajectories are often prone to identity switches, as illustrated in Fig. 1a. To refine these results, we introduce the Temporal Clustering (TC) module, which groups visually and temporally consistent instances into coherent trajectories. As shown in Fig. 1b, another major challenge arises from incomplete or obscured frames, where traditional majority voting fails because most frames do not contain the full word. To address this, we propose the Vision-Language Aggregation (VLA) module, enhanced with lightweight Low-Rank Adaptation (LoRA) [13]. This module performs word recognition across the entire sequence by integrating fragmented visual cues with linguistic context, producing accurate predictions even when individual frames are unreliable. By jointly leveraging temporal consis-tency and multimodal reasoning, TraRA improves trajectory-level word recognition and corrects erroneous predictions from the VTS model. 
+
+Problem Formulation. Let I = [ I1, I 2, . . . , I T ] denote a video sequence of T frames. A VTS model fVTS produces a set of text trajectories S = {t1, t 2, . . . , t N } with S = fVTS (I)
+
+and corresponding recognition results R = {r1, r 2, . . . , r N }.Each trajectory ti = [ x1, x 2, . . . , x Mi ] represents a sequence of Mi detected text instances across frames. The proposed TraRA refine these trajectories through two modules. First, Temporal Clustering fTC segments each trajectory into tem-porally consistent sub-trajectories Qi = {t1 
+
+> i
+
+, t 2 
+
+> i
+
+, . . . }, where 
+
+Qi = fTC (ti). Second, Vision-Language Aggregation fVLA 
+
+generates the recognition output for each sub-trajectory as 
+
+rki = fVLA (tki ). The updated trajectory and recognition sets are as follows: 
+
+Supdate = {t11, t 21, . . . , t KN 
+
+> N
+
+}, Rupdate = {r11 , r 21 , . . . , r KN 
+
+> N
+
+}.
+
+This ensures that each trajectory is temporally coherent and semantically refined. Video Text      
+
+> Spo,er ❄
+> Input Video Sequence Crop of Trajectories
+> Temporal
+> Clustering
+> Text Clusters’ Trajectories
+> Vision Language
+> Aggrega8on
+> LoRA 🔥
+> FC FC
+> +
+> deNeu deNeuville
+> createurs
+> Word Recogni<on
+
+(a) Overview of the proposed TraRA. The video text spotter extracts trajectory-level text crops, which are refined by Temporal Clustering and Vision-Language Aggregation for word recognition. You see {len (crops)} cropped     
+
+> regions from the same word
+> trajectory. Based on these regions,
+> what is the most frequent word?
+> Crop of Trajectories Text Prompt
+> Image Encoder
+> (NaViT)
+> Large Language Model (Qwen3 )❄
+> Answer: P
+> LoRA 🔥
+> FC FC
+> Text Encoder
+> (BERT) ❄
+
+(b) Parameter-efficient fine-tuning strategy. The entire model is frozen except for the last block of the Image Encoder. 
+
+Fig. 2: Overview of the proposed TraRA and its Vision-Language Model fine-tuning strategy for video text spotting. 
+
+A. Temporal Clustering 
+
+Existing VTS methods often suffer from trajectory matching errors when detection boxes from different text instances share similar embedding representations, leading to incorrect cross-frame associations. To address this, we propose Temporal Clus-tering (TC), which refines noisy tracklets through two stages: (1) Feature Extraction & Adaptive Threshold Identification and (2) Time-based Clustering, as shown in Algorithm 1. In the first stage, we extract visual features from masked text crops, where VTS prediction masks isolate text pixels and background pixels are set to zero. These features are used to compute an adaptive distance threshold τ based on the mean feature variation within the tracklet, dynamically adjusting to motion, blur, or appearance changes. In the second stage, an online clustering process sequentially assigns each detection to the nearest existing cluster or initializes a new one when the feature distance exceeds τ , thereby splitting inconsistent trajectories while preserving temporal coherence. 
+
+1) Feature Extraction & Adaptive Threshold Identification: 
+
+Existing query-based matching methods often produce similar representations for different text fragments sharing semantic traits, causing matching ambiguities across trajectories. They also tend to ignore the physical scale of crops, leading to trajectory drifting. To address this, we design a discriminative feature representation for masked text crops. Each detection is represented by Xi = [ fHOG ; fSIFT ; Ai ], integrating three complementary components:  
+
+> •
+
+Histogram of Oriented Gradients (HOG): For a grayscale crop I(x, y ), we compute gradients Gx = ∂I ∂x , Gy = ∂I ∂y ,with magnitude M (x, y ) = 
+
+q
+
+G2 
+
+> x
+
++ G2 
+
+> y
+
+and orientation 
+
+θ(x, y ) = tan −1
+
+ Gy
+
+> Gx
+
+
+
+. Orientation histograms weighted by M are accumulated per cell and block-normalized to produce fHOG , encoding structural and textural variations robust to photometric changes.  
+
+> •
+
+Scale-Invariant Feature Transform (SIFT): Each crop is resized to 64 ×64 , and keypoints {pk} are densely sampled 
+
+Algorithm 1 Temporal Clustering Algorithm  
+
+> 1:
+
+for each original tracklet do  
+
+> 2:
+
+Let the tracklet contain n detections  
+
+> 3:
+
+Extract masked crops for all detections in the tracklet  
+
+> 4:
+
+// Feature Extraction & Adaptive Threshold Identification  
+
+> 5:
+
+Extract features for each crop:  
+
+> 6:
+
+Xi = [ fHOG ; fSIFT ; Ai ], i = {1, . . . , n } 
+
+> 7:
+
+Compute pairwise feature distances  
+
+> 8:
+
+di = ∥Xi+1 − Xi∥2, i = {1, . . . , n −1}, 
+
+> 9:
+
+to obtain D = [ d1, d 2, . . . , d n−1] 
+
+> 10:
+
+Compute adaptive threshold τ = max( α · mean( D), β ) 
+
+> 11:
+
+▷ α , β are tunable  
+
+> 12:
+
+// Time-based Clustering  
+
+> 13:
+
+Initialize an empty list of active clusters C 
+
+> 14:
+
+for each feature vector Xi in temporal order do  
+
+> 15:
+
+Find cluster c ∈ C minimizing: d(Xi, c ) = ∥Xi − x(c)last ∥2 
+
+> 16:
+
+if d(Xi, c ) < τ then  
+
+> 17:
+
+Append Xi to cluster c 
+
+> 18:
+
+else  
+
+> 19:
+
+Initialize a new cluster with Xi 
+
+> 20:
+
+end if  
+
+> 21:
+
+end for  
+
+> 22:
+
+Update trajectory set C and assign new global IDs  
+
+> 23:
+
+end for 
+
+on a regular grid. For each keypoint, a 128-dimensional descriptor f k 
+
+> SIFT
+
+∈ R128 encodes gradient orientations within a 16 × 16 region using 4 × 4 subregion histograms with 8 bins. Descriptors are converted to RootSIFT via 
+
+ℓ1-normalization and element-wise square rooting, then averaged and ℓ2-normalized to form fSIFT . 
+
+> •
+
+Area: Ai = wi × hi captures the bounding-box area, providing scale context to identify abrupt size variations indicating mismatched associations. After computing Xi for all detections, we estimate an adaptive threshold τ from consecutive pairwise distances 
+
+di = ∥Xi+1 − Xi∥2, yielding D = [ d1, d 2, . . . , d n−1]. The threshold is defined as: 
+
+τ = max( α · mean( D), β ), (1) where α and β control sensitivity to intra-tracklet variation. Tracklets are split whenever consecutive feature distance exceeds τ , isolating corrupted or mismatched segments. 
+
+2) Time-based Clustering: Traditional clustering algorithms like k-means and DBSCAN are ill-suited for sequential video data because they lack a temporal dimension. To address these issues, we propose a Time-based Clustering that adapts the core principles of density-based clustering while processing data strictly in temporal order, ensuring temporal consistency in trajectory formation. The proposed method operates sequen-tially, leveraging the inherent temporal structure of video data as follows:  
+
+> •
+
+Online Processing: Feature vectors Xi from each tracklet are processed in temporal order, maintaining a dynamic list of active clusters C. 
+
+> •
+
+Adaptive Threshold Identification: Prior to clustering, an adaptive distance threshold τ is computed, providing a trajectory-specific boundary for feature consistency.  
+
+> •
+
+Cluster Assignment: For each feature vector Xi, we identify the nearest active cluster C ∈ C by computing the ℓ2 distance to its most recent entry: 
+
+d(Xi, C ) = ∥Xi − x(C)last ∥2, (2) where x(C)last represents the latest feature vector assigned to cluster C. If d(Xi, C ) < τ , the vector Xi is appended to 
+
+C and becomes the new reference point for that cluster; otherwise, a new cluster is initialized with Xi as its first member. The proposed Time-based Clustering, guided by the adaptive threshold τ , ensures that the resulting clusters C remain temporally contiguous and feature-consistent. 
+
+B. Vision-Language Aggregation 
+
+We employ Ovis2.5-9B [25] as the VLM 1 backbone for TraRA. The model consists of two components: a SigLIP2 image encoder [27] with NaViT-style variable-resolution pro-cessing [28] that extracts visual tokens from text crops, and a Qwen3-8B large language model [29] that receives the visual tokens together with a tokenized text prompt (e.g., “What is the full word of this image?”) and produces the final word prediction. 
+
+1) Fine-tuning: We adopt a parameter-efficient fine-tuning strategy based on LoRA [13] to adapt the VLM to video text data while minimizing computational cost, as illustrated in Fig. 2b. All model parameters are frozen except for LoRA adapters inserted into the last Transformer block of the SigLIP2 image encoder (layer 26 of 27). We use rank r=32 , scaling factor α=64 , and dropout p=0 .05 , yielding approximately 0.64M trainable parameters out of 9B total ( <0.01% of the model). During fine-tuning, the input consists of a mixture of correct text crops and distractor crops sampled from unrelated trajectories. By prompting the model to identify the most frequent word across this heterogeneous set, the VLM learns to discriminate and aggregate text instances, thereby mitigating inter-trajectory ambiguity. 
+
+> 1Ovis2.5-9B [25] is a state-of-the-art VLM at the time of this work.
+
+2) Inference: After fine-tuning, the VLM serves as atrajectory-level word aggregator. For each clustered trajectory, all associated crops are sequentially encoded and passed through the fine-tuned VLM. The decoder aggregates these embeddings to produce the final word prediction, integrating temporal and semantic consistency across the entire trajectory. IV. E VALUATION 
+
+A. Experimental Conditions 
+
+Datasets. We evaluate TraRA on four public VTS benchmarks: ArTVideo [4] for arbitrarily shaped text, ICDAR15 [11] for incidental scene text, RoadText [30] for road signs and vehicle markings, and BOVText [9] for large-scale bilingual videos. 
+
+Evaluation Metrics. Following the protocols established in [9], [11], we adopt standard end-to-end Video Text Spotting (VTS) metrics to evaluate spatial-temporal consistency: Multiple Object Tracking Accuracy (MOTA), Multiple Object Tracking Precision (MOTP) [31], and the Identification F1 Score (ID F1 )[32]. Within this framework, a prediction is considered a true positive only if both the trajectory association and the underlying text recognition are concurrently accurate. While tracking metrics assess identity maintenance over time, recognition quality is a key driver of temporal stability. To isolate its contribution, we include Word Accuracy (WA) and Normalized Edit Distance (NED), following recent VTS frameworks [9] that treat recognition precision as a proxy for temporal consistency. 
+
+Models & Hyperparameters. We implement the proposed TraRA as a plug-and-play module within two state-of-the-art VTS methods, GoMatching++ [5] and TransDETR [3]. For GoMatching++ [5], we adopt the publicly released pretrained weights for ArTVideo, ICDAR15, and BOVText, and fine-tune the model on RoadText to obtain the reported results. For TransDETR [3], we use the pretrained model and perform inference on each dataset without additional fine-tuning. All baseline hyperparameters follow their original configurations. For the Temporal Clustering module, we fix α at 1 and tune the hyperparameter β for each dataset. 
+
+B. Experimental Results 
+
+Quantitative Results. As shown in Tab. I, integrating TraRA consistently improves performance across all benchmarks and VTS backbones. We report both recognition metrics (WA and NED), alongside tracking metrics (MOTA, MOTP, and ID F1 ). When combined with GoMatching++ [5], TraRA improves recognition accuracy WA on all evaluated datasets: +1.67 on ArTVideo, +2.54 on RoadText, and +4.65 on BOVText. The largest gains appear on BOVText, where NED also increases by +10.44, indicating substantially more accurate character-level predictions. Tracking metrics follow the same trend, with MOTA improving by up to +18.0 on BOVText and ID F1 by +7.7, while MOTP remains stable across all datasets, confirming no degradation in localization precision. For TransDETR [3] under zero-shot settings, TraRA yields dramatically larger improve-ments. WA increases by +50.49 on RoadText and +47.85 on TABLE I: Quantitative comparison on multiple benchmarks using different VTS. Bold values indicate the best performance for each benchmark.                                                                    
+
+> VTS Dataset TraRA WA ↑NED ↑MOTA ↑MOTP ↑ID F1 ↑
+> GoMatching++  ArTVideo 90.52 97.28 69.39 82.87 78.10
+> ✓92.19 95.50 73.93 82.62 80.40
+> ICDAR15 ––72.20 78.52 80.11
+> ✓––73.08 78.44 80.61
+> RoadText 79.35 94.18 3.91 35.20 36.20
+> ✓81.89 93.28 4.43 35.50 36.30
+> BOVText 74.67 82.76 52.90 87.20 62.80
+> ✓79.32 93.20 70.90 86.80 70.50
+> TransDETR
+> RoadText 25.81 61.50 -11.20 25.20 28.70
+> ✓76.30 92.14 2.70 35.70 37.00
+> BOVText 17.09 38.10 -72.90 71.40 10.20
+> ✓64.94 81.70 -34.70 72.50 28.70
+
+TABLE II: Ablation study of the proposed TraRA components using GoMatching++ [5] as the VTS. Bold values indicate the best performance.                              
+
+> Dataset TC VLA MOTA ↑MOTP ↑ID F1 ↑
+> ArTVideo
+> ✓✓73.93 82.62 80.40
+> ✓69.38 82.87 78.08
+> ✓72.90 82.58 80.36 69.39 82.87 78.10 ICDAR15
+> ✓✓73.08 78.44 80.61
+> ✓72.21 78.52 80.11
+> ✓73.02 78.44 80.60 72.20 78.52 80.11
+
+BOVText, with corresponding NED gains of +30.64 and +43.60. Tracking metrics improve accordingly, with MOTA gains of +13.9 and +38.2, respectively. These substantial improvements on a weaker baseline demonstrate that TraRA’s trajectory-level aggregation is especially effective at compensating for unreliable frame-level recognition. 
+
+Ablation Studies. We analyze the contributions of TraRA’s two key modules: the Temporal Clustering (TC) and the Vision-Language Aggregation (VLA). As shown in Tab. II, VLA is the primary driver of improvement, it yields +3.51 of MOTA and +2.26 of ID F1 on ArTVideo, with similar trends on ICDAR15 (+0.82 of MOTA and +0.49 of ID F1 ). TC alone yields minimal change in isolation, but provides meaningful gains when combined with VLA, further boosting MOTA by +1.03 and ID F1 by +0.04 on ArTVideo, and MOTA by +0.06 and ID F1 by +0.01 on ICDAR15. This suggests that TC’s trajectory refinement primarily benefits VLA by providing cleaner input sequences for aggregation. We further evaluate the sensitivity of the TC module to the hyperparameter β, with α fixed at 1.0. As shown in Tab. III, small β values (e.g., 0.2) severely over-segment trajectories, degrading MOTA and ID F1 . Performance plateaus at β = 0 .6,where the proposed TraRA best balances temporal continuity TABLE III: Ablation study on the effect of different β values in the TC module with α = 1 . Results are reported for TC-only and the full TraRA model on the ArTVideo [4] dataset using GoMatching++ [5] as the VTS. Bold values indicate the best performance.                                            
+
+> αβTC-only TraRA MOTA ↑MOTP ↑ID F1 ↑MOTA ↑MOTP ↑ID F1 ↑
+> 1.0 0.2 57.83 82.87 53.15 61.25 82.70 54.92 1.0 0.4 68.98 82.87 77.69 73.00 82.70 79.75 1.0 0.6 69.38 82.87 78.08 73.93 82.62 80.40
+> 1.0 0.8 69.39 82.87 78.10 72.83 82.59 80.33 1.0 1.0 69.39 82.87 78.10 72.90 82.58 80.36
+
+# Visualize        
+
+> VTS: To . Our: Exposito VTS: 07 . Our: 12207
+> VTS: NGLE . Our: DENTRESSANGLE
+
+(a) Example of successful recognition. VTS:  dejent . Our:  dejent . GT : Deixeu  VTS:  saurf . Our:  saurf . GT:  sortir     
+
+> VTS: rath . Our: rath .GT :ralph
+
+(b) Example of recognition failure. 
+
+Fig. 3: Qualitative comparison between the proposed TraRA (Our) and the state-of-the-art VTS (GoMatching++ [5]). and feature discrimination. 
+
+Qualitative Results. Fig. 3 provides qualitative examples of the proposed TraRA in comparison with GoMatching++ [5]. In Fig. 3a, TraRA accurately reconstructs complete text sequences such as “Exposito” and “12207”, where the GoMatching++ [5] produces incomplete predictions. This improvement stems from aggregating visual and linguistic cues across all frames, allowing recovery of missing characters under motion blur or occlusion. However, as shown in Fig. 3b, recognition errors may still occur in severely blurred or low-quality regions, leading to visually similar but incorrect predictions. Overall, TraRA consistently produces more complete and temporally consistent word recognition results than the GoMatching++ [5]. 
+
+Limitation. Despite the consistent improvements achieved by TraRA across multiple benchmarks and VTS backbones, several limitations remain. First, the TC module processes detections in an online fashion without long-term temporal memory or look-ahead, which ensures low latency but may struggle to recover trajectories during prolonged occlusion or complete text disappearance. Second, while the VLA module effectively fuses visual and linguistic cues for robust recognition, integrating a VLM increases computational overhead compared to simple majority voting, making real-time inference challenging on standard hardware. These limitations motivate future work on lightweight VLMs and efficient temporal modeling to maintain TraRA’s recognition advantages while improving scalability. V. C ONCLUSION 
+
+In this paper, we proposed TraRA, a plug-and-play method for Video Text Spotting (VTS) that enhances trajectory-level text recognition through Temporal Clustering (TC) and Vision-Language Aggregation (VLA). The TC module refines noisy and fragmented trajectories by grouping temporally and visually consistent detections. The VLA module, powered by a LoRA-enhanced VLM, fuses visual cues and linguistic context across frames to achieve robust word recognition. Experiments on four public benchmarks show that TraRA consistently improves both tracking stability and recognition accuracy over state-of-the-art VTS methods. In future work, we plan to explore lightweight VLM architectures and end-to-end training strategies to further enhance temporal reasoning and enable real-time performance. ACKNOWLEDGMENT 
+
+This work was partly supported by the Japan Society for the Promotion of Science (JSPS) KAKENHI Numbers JP24H00733. REFERENCES [1] Y. Taki and E. Zemmouri, “Scene text recognition for text-based traffic signs,” in Advances in Intelligent Traffic and Transportation Systems ,2023, pp. 67–77. [2] S. Long, X. He, and C. Yao, “Scene text detection and recognition: The deep learning era,” International Journal of Computer Vision , vol. 129, no. 1, pp. 161–184, 2021. [3] W. Wu, Y. Cai, C. Shen, D. Zhang, Y. Fu, H. Zhou, and P. Luo, “End-to-end video text spotting with transformer,” International Journal of Computer Vision , vol. 132, no. 9, pp. 4019–4035, 2024. [4] H. He, M. Ye, J. Zhang, J. Liu, B. Du, and D. Tao, “GoMatching: A simple baseline for video text spotting via long and short term matching,” 
+
+Advances in Neural Information Processing Systems , vol. 37, pp. 25 663– 25 686, 2024. [5] H. He, J. Zhang, M. Ye, J. Liu, B. Du, and D. Tao, “GoMatching++: Parameter-and data-efficient arbitrary-shaped video text spotting and benchmarking,” arXiv preprint arXiv:2505.22228 , 2025. [6] M. Ye, J. Zhang, S. Zhao, J. Liu, T. Liu, B. Du, and D. Tao, “DeepSolo: Let transformer decoder with explicit points solo for text spotting,” in 
+
+Proc. of the 2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 19 348–19 357. [7] D. Bautista and R. Atienza, “Scene text recognition with permuted au-toregressive sequence models,” in Proc. of the 14th European Conference on Computer Vision , 2022. [8] Y. Du, Z. Chen, C. Jia, X. Yin, T. Zheng, C. Li, Y. Du, and Y.-G. Jiang, “SVTR: Scene text recognition with a single visual model,” in Proc. of the 31st International Joint Conference on Artificial Intelligence , 2022. [9] W. Wu, Y. Cai, D. Zhang, S. Wang, Z. Li, J. Li, Y. Tang, and H. Zhou, “A bilingual, openworld video text dataset and end-to-end video text spotter with transformer,” Advances in Neural Information Processing Systems , vol. 34, 2021. [10] W. Wu, Y. Zhang, Y. He, L. Zhang, Z. Lou, H. Zhou, and X. Bai, “DSText V2: A comprehensive video text spotting dataset for dense and small text,” Pattern Recognition , vol. 149, p. 110177, 2024. [11] D. Karatzas, L. Gomez-Bigorda, A. Nicolaou, S. Ghosh, A. Bagdanov, M. Iwamura, J. Matas, L. Neumann, V. R. Chandrasekhar, S. Lu et al. ,“ICDAR 2015 competition on robust reading,” in Proc. of the 13th International Conference on Document Analysis and Recognition , 2015, pp. 1156–1160. [12] X. Ye, Y. Du, Y. Tao, and Z. Chen, “Textssr: Diffusion-based data synthesis for scene text recognition,” in Proc. of the 2025 IEEE/CVF International Conference on Computer Vision , 2025, pp. 17 464–17 473. [13] E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, and W. Chen, “LoRA: Low-rank adaptation of large language models,” in 
+
+Proc. of the 10th International Conference on Learning Representations ,2022. [14] J. Chen, T. T. Nguyen, T. Komamizu, and I. Ide, “Q-Adapter: Visual query adapter for extracting textually-related features in video captioning,” in Proceedings of the 7th ACM International Conference on Multimedia in Asia , 2025. [15] B. Shi, X. Bai, and C. Yao, “An end-to-end trainable neural network for image-based sequence recognition and its application to scene text recognition,” IEEE Transactions on Pattern Analysis and Machine Intelligence , vol. 39, pp. 2298–2304, 2015. [16] S. Fang, H. Xie, Y. Wang, Z. Mao, and Y. Zhang, “Read like humans: Autonomous, bidirectional and iterative language modeling for scene text recognition,” in Proc. of the 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2021, pp. 7094–7103. [17] X. Cheng, W. Zhou, X. Li, X. Chen, J. Yang, T. Li, and Z. Li, “SVIPTR: Fast and efficient scene text recognition with vision permutable extractor,” in Proc. of the 33rd ACM International Conference on Information and Knowledge Management , 2024. [18] M. Fujitake, “DiffusionSTR: Diffusion model for scene text recognition,” in Proc. of the 2023 IEEE International Conference on Image Processing ,2023, pp. 1585–1589. [19] M. Liao, G. Pang, J. Huang, T. Hassner, and X. Bai, “Mask textspotter v3: Segmentation proposal network for robust scene text spotting,” in 
+
+Proc. of the 16th European conference on computer vision , 2020, pp. 706–722. [20] M. Huang, Y. Liu, Z. Peng, C. Liu, D. Lin, S. Zhu, N. Yuan, K. Ding, and L. Jin, “Swintextspotter: Scene text spotting via better synergy between text detection and text recognition,” in Proc. of the 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2022, pp. 4593–4603. [21] Z. Cheng, J. Lu, B. Zou, L. Qiao, Y. Xu, S. Pu, Y. Niu, F. Wu, and S. Zhou, “FREE: A fast and robust end-to-end video text spotter,” IEEE Transactions on Image Processing , vol. 30, pp. 822–837, 2020. [22] S. Zhao, X. Wang, L. Zhu, and Y. Yang, “CLIP4STR: A simple baseline for scene text recognition with pre-trained vision-language model,” IEEE Transactions on Image Processing , vol. 33, pp. 6893–6904, 2023. [23] A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, G. Krueger, and I. Sutskever, “Learning transferable visual models from natural language supervision,” in Proc. of the 38th International Conference on Machine Learning ,2021. [24] L. Blecher, G. Cucurull, T. Scialom, and R. Stojnic, “Nougat: Neural optical understanding for academic documents,” in Proc. of the 2024 International Conference on Learning Representations , 2024. [25] S. Lu, Y. Li, Y. Xia, Y. Hu, S. Zhao, Y. Ma, Z. Wei, Y. Li, L. Duan, J. Zhao 
+
+et al. , “Ovis2.5 technical report,” arXiv preprint arXiv:2508.11737 , 2025. [26] H. Duan, J. Yang, Y. Qiao, X. Fang, L. Chen, Y. Liu, X. Dong, Y. Zang, P. Zhang, J. Wang et al. , “VLMEvalKit: An open-source toolkit for evaluating large multi-modality models,” in Proc. of the 32nd ACM international conference on multimedia , 2024, pp. 11 198–11 201. [27] M. Tschannen, A. Gritsenko, X. Wang, M. F. Naeem, I. Alabdul-mohsin, N. Parthasarathy, T. Evans, L. Beyer, Y. Xia, B. Mustafa 
+
+et al. , “Siglip 2: Multilingual vision-language encoders with improved semantic understanding, localization, and dense features,” arXiv preprint arXiv:2502.14786 , 2025. [28] M. Dehghani, B. Mustafa, J. Djolonga, J. Heek, M. Minderer, M. Caron, A. Steiner, J. Puigcerver, R. Geirhos, I. M. Alabdulmohsin, A. Oliver, P. Padlewski, A. Gritsenko, M. Lucic, and N. Houlsby, “Patch n’ pack: Navit, a vision transformer for any aspect ratio and resolution,” in 
+
+Advances in Neural Information Processing Systems , vol. 36, 2023, pp. 2252–2274. [29] Z. Bai, A. Yang, Y. Zheng, J. Ye, X. Ma, X. Wang, X. Wei, X. Fan, S. Zhang et al. , “Qwen3 technical report,” arXiv preprint arXiv:2501.13694 , 2025. [30] S. Reddy, M. Mathew, L. Gomez, M. Rusinol, D. Karatzas, and C. Jawahar, “RoadText-1K: Text detection & recognition dataset for driving videos,” in Proc. of the 2020 IEEE International Conference on Robotics and Automation , 2020, pp. 11 074–11 080. [31] K. Bernardin and R. Stiefelhagen, “Evaluating multiple object tracking performance: the clear mot metrics,” EURASIP Journal on Image and Video Processing , vol. 2008, no. 1, p. 246309, 2008. [32] E. Ristani, F. Solera, R. Zou, R. Cucchiara, and C. Tomasi, “Performance measures and a data set for multi-target, multi-camera tracking,” in Proc. of the 14th European Conference on Computer Vision , 2016, pp. 17–35.
