@@ -6,37 +6,40 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-13
-- 运行时间：2026-06-13 21:23:37 UTC
+- 最新运行日期：2026-06-14
+- 运行时间：2026-06-14 20:57:49 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：1
-- 速读区：4
+- 本次总论文数：6
+- 精读区：5
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读实时单域泛化目标检测模型，并速览视频运动增强、轨迹级文本识别与反事实推理等进展。
-RT-SDGOD兼顾速度与跨域鲁棒性，而MotionEnhancer用视频扩散先验显著提升了多模态动态理解力。
-建议关注实时泛化检测与视频运动增强的结合，可向自动驾驶或具身智能场景迁移落地。
-- 详情：[/202606/13/README](/202606/13/README)
+今日精读两篇视频理解高分论文，聚焦教学视频问答的因果推理与儿童视角下的语言习得偏置。  
+最值得关注：利用候选感知因果推理大幅提升教学视频中的时序答案定位精度，以及物体优先的归纳偏置能为视觉语言接地提供更符合人类认知的新路径。  
+下一步可尝试将因果推理机制引入通用多模态模型，或用“先物后词”思路优化视频预训练数据构建。
+- 详情：[/202606/14/README](/202606/14/README)
 
 ### 精读区论文标签
-1. [RT-SDGOD: Real-Time Single-Domain Generalized Object Detection](/202606/13/2606.09367v1-rt-sdgod-real-time-single-domain-generalized-object-detection)  
+1. [CACR:Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning](/202606/14/2606.08436v2-cacrreinforcing-temporal-answer-grounding-in-instructional-video-via-candidate-aware-causal-reasoning)  
+   标签：评分：10.0/10、query:vtg
+   evidence：定位响应自然语言查询的精确视频片段
+2. [Objects Before Words: Object-First Inductive Biases for Grounding Language in Child-View Video](/202606/14/2606.12985v1-objects-before-words-object-first-inductive-biases-for-grounding-language-in-child-view-video)  
+   标签：评分：9.0/10、query:vtg
+   evidence：在儿童视角视频中通过定位指代物的时空位置来接地词语
+3. [A Multi-Modal Framework with Cross-Subject Pseudo-Labeling and Semantic Alignment for Micro-Gesture Recognition](/202606/14/2606.13030v1-a-multi-modal-framework-with-cross-subject-pseudo-labeling-and-semantic-alignment-for-micro-gesture-recognition)  
+   标签：评分：9.0/10、query:vtg
+   evidence：提出用于非裁剪视频中微手势识别的多模态框架，属于时序动作定位任务。
+4. [Rethinking RAG in Long Videos: What to Retrieve and How to Use It?](/202606/14/2606.13141v1-rethinking-rag-in-long-videos-what-to-retrieve-and-how-to-use-it)  
+   标签：评分：9.0/10、query:vtg
+   evidence：提出V-RAGBench与CARVE，用于跨模态与时间尺度的查询相关视频片段检索
+5. [See More, Think Deeper: Query-Expanded Visual Evidence and Answer-Clue Guided Reflection for Long Video Understanding](/202606/14/2606.09064v1-see-more-think-deeper-query-expanded-visual-evidence-and-answer-clue-guided-reflection-for-long-video-understanding)  
    标签：评分：8.0/10、query:vtg
-   evidence：用于流视频感知的实时单域泛化目标检测。
+   evidence：通过动态扩展查询收集视觉证据，用于长视频理解，与基于文本的时刻检索密切相关。
 
 ### 速读区论文标签
-1. [MotionEnhancer: Leveraging Video Diffusion for Motion-Enhanced Vision-Language Models](/202606/13/2606.06853v1-motionenhancer-leveraging-video-diffusion-for-motion-enhanced-vision-language-models)  
-   标签：评分：7.0/10、query:vtg
-   evidence：利用视频扩散先验增强VLMs的运动理解，有助于视频时序定位
-2. [TraRA: Trajectory-level Recognition Aggregation for Video Text Spotting in Urban Surveillance](/202606/13/2606.07161v1-trara-trajectory-level-recognition-aggregation-for-video-text-spotting-in-urban-surveillance)  
-   标签：评分：7.0/10、query:vtg
-   evidence：即插即用的轨迹级文本识别方法，用于监控视频流
-3. [Counterfactual Reasoning for Fine-Grained Evidence Disentanglement in VideoQA](/202606/13/2606.09181v1-counterfactual-reasoning-for-fine-grained-evidence-disentanglement-in-videoqa)  
-   标签：评分：7.0/10、query:vtg
-   evidence：通过反事实推理实现视频问答中细粒度证据定位，适用于时序定位任务。
-4. [IMAGINE: Adaptive Schema-Imagery Enhanced Composition for Composed Video Retrieval](/202606/13/2606.08144v1-imagine-adaptive-schema-imagery-enhanced-composition-for-composed-video-retrieval)  
+1. [Kwai Keye-VL-2.0 Technical Report](/202606/14/2606.10651v1-kwai-keye-vl-20-technical-report)  
    标签：评分：6.0/10、query:vtg
-   evidence：带文本修改的组合视频检索
+   evidence：支持256K上下文的超长视频高效理解，使流式应用成为可能
 
 
 <div class="dpr-home-promo-card">

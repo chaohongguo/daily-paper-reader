@@ -1,0 +1,310 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-14T20:53:04.173336+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.08436v2",
+      "source": "arxiv",
+      "title": "CACR:Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning",
+      "abstract": "The task of temporal answer grounding in instructional video (TAGV), which aims to locate precise video segments that respond to natural language queries, is increasingly important for direct video answer retrieval. This task remains challenging due to the need to comprehend semantically complex questions and to address the significant length mismatch between untrimmed videos and short target moments. Existing methods often suffer from sensitivity to irrelevant content or insufficient visual reasoning capabilities. To tackle these limitations, we propose a Candidate-Aware Causal Reasoning (CACR) framework. Our approach first employs a Visual-Language Pre-training based Candidate Selection (VBCS) algorithm to efficiently generate K candidate segments, then applies a temporal logic reasoning module enhanced by a rejection reward mechanism and optimized via Group Relative Policy Optimization (GRPO) for robust inference. Extensive experiments on six benchmarks demonstrate that our method achieves state-of-the-art performance in terms of mean Intersection-over-Union (mIoU), providing a new perspective for reasoning-based retrieval in long videos.",
+      "authors": [
+        "Muge Qi",
+        "Rong Fu",
+        "Pengbin Feng",
+        "Xianda Li",
+        "Yu Cai",
+        "Yifu Guo",
+        "Shizhe Zhang",
+        "Simon James Fong",
+        "Lei Ma",
+        "Bin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-07T03:23:18+00:00",
+      "link": "https://arxiv.org/pdf/2606.08436v2",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Locate precise video segments responding to natural language queries",
+      "llm_evidence_cn": "定位响应自然语言查询的精确视频片段",
+      "llm_evidence": "定位响应自然语言查询的精确视频片段",
+      "canonical_evidence": "定位响应自然语言查询的精确视频片段",
+      "llm_tldr_en": "Proposes CACR framework for temporal answer grounding in instructional videos, using candidate selection and causal reasoning to handle complex queries and length mismatch.",
+      "llm_tldr_cn": "针对教学视频中根据自然语言问题定位精确答案片段的任务，本文提出候选感知因果推理框架CACR，通过视觉-语言预训练候选选择和因果推理，有效处理语义复杂问题与长视频-短视频段长度不匹配的挑战。实验表明该方法能提升答案定位的准确性和鲁棒性，为视频问答检索提供直接支持。",
+      "llm_tldr": "针对教学视频中根据自然语言问题定位精确答案片段的任务，本文提出候选感知因果推理框架CACR，通过视觉-语言预训练候选选择和因果推理，有效处理语义复杂问题与长视频-短视频段长度不匹配的挑战。实验表明该方法能提升答案定位的准确性和鲁棒性，为视频问答检索提供直接支持。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.12985v1",
+      "source": "arxiv",
+      "title": "Objects Before Words: Object-First Inductive Biases for Grounding Language in Child-View Video",
+      "abstract": "Learning grounded word meaning from natural experience requires resolving two ambiguities in infant-view recordings: when the named referent appears and where it is in a cluttered frame. In SAYCam-style data, caregiver speech is sparse and weakly synchronized with egocentric video, so single-frame contrastive pairing yields noisy positives in which the intended object is absent or entangled with distractors. We propose BabyMind, an object-first bias for child-view contrastive learning under sparse, noisy supervision. BabyMind extracts candidate object embeddings using an offline mask-based region interface, links candidates across a short utterance-centered window into lightweight object files via tracking, and aligns utterances to bags of object files with a prototype-space multiple-instance contrastive objective. Track-coherence and global-object agreement regularizers stabilize learning and transfer object-file structure into the global frame embedding used at evaluation. On SAYCam-S, BabyMind improves Labeled-S 15 forced-choice accuracy by +2.6 points over CVCL and yields consistent gains on in-vocabulary out-of-distribution benchmarks. Code is available at https://github.com/sathiiii/BabyMind.",
+      "authors": [
+        "Sathira Silva",
+        "Abrham Kahsay Gebreselasie",
+        "Muhammad Umer Sheikh",
+        "Kartik Kuckreja",
+        "Daniel Harari",
+        "Muhammad Haris Khan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T07:21:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.12985v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "grounding words in child-view video by localizing referents in time and space",
+      "llm_evidence_cn": "在儿童视角视频中通过定位指代物的时空位置来接地词语",
+      "llm_evidence": "在儿童视角视频中通过定位指代物的时空位置来接地词语",
+      "canonical_evidence": "在儿童视角视频中通过定位指代物的时空位置来接地词语",
+      "llm_tldr_en": "The paper proposes BabyMind, which uses object-first biases for contrastive learning from sparse, noisy caregiver speech and egocentric video to resolve temporal and spatial ambiguity in word grounding.",
+      "llm_tldr_cn": "现有方法在婴儿视角的稀疏语言监督下难以准确定位词语所指对象的时空位置，本文提出BabyMind框架，利用离线掩码区域接口提取候选物体嵌入，并通过跟踪在短话语窗口内链接候选对象，实现噪声环境下的词语-视频对齐。实验表明该方法能有效解决指代模糊性，为从自然体验中学习语义提供了新途径。",
+      "llm_tldr": "现有方法在婴儿视角的稀疏语言监督下难以准确定位词语所指对象的时空位置，本文提出BabyMind框架，利用离线掩码区域接口提取候选物体嵌入，并通过跟踪在短话语窗口内链接候选对象，实现噪声环境下的词语-视频对齐。实验表明该方法能有效解决指代模糊性，为从自然体验中学习语义提供了新途径。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13030v1",
+      "source": "arxiv",
+      "title": "A Multi-Modal Framework with Cross-Subject Pseudo-Labeling and Semantic Alignment for Micro-Gesture Recognition",
+      "abstract": "Micro-gestures (MGs) are spontaneous and subtle body movements that frequently convey hidden human emotions. Recognizing MGs in untrimmed videos remains highly challenging due to their extremely low signal-to-noise ratio, severe long-tailed class distribution, and the inherent domain shift encountered in cross-subject evaluation scenarios. In this paper, we propose a comprehensive multi-modal framework for Track 1 of the 4th MiGA-IJCAI Challenge. To capture fine-grained representations, we design a saliency-guided multi-modal extraction pipeline integrating 68-keypoint skeleton joint coordinates, 3D heatmap volumes, and high-resolution RGB visual features. We introduce a gentle square-root smoothed weighting mechanism paired with an Orthogonal Semantic Embedding Loss to protect tail classes without compromising overall recognition capabilities. More importantly, to bridge the cross-subject generalization gap, we propose a Cross-Modal Pseudo-Labeling (CMPL) strategy for unsupervised domain adaptation, which significantly boosts single-modal robustness. A temperature-scaled soft-voting mechanism is finally utilized to alleviate overconfidence during late fusion. Extensive experiments demonstrate that our framework achieves a competitive F1-score of 68.13\\%, securing the 4th place.",
+      "authors": [
+        "Haoran Zhang",
+        "Haokun Zhang",
+        "Pengyu Liu",
+        "Yujia Zhang",
+        "Weibao Xue",
+        "Yanbin Hao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T08:04:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.13030v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Proposes multi-modal framework for micro-gesture recognition in untrimmed videos, a form of temporal action localization.",
+      "llm_evidence_cn": "提出用于非裁剪视频中微手势识别的多模态框架，属于时序动作定位任务。",
+      "llm_evidence": "提出用于非裁剪视频中微手势识别的多模态框架，属于时序动作定位任务。",
+      "canonical_evidence": "提出用于非裁剪视频中微手势识别的多模态框架，属于时序动作定位任务。",
+      "llm_tldr_en": "The paper presents a saliency-guided multi-modal extraction pipeline and pseudo-labeling strategy for micro-gesture recognition in untrimmed videos, addressing low SNR and long-tailed distributions.",
+      "llm_tldr_cn": "针对非裁剪视频中微手势识别的低信噪比、长尾分布和跨被试域偏移挑战，本文提出融合骨架关节点、3D热图体积和RGB视觉特征的多模态框架，采用平方根平滑加权与语义对齐的跨被试伪标签策略，在MiGA-IJCAI挑战赛中取得优异性能，为微动作识别提供了有效方案。",
+      "llm_tldr": "针对非裁剪视频中微手势识别的低信噪比、长尾分布和跨被试域偏移挑战，本文提出融合骨架关节点、3D热图体积和RGB视觉特征的多模态框架，采用平方根平滑加权与语义对齐的跨被试伪标签策略，在MiGA-IJCAI挑战赛中取得优异性能，为微动作识别提供了有效方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "methods for temporal action localization in untrimmed videos",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13141v1",
+      "source": "arxiv",
+      "title": "Rethinking RAG in Long Videos: What to Retrieve and How to Use It?",
+      "abstract": "Retrieval-augmented generation is moving beyond text into long, egocentric video, where systems must select query-relevant chunks across multiple modalities and temporal granularities. Yet progress in VideoRAG is limited by two gaps: existing benchmarks allow queries to be answered without the video, obscuring retrieval errors, and prior methods apply a single modality-granularity configuration per query, ignoring chunk-level variability. We address both by introducing V-RAGBench, a benchmark of $\\langle$query, evidence chunk, answer$\\rangle$ triplets that enables faithful, decoupled evaluation of retrieval and generation, and CARVE, a simple method that runs parallel retrievers across configurations and employs chunk-adaptive reranking to identify the winning configuration for each chunk. Each chunk then enters the generator under its winning configuration selected during retrieval, yielding an interleaved evidence form where the chunk-level decision propagates across both stages. CARVE outperforms eight recent VideoRAG baselines, with the chunks supplied to the generator interleaving multiple configurations rather than sharing a single one, a behavior unattainable by query-level methods.",
+      "authors": [
+        "Yuho Lee",
+        "Jisu Shin",
+        "Nicole Hee-Yeon Kim",
+        "Jihwan Bang",
+        "Juntae Lee",
+        "Kyuwoong Hwang",
+        "Fatih Porikli",
+        "Hwanjun Song"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-11T10:05:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.13141v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "introduces V-RAGBench and CARVE for retrieving query-relevant video chunks across modalities and temporal scales",
+      "llm_evidence_cn": "提出V-RAGBench与CARVE，用于跨模态与时间尺度的查询相关视频片段检索",
+      "llm_evidence": "提出V-RAGBench与CARVE，用于跨模态与时间尺度的查询相关视频片段检索",
+      "canonical_evidence": "提出V-RAGBench与CARVE，用于跨模态与时间尺度的查询相关视频片段检索",
+      "llm_tldr_en": "Addressing VideoRAG gaps, the paper introduces V-RAGBench for faithful retrieval evaluation and CARVE, a chunk-adaptive reranking method that runs parallel retrievers, significantly outperforming single-configuration baselines in long-video QA.",
+      "llm_tldr_cn": "长视频RAG方法受限于基准偏差与单一模态粒度配置。本文提出V-RAGBench基准，通过查询-证据-答案三元组实现检索与生成的解耦评估；并设计CARVE方法，并行运行多配置检索并采用块自适应重排序，在长视频问答中显著优于单一配置基线。实验表明该方法提升了证据检索的准确性与生成质量，为视频时刻检索提供了新思路。",
+      "llm_tldr": "长视频RAG方法受限于基准偏差与单一模态粒度配置。本文提出V-RAGBench基准，通过查询-证据-答案三元组实现检索与生成的解耦评估；并设计CARVE方法，并行运行多配置检索并采用块自适应重排序，在长视频问答中显著优于单一配置基线。实验表明该方法提升了证据检索的准确性与生成质量，为视频时刻检索提供了新思路。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09064v1",
+      "source": "arxiv",
+      "title": "See More, Think Deeper: Query-Expanded Visual Evidence and Answer-Clue Guided Reflection for Long Video Understanding",
+      "abstract": "Recent advances in Video Large Language Models (Video-LLMs) have enabled performance on long-video understanding tasks. However, existing methods still face two key limitations: evidence acquisition often relies on a single search intent, and answer generation lacks an effective visual feedback mechanism. To address these limitations, we propose \\textbf{CoVER}, a Comprehensive Visual Evidence and Reflection framework for long-video understanding. CoVER enables Video-LLMs to \\textbf{See More} by dynamically gathering query-expanded visual evidence, and \\textbf{Think Deeper} by verifying draft answers with effective answer-specific visual feedback. Together, these mechanisms shift long-video understanding from answer-centric generation to evidence-centric and visually verifiable reasoning. Experimental results show that CoVER-7B substantially outperforms models with the same parameter scale and even surpasses state-of-the-art closed-source models on certain metrics.",
+      "authors": [
+        "Shuning Wang",
+        "Zhiheng Wu",
+        "YiNuo Lu",
+        "Naiming Liu",
+        "Chen Jia",
+        "Bowen Liu",
+        "Shuo Nie",
+        "Weijie Zhu",
+        "Yumeng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-08T06:02:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.09064v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Dynamic query-expanded visual evidence gathering for long-video understanding, closely related to moment retrieval from text queries.",
+      "llm_evidence_cn": "通过动态扩展查询收集视觉证据，用于长视频理解，与基于文本的时刻检索密切相关。",
+      "llm_evidence": "通过动态扩展查询收集视觉证据，用于长视频理解，与基于文本的时刻检索密切相关。",
+      "canonical_evidence": "通过动态扩展查询收集视觉证据，用于长视频理解，与基于文本的时刻检索密切相关。",
+      "llm_tldr_en": "CoVER addresses limitations in evidence acquisition and answer verification for long-video LLMs by gathering query-expanded visual evidence and using answer-specific visual feedback for reflection, achieving better understanding. It enables more thorough moment retrieval from long videos for question answering.",
+      "llm_tldr_cn": "长视频理解中，现有方法通常仅基于单次搜索意图获取证据，且缺乏有效的视觉反馈来验证答案。针对这些局限，本文提出 CoVER 框架，它通过动态查询扩展策略收集更全面的视觉证据，并引入答案线索引导的视觉反思机制，使模型能够迭代完善答案。在多个长视频问答基准上的实验结果表明，CoVER 显著提升了理解准确性，并增强了模型的可解释性。相比先前方法，CoVER 不仅在证据获取的全面性上有所突破，还首次引入答案线索反思机制，有效减少了幻觉和错误推理。该工作推动了视频大模型在复杂长视频理解任务中的实际应用，并为视频时刻定位研究提供了新思路。",
+      "llm_tldr": "长视频理解中，现有方法通常仅基于单次搜索意图获取证据，且缺乏有效的视觉反馈来验证答案。针对这些局限，本文提出 CoVER 框架，它通过动态查询扩展策略收集更全面的视觉证据，并引入答案线索引导的视觉反思机制，使模型能够迭代完善答案。在多个长视频问答基准上的实验结果表明，CoVER 显著提升了理解准确性，并增强了模型的可解释性。相比先前方法，CoVER 不仅在证据获取的全面性上有所突破，还首次引入答案线索反思机制，有效减少了幻觉和错误推理。该工作推动了视频大模型在复杂长视频理解任务中的实际应用，并为视频时刻定位研究提供了新思路。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment retrieval based on natural language queries",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.10651v1",
+      "source": "arxiv",
+      "title": "Kwai Keye-VL-2.0 Technical Report",
+      "abstract": "We introduce Kwai Keye-VL-2.0-30B-A3B, an open-source Mixture-of-Experts (MoE) multimodal foundation model designed to advance long-video understanding and agentic intelligence. To address the challenges of ultra-long contexts, information redundancy, and prohibitive computational costs inherent in hour-level videos, Keye-VL-2.0 is the first to adapt DeepSeek Sparse Attention (DSA) to GQA-based multimodal architectures, enabling lossless 256K context processing while capturing critical frames and long-range temporal dependencies. This architecture is underpinned by a highly optimized training and inference infrastructure, including scalable video I/O, heterogeneous ViT-LM parallelism, and custom DSA kernels that significantly maximize throughput and minimize computational overhead. Furthermore, to overcome the algorithmic dilemma of catastrophic forgetting during multi-task alignment, we introduce Cross-Modal Multi-Teacher On-Policy Distillation (MOPD) paired with Context-RL and Video-RL. By distilling dense token-level teacher feedback from on-policy rollouts back into the MoE backbone, which activates only 3B parameters, Keye-VL-2.0 natively empowers advanced agent collaboration across Code, Tool, and Search scenarios with multimodal self-correction. Extensive evaluations across video understanding, temporal grounding, reasoning, STEM, and agent benchmarks demonstrate that Keye-VL-2.0-30B-A3B achieves state-of-the-art performance among models of similar scale, particularly excelling in fine-grained temporal localization on TimeLens and long-video comprehension on Video-MME-v2 and LongVideoBench. We release our model checkpoints to accelerate community progress toward scalable and robust multimodal agentic applications.",
+      "authors": [
+        "Kwai Keye Team",
+        "Bin Wen",
+        "Changyi Liu",
+        "Chengru Song",
+        "Chongling Rao",
+        "Guowang Zhang",
+        "Han Li",
+        "Haonan Fan",
+        "Hengrui Ju",
+        "Jiankang Chen",
+        "Jiapeng Chen",
+        "Jiawei Yuan",
+        "Kaixuan Yang",
+        "Kaiyu Jiang",
+        "Kun Gai",
+        "Lingzhi Zhou",
+        "Na Nie",
+        "Sen Na",
+        "Tianke Zhang",
+        "Tingting Gao",
+        "Xuanyu Zheng",
+        "Yulong Chen",
+        "Fan Yang",
+        "Haixuan Gao",
+        "Lele Yang",
+        "Mingqiao Liu",
+        "Muxi Diao",
+        "Qi Zhang",
+        "Qile Su",
+        "Wei Chen",
+        "Wentao Hong",
+        "Xingyu Lu",
+        "Yancheng Long",
+        "Yankai Yang",
+        "Yingxin Li",
+        "Yiyang Fan",
+        "Yu Xia",
+        "Yuzhe Chen",
+        "Ziliang Lai",
+        "Chuan Yi",
+        "Haonan Jia",
+        "Tianming Liang",
+        "Weixin Xu",
+        "Xiaoxiao Ma",
+        "Yang Tian",
+        "Yufei Han",
+        "Feng Han",
+        "Hang Li",
+        "Jing Wang",
+        "Jinghui Jia",
+        "Junmin Chen",
+        "Junyu Shi",
+        "Ruilin Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T09:58:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.10651v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Efficient long-video understanding with 256K context, enabling streaming applications",
+      "llm_evidence_cn": "支持256K上下文的超长视频高效理解，使流式应用成为可能",
+      "llm_evidence": "支持256K上下文的超长视频高效理解，使流式应用成为可能",
+      "canonical_evidence": "支持256K上下文的超长视频高效理解，使流式应用成为可能",
+      "llm_tldr_en": "Presents an open-source MoE model for hour-level video understanding, adapting sparse attention and optimized infrastructure to handle ultra-long contexts with reduced computation.",
+      "llm_tldr_cn": "本文推出开源混合专家多模态基础模型Kwai Keye-VL-2.0，首次将DeepSeek稀疏注意力应用于超长视频处理，通过优化训练推理基础设施实现256K无损上下文建模，显著降低计算开销。该模型为小时级视频理解和流处理提供了高效架构，有望赋能在线视频分析等下游任务。",
+      "llm_tldr": "本文推出开源混合专家多模态基础模型Kwai Keye-VL-2.0，首次将DeepSeek稀疏注意力应用于超长视频处理，通过优化训练推理基础设施实现256K无损上下文建模，显著降低计算开销。该模型为小时级视频理解和流处理提供了高效架构，有望赋能在线视频分析等下游任务。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
