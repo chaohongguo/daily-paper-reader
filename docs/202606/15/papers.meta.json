@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-15",
+  "date": "2026-06-15",
+  "generated_at": "2026-06-15T22:31:54",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/15/2606.13332v1-or-action-multi-role-video-understanding-with-fine-grained-actions",
+      "section": "deep",
+      "title_en": "OR-Action: Multi-Role Video Understanding with Fine-Grained Actions",
+      "authors": "Felix Tristram, Ege Özsoy, Christian Benz, Marcel Walch, Ghazal Ghazaei, Nassir Navab",
+      "date": "2026-06-11",
+      "pdf": "https://arxiv.org/pdf/2606.13332v1",
+      "score": "8.0",
+      "evidence": "引入以动作为中心的基准，用于手术室视频中细粒度时序动作分割，支持时序评估。",
+      "tldr": "手术室(OR)活动细粒度理解对智能辅助至关重要，但场景杂乱、遮挡和时序建模困难，现有基于场景图的方法难以将帧级预测转化为时序动作。为此，本文构建首个OR多角色细粒度动作识别基准，并提出纯视觉时序模型，利用自我中心视频捕获时序信息，并设计多视图到单视图特征对齐策略提升单视角性能。实验表明，该视觉时序模型大幅超越图网络方法，且对齐策略显著提高了单视图动作识别准确率。这项工作为OR活动理解提供了系统的时序评估框架和实用方案，减少了对多摄像头部署的依赖。",
+      "tags": "query:vtg",
+      "abstract_en": "Fine-grained understanding of operating room (OR) activity could enable workflow-aware assistance, yet remains difficult due to clutter, occlusions, and limited sensing. The prevailing approach to model this environment is scene graphs as an interpretable representation of OR interactions. Converting their frame-wise relational predictions into temporally extended, fine-grained actions however, is challenging without explicit temporal modeling. To enable a principled temporal evaluation of current OR understanding methods, we introduce the first action-centric benchmark built on a publicly available ego-exocentric OR dataset by defining a fine-grained, multi-role action taxonomy and generating dense action segments via distillation from ground-truth scene graph state changes. Experiments on this benchmark show that current scene graph prediction methods struggle to model temporal structure, even when adding explicit modeling through Graph Neural Networks. We therefore introduce a vision-only temporal model that outperforms graph-based methods significantly when using all available egocentric video as input. Building on this model we also introduce a novel multi- to single-view feature alignment strategy that improves single-view performance on multi-role action recognition, mitigating the need for extensive egocentric video capture. Benchmark and code will be released upon acceptance.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

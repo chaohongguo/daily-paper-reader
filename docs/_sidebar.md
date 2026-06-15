@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-15 <!--dpr-date:20260615-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/15/2606.13332v1-or-action-multi-role-video-understanding-with-fine-grained-actions" data-sidebar-item="{&quot;title&quot;: &quot;OR-Action: Multi-Role Video Understanding with Fine-Grained Actions&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.13332v1-or-action-multi-role-video-understanding-with-fine-grained-actions&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vtg&quot;}], &quot;evidence&quot;: &quot;引入以动作为中心的基准，用于手术室视频中细粒度时序动作分割，支持时序评估。&quot;}">OR-Action: Multi-Role Video Understanding with Fine-Grained Actions</a>
   * 2026-06-14 <!--dpr-date:20260614-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/14/2606.08436v2-cacrreinforcing-temporal-answer-grounding-in-instructional-video-via-candidate-aware-causal-reasoning" data-sidebar-item="{&quot;title&quot;: &quot;CACR:Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.08436v2-cacrreinforcing-temporal-answer-grounding-in-instructional-video-via-candidate-aware-causal-reasoning&quot;, &quot;score&quot;: &quot;10.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;vtg&quot;}], &quot;evidence&quot;: &quot;定位响应自然语言查询的精确视频片段&quot;}">CACR:Reinforcing Temporal Answer Grounding in Instructional Video via Candidate-Aware Causal Reasoning</a>

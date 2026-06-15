@@ -1,0 +1,56 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-15T22:30:26.899119+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.13332v1",
+      "source": "arxiv",
+      "title": "OR-Action: Multi-Role Video Understanding with Fine-Grained Actions",
+      "abstract": "Fine-grained understanding of operating room (OR) activity could enable workflow-aware assistance, yet remains difficult due to clutter, occlusions, and limited sensing. The prevailing approach to model this environment is scene graphs as an interpretable representation of OR interactions. Converting their frame-wise relational predictions into temporally extended, fine-grained actions however, is challenging without explicit temporal modeling. To enable a principled temporal evaluation of current OR understanding methods, we introduce the first action-centric benchmark built on a publicly available ego-exocentric OR dataset by defining a fine-grained, multi-role action taxonomy and generating dense action segments via distillation from ground-truth scene graph state changes. Experiments on this benchmark show that current scene graph prediction methods struggle to model temporal structure, even when adding explicit modeling through Graph Neural Networks. We therefore introduce a vision-only temporal model that outperforms graph-based methods significantly when using all available egocentric video as input. Building on this model we also introduce a novel multi- to single-view feature alignment strategy that improves single-view performance on multi-role action recognition, mitigating the need for extensive egocentric video capture. Benchmark and code will be released upon acceptance.",
+      "authors": [
+        "Felix Tristram",
+        "Ege Özsoy",
+        "Christian Benz",
+        "Marcel Walch",
+        "Ghazal Ghazaei",
+        "Nassir Navab"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T13:24:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.13332v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Introduces an action-centric benchmark for fine-grained temporal action segmentation in OR videos, enabling temporal evaluation.",
+      "llm_evidence_cn": "引入以动作为中心的基准，用于手术室视频中细粒度时序动作分割，支持时序评估。",
+      "llm_evidence": "引入以动作为中心的基准，用于手术室视频中细粒度时序动作分割，支持时序评估。",
+      "canonical_evidence": "引入以动作为中心的基准，用于手术室视频中细粒度时序动作分割，支持时序评估。",
+      "llm_tldr_en": "Proposes OR-Action, the first action-centric benchmark for fine-grained multi-role action understanding in OR videos, with dense action segments via distillation from scene graphs, enabling temporal evaluation.",
+      "llm_tldr_cn": "针对手术室视频中细粒度动作理解因遮挡和杂乱难以进行时序建模的问题，提出首个以动作为中心的基准 OR-Action。该方法通过从场景图蒸馏生成密集动作段，定义细粒度多角色动作分类，实现帧级关系预测到时序动作的转换。实验表明该基准能有效评估现有方法的时序性能，为推动手术室工作流感知提供了结构化评价工具。",
+      "llm_tldr": "针对手术室视频中细粒度动作理解因遮挡和杂乱难以进行时序建模的问题，提出首个以动作为中心的基准 OR-Action。该方法通过从场景图蒸馏生成密集动作段，定义细粒度多角色动作分类，实现帧级关系预测到时序动作的转换。实验表明该基准能有效评估现有方法的时序性能，为推动手术室工作流感知提供了结构化评价工具。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
