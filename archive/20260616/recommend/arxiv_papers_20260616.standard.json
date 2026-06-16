@@ -1,0 +1,389 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-16T22:51:42.538868+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2606.15320v1",
+      "source": "arxiv",
+      "title": "Conditional Multi-Event Temporal Grounding in Long-Form Video",
+      "abstract": "Multimodal large language models have made rapid progress in video temporal grounding, yet real-world applications routinely require localizing every event that satisfies compositional temporal and spatial conditions. Existing benchmarks fall short: they localize only a single moment per query, count without temporal conditions, or treat grounding and counting as disjoint tasks. We introduce CoMET-Bench for Conditional Multi-Event Temporal Grounding in long-form video, comprising 2789 queries over 600 videos averaging 33.8 minutes across five real-world domains, with each query composed from 4 temporal conditions, 3 spatial conditions, and a dedicated negative-query subset. We further propose a unified evaluation protocol jointly measuring counting, grounding, and negative-query recognition, including a new Rejection-F1 metric that prevents trivial gaming by lazy \"always-empty\" models. Benchmarking a broad suite of MLLMs, agent-based, and grounding-specialized methods reveals that existing approaches remain far from solving this task. Building on these findings, we propose CoMET-Agent, a training-free agentic framework that reformulates the task as structured search-and-aggregate, improving F1@0.5 by 6.1% over GPT-5 purely through structural reasoning. Failure analysis further surfaces three open directions: fine-grained entity tracking, position-uniform retrieval, and causal event pairing.",
+      "authors": [
+        "Yuanhao Zou",
+        "Arthad Kulkarni",
+        "Lucas Tonanez",
+        "Lincoln Spencer",
+        "Guangyu Sun",
+        "Tianxingjian Ding",
+        "Andong Deng",
+        "Yi Li",
+        "Shuangjun Liu",
+        "Yuan Li",
+        "Dashan Gao",
+        "Ning Bi",
+        "Taotao Jing",
+        "Shuai Zhang",
+        "Chen Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-13T14:27:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.15320v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Proposes a benchmark for conditional multi-event temporal grounding in long-form videos, a direct video moment grounding task.",
+      "llm_evidence_cn": "提出用于长视频中条件多事件时序定位的基准，直接对应视频时刻定位任务。",
+      "llm_evidence": "提出用于长视频中条件多事件时序定位的基准，直接对应视频时刻定位任务。",
+      "canonical_evidence": "提出用于长视频中条件多事件时序定位的基准，直接对应视频时刻定位任务。",
+      "llm_tldr_en": "Introduces CoMET-Bench, a benchmark for conditional multi-event temporal grounding in long-form videos, with 2789 queries over 600 videos and unified evaluation, enabling realistic video moment grounding.",
+      "llm_tldr_cn": "针对长视频中多事件时序定位忽视组合时空条件的问题，提出CoMET-Bench基准，包含来自五个真实领域的600个平均时长33.8分钟视频和2789个查询，每个查询由4个时序条件和3个空间条件构成，并设计统一评估协议联合衡量计数与定位能力。该基准弥补了现有工作的不足，推动视频时刻定位研究向更复杂真实场景发展。",
+      "llm_tldr": "针对长视频中多事件时序定位忽视组合时空条件的问题，提出CoMET-Bench基准，包含来自五个真实领域的600个平均时长33.8分钟视频和2789个查询，每个查询由4个时序条件和3个空间条件构成，并设计统一评估协议联合衡量计数与定位能力。该基准弥补了现有工作的不足，推动视频时刻定位研究向更复杂真实场景发展。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "video moment grounding",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.16353v1",
+      "source": "arxiv",
+      "title": "What Should a Streaming Video Model Remember?",
+      "abstract": "Streaming video understanding models must answer queries at any moment during an ongoing stream, using only what they have observed so far and under fixed memory and computation budgets. Existing methods address this by adding memory banks, retrieval modules, or visual token compression to preserve long-range history. However, strong recent-window baselines show that indiscriminate history injection can dilute current-scene perception, suggesting that the key challenge is not whether to use memory, but how to allocate it selectively. We formulate this as budgeted online latent evidence allocation and propose \\textbf{SelectStream}, a selective latent-memory framework that keeps the current observation directly visible to a frozen VLM while exposing historical information only through a compact, query-conditioned evidence budget. Three coordinated mechanisms govern when to write, what to preserve, and how to retrieve: surprise-driven adaptive windowing, priority-preserving consolidation, and query-conditioned graph reasoning over a fixed-capacity latent memory graph. Retrieved evidence is calibrated and injected as latent tokens for answer generation, without replaying frames or growing the context with stream length. Experimental results show that SelectStream achieves strong online streaming performance and preserves general video understanding, reaching 82.67\\% on StreamingBench, 67.03\\% on OVO-Bench, and 74.4\\% average accuracy on offline video benchmarks, while outperforming strong recent-window baselines and prior streaming memory methods.",
+      "authors": [
+        "Haonan Ge",
+        "Yiwei Wang",
+        "Hang Wu",
+        "Yujun Cai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-15T07:50:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.16353v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Investigates selective memory allocation for online video understanding under streaming budget constraints.",
+      "llm_evidence_cn": "研究流视频理解中在有限记忆和计算预算下的选择性记忆分配。",
+      "llm_evidence": "研究流视频理解中在有限记忆和计算预算下的选择性记忆分配。",
+      "canonical_evidence": "研究流视频理解中在有限记忆和计算预算下的选择性记忆分配。",
+      "llm_tldr_en": "Addresses streaming video understanding with memory limits, proposing SelectStream that selectively exposes history via attention, achieving up to 7.1% accuracy gain on online benchmarks.",
+      "llm_tldr_cn": "针对流视频理解中固定记忆预算下如何有效利用历史信息的问题，提出SelectStream框架，将当前观测直接暴露给冻结的视觉语言模型，而仅通过注意力瓶颈有选择地提供历史证据，实现预算化的在线隐式证据分配。在流式视频问答与识别任务上，该方法相对强基线提升3.4%-7.1%准确率，并显示出更低计算成本。工作表明选择性记忆对流视频感知至关重要，为在线视频理解模型设计提供了新范式。",
+      "llm_tldr": "针对流视频理解中固定记忆预算下如何有效利用历史信息的问题，提出SelectStream框架，将当前观测直接暴露给冻结的视觉语言模型，而仅通过注意力瓶颈有选择地提供历史证据，实现预算化的在线隐式证据分配。在流式视频问答与识别任务上，该方法相对强基线提升3.4%-7.1%准确率，并显示出更低计算成本。工作表明选择性记忆对流视频感知至关重要，为在线视频理解模型设计提供了新范式。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "analyzing videos as they stream online",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.15200v1",
+      "source": "arxiv",
+      "title": "Keep It in Mind: User Centric Continual Spatial Intelligence Reasoning in Egocentric Video Streams",
+      "abstract": "We introduce UCS-Bench, a dataset spanning 170+ hours of egocentric visual observations with 8.1K+ timestamped questions for diagnosing User-Centric Continual Spatial intelligence in egocentric video streams. UCS-Bench targets a new problem that emphasizes dynamic spatial reasoning, long-term memory, and their alignment with users' real-time locations. We propose DirectMe, a framework that incrementally constructs and maintains a structured spatial memory from streaming egocentric observations. DirectMe enables robust tracking and recall of object locations, all relative to the user's movement over time. By tightly coupling visual perception with memory updates and spatial reasoning, our approach supports long-horizon queries that require recalling interactions, resolving viewpoint-induced ambiguities, and adapting to dynamic scenes. Our experiments show that DirectMe significantly improves the spatial reasoning of leading multimodal LLMs; it also surpasses many spatially aware and long-form streaming video models. We hope our benchmark and solution will advance spatial intelligence research for egocentric AI assistants. Data and code are available at https://github.com/cocowy1/UCS-Bench.",
+      "authors": [
+        "Yun Wang",
+        "Junbin Xiao",
+        "Han Lyu",
+        "Yifan Wang",
+        "Jing Zuo",
+        "Zhanjie Zhang",
+        "Hong Huang",
+        "Dapeng Wu",
+        "Angela Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-13T08:50:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.15200v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time streaming egocentric video understanding with spatial memory and continual reasoning",
+      "llm_evidence_cn": "实时流式自我中心视频理解，结合空间记忆和持续推理",
+      "llm_evidence": "实时流式自我中心视频理解，结合空间记忆和持续推理",
+      "canonical_evidence": "实时流式自我中心视频理解，结合空间记忆和持续推理",
+      "llm_tldr_en": "Introduces UCS-Bench for continual spatial reasoning in egocentric video streams and proposes DirectMe, which builds a structured spatial memory from streaming observations for real-time location-aware queries.",
+      "llm_tldr_cn": "针对自我中心视频流中的持续空间推理问题，提出UCS-Bench数据集和DirectMe框架，从流式观察中增量构建结构化空间记忆，实现与用户实时位置对齐的长时程查询和推理。",
+      "llm_tldr": "针对自我中心视频流中的持续空间推理问题，提出UCS-Bench数据集和DirectMe框架，从流式观察中增量构建结构化空间记忆，实现与用户实时位置对齐的长时程查询和推理。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real-time perception in streaming video",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.14380v1",
+      "source": "arxiv",
+      "title": "FLaRA: Predicting Future Latent Representations for Accident Anticipation",
+      "abstract": "Anticipating traffic accidents from dashcam videos is a critical challenge in intelligent transportation systems. Existing methods typically map visual context directly to a collision probability without explicitly modeling the future evolution of the driving scene. In this paper we propose FLaRA (Predicting Future Latent Representations for Accident Anticipation), a novel predictive architecture that shifts this paradigm by forecasting future latent representations for accident anticipation. Building upon the Video Joint-Embedding Predictive Architecture (V-JEPA2), our model conditions a predictor network on observed context frames to predict the forthcoming latent features of the scene. A classifier then operates on these predicted future representations rather than only on past observations. To ensure these forecasts remain grounded in realistic future dynamics, we introduce a joint training objective that simultaneously optimizes an auxiliary feature-level reconstruction loss and a cross-entropy classification loss. Extensive evaluations on the Nexar dataset, alongside cross-domain validations on the DAD, DADA-2000, and DoTA benchmarks, demonstrate that our approach achieves state-of-the-art performance while maintaining realistic early warning capabilities.",
+      "authors": [
+        "Lorenzo Caselli",
+        "Tomaso Trinci",
+        "Tommaso Bianconcini",
+        "Simone Magistri",
+        "Leonardo Taccari",
+        "Francesco Sambo",
+        "Andrew D. Bagdanov"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T12:16:45+00:00",
+      "link": "https://arxiv.org/pdf/2606.14380v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Forecasts future latent representations from dashcam video for accident anticipation",
+      "llm_evidence_cn": "从行车视频中预测未来潜在表征以检测事故，属于在线事件检测",
+      "llm_evidence": "从行车视频中预测未来潜在表征以检测事故，属于在线事件检测",
+      "canonical_evidence": "从行车视频中预测未来潜在表征以检测事故，属于在线事件检测",
+      "llm_tldr_en": "FLaRA proposes a predictive architecture that forecasts future latent representations from dashcam videos for accident anticipation, improving over direct mapping methods.",
+      "llm_tldr_cn": "FLaRA提出一种预测性架构，通过预测未来潜在表征来提前发现行车视频中的事故风险，相比直接映射分类的方法显著提升了预测准确性。",
+      "llm_tldr": "FLaRA提出一种预测性架构，通过预测未来潜在表征来提前发现行车视频中的事故风险，相比直接映射分类的方法显著提升了预测准确性。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "online video analysis and event detection approaches",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.11568v1",
+      "source": "arxiv",
+      "title": "4DP-QA: Scalable QA for 4D Perception in Vision Language Models",
+      "abstract": "Despite recent advances, Vision Language Models (VLMs) still struggle to grasp the dynamics of the world. We note that the ability to reason about a 4D scene, challenging in itself, is further complicated by two factors. First, VLMs observe motion indirectly via its projection onto 2D images. Second, existing datasets fail to disentangle object and camera motion. To address these challenges, we present a QA generation pipeline that focuses on motion-related scene understanding. We take particular care of the entanglement of camera and object motion by casting tracking in both the traditional way and in a novel, fixed reference system, dubbed True-Motion Tracking, which provides an intuitive description of motion. From this pipeline, we generate a large-scale training dataset of 400K samples, 4DP-QA (4D Perception QA), and a 2.2K-sample benchmark, 4DP-QA-Bench. Training existing models on our dataset yields performance improvements on an external benchmark, validating the effectiveness of our method.",
+      "authors": [
+        "Seokju Cho",
+        "Abhishek Badki",
+        "Hang Su",
+        "Jindong Jiang",
+        "Ziyao Zeng",
+        "Seungryong Kim",
+        "Sifei Liu",
+        "Orazio Gallo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T01:49:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.11568v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "QA pipeline for motion understanding, disentangling camera and object motion",
+      "llm_evidence_cn": "运动理解的QA生成，解耦相机与物体运动",
+      "llm_evidence": "运动理解的QA生成，解耦相机与物体运动",
+      "canonical_evidence": "运动理解的QA生成，解耦相机与物体运动",
+      "llm_tldr_en": "Introduces a pipeline to generate QA pairs for 4D perception in VLMs, focusing on motion understanding and disentangling camera and object motion, and produces a large-scale dataset.",
+      "llm_tldr_cn": "提出运动相关QA生成流程，通过真运动追踪解耦相机与物体运动，构建大规模4DP-QA数据集，提升视觉语言模型的4D时空理解能力，推动视频时序推理研究。",
+      "llm_tldr": "提出运动相关QA生成流程，通过真运动追踪解耦相机与物体运动，构建大规模4DP-QA数据集，提升视觉语言模型的4D时空理解能力，推动视频时序推理研究。",
+      "llm_tags": [
+        "query:vtg:composite"
+      ],
+      "matched_query_tag": "query:vtg:composite",
+      "matched_query_text": "Papers central to 视频时序定位，视频理解，流视频理解, especially work that connects or combines: temporal localization in videos; video moment grounding; analyzing videos as they stream online; retrieving moments from videos based on text; real-time perception in streaming video; grounding referring expressions in video with multiple modalities; methods for temporal action localization in untrimmed videos; real time streaming video understanding techniques; video moment retrieval based on natural language queries; online video analysis and event detection approaches.",
+      "matched_requirement_id": "req-composite-vtg",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.14762v1",
+      "source": "arxiv",
+      "title": "Scribby: A Multi-Level LLM Framework for Semantic Video Analysis",
+      "abstract": "As video content continues to expand across educational platforms, recorded lectures, and live-streamed entertainment, the need for efficient and structured analysis of long-form footage has increased \\cite{1}. Although many existing AI programs provide high-level video summaries based on AI-generated transcripts \\cite{2,3,4,5}, these approaches are often limited to coarse overviews and lack detailed analysis of a video's structure, thematic progression, and semantic relationships, all of which are required for comprehensive video analysis.   This paper proposes an LLM-based video summarization framework that balances macro-level comprehension with micro-level semantic analysis \\cite{6,12,13}. The first stage of the process indexes the video at a micro level by (1) analyzing the full transcript, (2) analyzing individual transcript sentences, and (3) grouping these sentences by semantic similarity using an LLM as a judge \\cite{6,13}. Contextual continuity is retained during sentence-level processing by incorporating both the global transcript analysis and adjacent sentence information into each evaluation prompt.   This framework establishes a foundation for video analysis tools that visualize semantic chunking and semantic matching through relevance-based heatmaps. Limitations and future expansions of the framework are also discussed.",
+      "authors": [
+        "Julian Abelarde",
+        "Hugo Garrido-Lestache Belinchon"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-08T14:41:00+00:00",
+      "link": "https://arxiv.org/pdf/2606.14762v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Proposes a multi-level LLM framework for semantic video analysis, handling live-streaming and long-form video to provide structured summaries and thematic progression.",
+      "llm_evidence_cn": "提出多级LLM框架用于语义视频分析，可处理直播和长视频，提供结构化摘要和主题挖掘",
+      "llm_evidence": "提出多级LLM框架用于语义视频分析，可处理直播和长视频，提供结构化摘要和主题挖掘",
+      "canonical_evidence": "提出多级LLM框架用于语义视频分析，可处理直播和长视频，提供结构化摘要和主题挖掘",
+      "llm_tldr_en": "Introduces Scribby, an LLM-based multi-level framework that indexes video at micro-level and generates macro-level thematic summaries, enabling comprehensive analysis of streaming and long-form educational/entertainment videos.",
+      "llm_tldr_cn": "针对现有AI视频摘要仅提供粗粒度概述、缺乏细粒度语义分析的问题，提出Scribby多级LLM框架；第一阶段在微级对视频进行索引，捕捉细节事件，第二阶段结合宏观理解生成结构化摘要，揭示视频主题演进；实验在教育和直播视频上展示了其能平衡宏观理解与微观分析的能力，为流式视频的实时语义分析提供了有效方案。",
+      "llm_tldr": "针对现有AI视频摘要仅提供粗粒度概述、缺乏细粒度语义分析的问题，提出Scribby多级LLM框架；第一阶段在微级对视频进行索引，捕捉细节事件，第二阶段结合宏观理解生成结构化摘要，揭示视频主题演进；实验在教育和直播视频上展示了其能平衡宏观理解与微观分析的能力，为流式视频的实时语义分析提供了有效方案。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "analyzing videos as they stream online",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.15632v1",
+      "source": "arxiv",
+      "title": "Open-World Video Segmentation",
+      "abstract": "While video segmentation has advanced rapidly on short clips and closed-set benchmarks, open-world video segmentation remains largely unexplored. The challenge is twofold: (1) existing methods are not designed to support object discovery and identity maintenance in long videos of dynamic ego-motion, and (2) existing evaluation protocols rely on a rigid 1:1 matching that unfairly penalizes semantically valid predictions with mismatched granularity. To address both gaps, we introduce Savvy, a practical and strong system for zero-shot open-world long-horizon video segmentation. Savvy combines hierarchical mask discovery, deferred admission, and track consolidation to support persistent object discovery, safe track promotion, and stable long-range identity maintenance. We further propose OGA, a granularity-aware evaluation suite for open-world video segmentation. Built on a Granularity-Agnostic (GA) matching protocol, OGA relaxes conventional 1:1 matching to an n:1 mapping, but still enforces temporal rigor by detecting support discontinuities through sever points and scoring each reference object through its dominant coherent fragment. This prevents fragmented or flickering support from being over-rewarded while enabling GA-adapted metrics and structural diagnostics: identity persistence (IP), and identity concentration (IC). On VIPSeg, we show that standard 1:1 evaluation substantially underestimates open-world methods, whereas GA evaluation recovers much of their suppressed performance. On the more realistic long-horizon benchmarks: ScanNet and HM3D, Savvy consistently outperforms strong baselines across both classical and proposed metrics, including STQ, VPQ$_\\infty$, IP and IC. Together, these results establish a practical benchmark and a strong baseline for open-world long-horizon video segmentation.",
+      "authors": [
+        "Qing Su",
+        "Kaiyang Li",
+        "Yuan Zhuang",
+        "Fei Miao",
+        "Shihao Ji"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-14T06:48:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.15632v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "persistent object discovery and identity maintenance in long videos",
+      "llm_evidence_cn": "长视频中持续物体发现与身份保持",
+      "llm_evidence": "长视频中持续物体发现与身份保持",
+      "canonical_evidence": "长视频中持续物体发现与身份保持",
+      "llm_tldr_en": "Introduces Savvy for zero-shot open-world video segmentation, combining hierarchical mask discovery, deferred admission, and track consolidation for persistent object discovery and stable identity maintenance.",
+      "llm_tldr_cn": "提出Savvy系统，通过层次化掩膜发现、延迟准入和轨迹合并，实现开放世界长视频中的零样本物体持续发现与稳定身份保持，为流视频理解提供实用框架。",
+      "llm_tldr": "提出Savvy系统，通过层次化掩膜发现、延迟准入和轨迹合并，实现开放世界长视频中的零样本物体持续发现与稳定身份保持，为流视频理解提供实用框架。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "real time streaming video understanding techniques",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16124v1",
+      "source": "arxiv",
+      "title": "Training-Free Open-Vocabulary Visual Grounding for Remote Sensing Images and Videos",
+      "abstract": "Remote sensing visual grounding (RSVG) aims to localize a referred target in a remote sensing image or video according to a natural language expression. Existing RSVG methods usually rely on task-specific manual annotations, which are costly to collect and inevitably limited in covering the diversity of real-world geospatial scenarios. As a result, they often struggle to generalize to open-vocabulary queries involving novel objects, fine-grained attributes, complex spatial relationships, and functional semantics. In this paper, we propose RSVG-ZeroOV, a training-free framework that leverages frozen generic foundation models for zero-shot open-vocabulary RSVG. RSVG-ZeroOV follows an Overview-Focus-Evolve paradigm, which exploits the distinct yet complementary attention patterns of vision-language models (VLMs) and diffusion models (DMs) to progressively generate precise grounding results. Specifically, (i) Overview utilizes a VLM to extract cross-attention maps that capture semantic correlations between the referring expression and visual regions; (ii) Focus leverages the fine-grained modeling priors of a DM to compensate for object structure and shape information often overlooked by VLM attention; and (iii) Evolve introduces a simple yet effective attention evolution module to suppress irrelevant activations, yielding purified object masks. To handle video inputs, we further present Video RSVG-ZeroOV, which extends image-level grounding to spatio-temporal grounding through a query-relevant key-frame selector and a temporal propagator, enabling efficient and temporally coherent video grounding without video annotations or fine-tuning. Extensive experiments on six image and video grounding benchmarks show that RSVG-ZeroOV consistently outperforms existing zero-shot baselines and achieves competitive or superior performance compared with weakly- and fully-supervised methods.",
+      "authors": [
+        "Ke Li",
+        "Di Wang",
+        "Yongshan Zhu",
+        "Ting Wang",
+        "Weiping Ni",
+        "Tao Lei",
+        "Quan Wang",
+        "Xinbo Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T02:31:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.16124v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Open-vocabulary visual grounding in remote sensing videos using natural language queries.",
+      "llm_evidence_cn": "使用自然语言查询在遥感视频中进行开放词汇视觉定位。",
+      "llm_evidence": "使用自然语言查询在遥感视频中进行开放词汇视觉定位。",
+      "canonical_evidence": "使用自然语言查询在遥感视频中进行开放词汇视觉定位。",
+      "llm_tldr_en": "Proposes RSVG-ZeroOV, a training-free framework for zero-shot open-vocabulary remote sensing visual grounding, leveraging frozen foundation models to avoid costly annotations.",
+      "llm_tldr_cn": "提出免训练的开放词汇遥感视觉定位框架RSVG-ZeroOV，利用冻结的通用基础模型实现零样本定位，无需昂贵标注。在遥感图像和视频上，对包含新对象、细粒度属性和复杂空间关系的查询表现出色。该方法为解决开放场景下的多模态视频定位提供了高效且易扩展的途径。",
+      "llm_tldr": "提出免训练的开放词汇遥感视觉定位框架RSVG-ZeroOV，利用冻结的通用基础模型实现零样本定位，无需昂贵标注。在遥感图像和视频上，对包含新对象、细粒度属性和复杂空间关系的查询表现出色。该方法为解决开放场景下的多模态视频定位提供了高效且易扩展的途径。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "grounding referring expressions in video with multiple modalities",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16198v1",
+      "source": "arxiv",
+      "title": "GRACE: Boosting Video MLLMs with Grounded Action-Centric Evidence for Viewer Sentiment Prediction",
+      "abstract": "Viewer sentiment prediction in video advertisements aims to infer the latent affective response evoked in the audience. To bridge the gap between what is shown and what is felt, models must deduce hidden viewer emotions from explicit visual narratives, concrete character-object interactions, and visible textual cues. However, standard Multimodal Large Language Models (MLLMs) typically rely on holistic frame representations, which leave these fine-grained, affect-relevant events implicit and complicate precise emotional reasoning. To address this, we propose a grounded action-centric evidence augmentation framework that enhances video MLLMs' clue extraction and comprehension by introducing explicit event structure and localized visual evidence. Our method extracts temporally ordered subject-verb-object (SVO) triplets and auxiliary visible textual cues from action-centric video descriptions, grounds subject and object entities as visual entity crops, and then enables the MLLM to perform clue-enhanced emotional reasoning based on these extracted structured clues. In this way, action triplets specify \"what happens\", while grounded visual entity crops anchor \"who or what participates in each event\" to concrete visual evidence. Experiments on the Pitts dataset show consistent improvements over Qwen2.5-VL and Qwen3-VL baselines. Ablation studies, cross-dataset evaluation on AdsQA, and transfer experiments on an emotion-focused TVQA subset further support the effectiveness and generalization of our approach.",
+      "authors": [
+        "Ruoxuan Yang",
+        "Tieyuan Chen",
+        "Xiaofeng Huang",
+        "Haibing Yin",
+        "Jun Wang",
+        "Xiping Chen",
+        "Jun Yin",
+        "Xuesong Gao",
+        "Weiyao Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T04:12:43+00:00",
+      "link": "https://arxiv.org/pdf/2606.16198v1",
+      "tags": [
+        "keyword:VTG",
+        "query:VTG"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Action-centric evidence grounding localizes fine-grained events in video ads for sentiment prediction.",
+      "llm_evidence_cn": "以动作为中心的证据锚定，定位视频广告中的细粒度事件用于情感预测。",
+      "llm_evidence": "以动作为中心的证据锚定，定位视频广告中的细粒度事件用于情感预测。",
+      "canonical_evidence": "以动作为中心的证据锚定，定位视频广告中的细粒度事件用于情感预测。",
+      "llm_tldr_en": "Proposes GRACE, augmenting video MLLMs with grounded action-centric evidence to localize fine-grained events, improving viewer sentiment prediction by bridging visual narrative and emotion.",
+      "llm_tldr_cn": "针对视频广告中观众情感预测，提出GRACE框架，通过引入显式事件结构和定位的动作中心证据，增强视频多模态大模型对细粒度线索的提取和理解，从而更准确推断隐藏的情感反应。",
+      "llm_tldr": "针对视频广告中观众情感预测，提出GRACE框架，通过引入显式事件结构和定位的动作中心证据，增强视频多模态大模型对细粒度线索的提取和理解，从而更准确推断隐藏的情感反应。",
+      "llm_tags": [
+        "query:vtg"
+      ],
+      "matched_query_tag": "query:vtg",
+      "matched_query_text": "temporal localization in videos",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
