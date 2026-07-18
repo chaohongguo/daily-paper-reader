@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-16T21:40:51.543956+00:00",
-  "updated_date": "20260716",
+  "generated_at": "2026-07-18T21:04:53.698234+00:00",
+  "updated_date": "20260718",
   "carryover_days": 9,
   "tag_states": {
     "VTG": {
-      "updated_date": "20260716",
+      "updated_date": "20260718",
       "carryover_days": 9,
       "items": []
     }
